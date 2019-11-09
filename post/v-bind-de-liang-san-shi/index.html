@@ -4,7 +4,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>13&#39;s blog</title>
 <meta name="description" content="人类世界真是太有趣了" />
-<link rel="shortcut icon" href="https://skrupellose.github.io/favicon.ico?v=1573283098764">
+<link rel="shortcut icon" href="https://skrupellose.github.io/favicon.ico?v=1573283405463">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
 <link href="https://cdn.remixicon.com/releases/v1.3.1/remixicon.css" rel="stylesheet">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
@@ -24,7 +24,7 @@
       <div class="flex lg:block p-4 lg:px-0 items-center fixed lg:static lg:block top-0 right-0 left-0 bg-white z-50">
         <i class="remixicon-menu-2-line lg:mt-4 text-2xl cursor-pointer animated fadeIn" onclick="openMenu()"></i>
         <a href="https://skrupellose.github.io">
-          <img class="animated fadeInLeft avatar rounded-lg mx-4 lg:mt-32 lg:mx-0 mt-0 lg:w-24 lg:h-24 w-12 w-12" src="https://skrupellose.github.io/images/avatar.png?v=1573283098764" alt="">
+          <img class="animated fadeInLeft avatar rounded-lg mx-4 lg:mt-32 lg:mx-0 mt-0 lg:w-24 lg:h-24 w-12 w-12" src="https://skrupellose.github.io/images/avatar.png?v=1573283405463" alt="">
         </a>
         <h1 class="animated fadeInLeft lg:text-4xl font-extrabold lg:mt-8 mt-0 text-xl" style="animation-delay: 0.2s">13&#39;s blog</h1>
       </div>
@@ -125,7 +125,7 @@ var vm = new Vue({
 <p>这个 <code>title</code>属性规定关于元素的额外信息。</p>
 <p>这些信息通常会在鼠标移到元素上时显示一段工具提示文本,如上面的例子。</p>
 <p>打开控制台：<br>
-<img src="https://skrupellose.github.io/post-images/1-2.png" alt=""><br>
+<img src="https://skrupellose.github.io/post-images/1573283243201.png" alt=""><br>
 我们发现的确如此。</p>
 <h2 id="三-指令预期值">三、指令预期值</h2>
 <p>初步了解了<code>v-bind</code>之后，我们继续来看关于指令，vue官方将</p>
@@ -155,7 +155,7 @@ var vm = new Vue({
 
 </code></pre>
 <p>查看效果：<br>
-<img src="https://skrupellose.github.io/post-images/1-3.png" alt=""></p>
+<img src="https://skrupellose.github.io/post-images/1573283256464.png" alt=""></p>
 <p>(2)执行函数</p>
 <pre><code>    &lt;div id=&quot;app&quot;&gt;
       &lt;span v-bind:title=&quot;show()&quot;&gt;
@@ -172,7 +172,7 @@ var vm = new Vue({
         }
       });
 </code></pre>
-<p><img src="https://skrupellose.github.io/post-images/1-4.png" alt=""><br>
+<p><img src="https://skrupellose.github.io/post-images/1573283285683.png" alt=""><br>
 同样的也成功了</p>
 <h2 id="四-预期值支持的数据类型">四、预期值支持的数据类型</h2>
 <p>我们发现刚才我们预期值传入的都是字符串类型的数据，那么如果传入其他数据类型的会怎么样呢？</p>
@@ -193,7 +193,7 @@ var vm = new Vue({
     });
 </code></pre>
 <p>打开控制台：<br>
-<img src="https://skrupellose.github.io/post-images/1-5.png" alt=""><br>
+<img src="https://skrupellose.github.io/post-images/1573283298341.png" alt=""><br>
 我们发现了<code>title=&quot;[object Object]&quot;</code>,这个熟悉的字符串让人想起了对象的 <code>toString</code> 方法的返回值。那么我们继续测试：</p>
 <p>因为我们创建的对象还没有<code>toString()</code>方法，所以我们给它添加一个，这样它就不用顺着原型链去找了</p>
 <pre><code>    &lt;div id=&quot;app&quot;&gt;
@@ -215,7 +215,7 @@ var vm = new Vue({
         }
       });
 </code></pre>
-<p><img src="https://skrupellose.github.io/post-images/1-6.png" alt=""><br>
+<p><img src="https://skrupellose.github.io/post-images/1573283314809.png" alt=""><br>
 果然如此，调用了<code>toString()</code>方法。</p>
 <p>(2) 数组<br>
 接着我们测试数组<br>
@@ -235,7 +235,7 @@ var vm = new Vue({
       });
 </code></pre>
 <p>结果如下：<br>
-<img src="https://skrupellose.github.io/post-images/1-7.png" alt=""><br>
+<img src="https://skrupellose.github.io/post-images/1573283327009.png" alt=""><br>
 和我们的最初设想一致</p>
 <p>(3)其余类型</p>
 <ul>
