@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://skrupellose.github.io</id>
-    <title>Gridea</title>
-    <updated>2019-11-09T03:53:26.180Z</updated>
+    <title>13&apos;s blog</title>
+    <updated>2019-11-09T04:15:30.028Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://skrupellose.github.io"/>
     <link rel="self" href="https://skrupellose.github.io/atom.xml"/>
-    <subtitle>温故而知新</subtitle>
+    <subtitle>人类世界真是太有趣了</subtitle>
     <logo>https://skrupellose.github.io/images/avatar.png</logo>
     <icon>https://skrupellose.github.io/favicon.ico</icon>
-    <rights>All rights reserved 2019, Gridea</rights>
+    <rights>All rights reserved 2019, 13&apos;s blog</rights>
     <entry>
         <title type="html"><![CDATA[Hello Gridea]]></title>
         <id>https://skrupellose.github.io/post/hello-gridea</id>
