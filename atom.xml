@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://skrupellose.github.io</id>
     <title>13&apos;s blog</title>
-    <updated>2019-11-09T04:57:52.959Z</updated>
+    <updated>2019-11-09T06:57:42.822Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://skrupellose.github.io"/>
     <link rel="self" href="https://skrupellose.github.io/atom.xml"/>
@@ -10,6 +10,208 @@
     <logo>https://skrupellose.github.io/images/avatar.png</logo>
     <icon>https://skrupellose.github.io/favicon.ico</icon>
     <rights>All rights reserved 2019, 13&apos;s blog</rights>
+    <entry>
+        <title type="html"><![CDATA[v-bind的两三事]]></title>
+        <id>https://skrupellose.github.io/post/v-bind-de-liang-san-shi</id>
+        <link href="https://skrupellose.github.io/post/v-bind-de-liang-san-shi">
+        </link>
+        <updated>2019-11-09T06:53:46.000Z</updated>
+        <content type="html"><![CDATA[<h1 id="关于-v-bind-的两三事">关于 v-bind 的两三事</h1>
+<h2 id="一-前言">一、前言</h2>
+<p>在之前学习前端的过程中经常是碎片式的学习，没有形成一个知识系统，正好在实习中再次接触到<code>vue.js</code>，结合之前的学习和工作中的使用做一个总结，巩固一下知识点。</p>
+<h2 id="二-关于-v-bind">二、关于 v-bind</h2>
+<p>在 vue.js 官方教程中介绍<code>v-bind</code>指令可以绑定元素特性</p>
+<p>我们上个例子：</p>
+<pre><code>&lt;div id=&quot;app&quot;&gt;
+  &lt;span v-bind:title=&quot;message&quot;&gt;
+    鼠标放到这里哟~
+  &lt;/span&gt;
+&lt;/div&gt;
+
+...
+
+var vm = new Vue({
+  el: &quot;#app&quot;,
+  data: {
+     message: &quot;鼠标移到我身上你就可以看到我&quot;
+  }
+});
+</code></pre>
+<p>打开浏览器我们发现：<br>
+<img src="https://skrupellose.github.io/post-images/1-1.png" alt=""></p>
+<p><code>&lt;span&gt;</code>标签的<code>title</code>属性有了<code>message值</code></p>
+<p>这个 <code>title</code>属性规定关于元素的额外信息。</p>
+<p>这些信息通常会在鼠标移到元素上时显示一段工具提示文本,如上面的例子。</p>
+<p>打开控制台：<br>
+<img src="https://skrupellose.github.io/post-images/1-2.png" alt=""><br>
+我们发现的确如此。</p>
+<h2 id="三-指令预期值">三、指令预期值</h2>
+<p>初步了解了<code>v-bind</code>之后，我们继续来看关于指令，vue官方将</p>
+<p><code>v-bind:title=&quot;message&quot;</code></p>
+<p>分为三部分：</p>
+<ol>
+<li><code>v-bind</code> 这个称之为指令</li>
+<li><code>：</code>后面的<code>title</code> 这个被称为属性</li>
+<li><code>message</code> 则被成为‘预期值’</li>
+</ol>
+<p><code>title</code>除了跟上面例子一样是字符串类型变量外，也可以是一个<code>单一js表达式</code></p>
+<p>故属性可以有以下操作：</p>
+<p>(1)执行运算</p>
+<pre><code>    &lt;div id=&quot;app&quot;&gt;
+      &lt;span v-bind:title=&quot;m1 + ' ' + m2&quot;&gt;
+        鼠标放到这里哟~
+      &lt;/span&gt;
+    &lt;/div&gt;
+    ...
+    var vm = new Vue({
+        el: &quot;#app&quot;,
+        data: {
+          m1: 'hello',
+          m2: 'vue.js'
+        }
+      });
+
+</code></pre>
+<p>查看效果：<br>
+<img src="https://skrupellose.github.io/post-images/1-3.png" alt=""></p>
+<p>(2)执行函数</p>
+<pre><code>    &lt;div id=&quot;app&quot;&gt;
+      &lt;span v-bind:title=&quot;show()&quot;&gt;
+        鼠标放到这里哟~
+      &lt;/span&gt;
+    &lt;/div&gt;
+    ...
+    var vm = new Vue({
+        el: &quot;#app&quot;,
+        data: {
+          show(){
+            return 'hello fn'
+          }
+        }
+      });
+</code></pre>
+<p><img src="https://skrupellose.github.io/post-images/1-4.png" alt=""><br>
+同样的也成功了</p>
+<h2 id="四-预期值支持的数据类型">四、预期值支持的数据类型</h2>
+<p>我们发现刚才我们预期值传入的都是字符串类型的数据，那么如果传入其他数据类型的会怎么样呢？</p>
+<p>那么我们来尝试一下：</p>
+<p>(1) 对象</p>
+<pre><code>    &lt;div id=&quot;app&quot;&gt;
+      &lt;span v-bind:title=obj&gt;
+        鼠标放到这里哟~
+      &lt;/span&gt;
+    &lt;/div&gt;
+......
+    var obj = {};
+    var vm = new Vue({
+      el: '#app',
+      data: {
+        obj: obj
+      }
+    });
+</code></pre>
+<p>打开控制台：<br>
+<img src="https://skrupellose.github.io/post-images/1-5.png" alt=""><br>
+我们发现了<code>title=&quot;[object Object]&quot;</code>,这个熟悉的字符串让人想起了对象的 <code>toString</code> 方法的返回值。那么我们继续测试：</p>
+<p>因为我们创建的对象还没有<code>toString()</code>方法，所以我们给它添加一个，这样它就不用顺着原型链去找了</p>
+<pre><code>    &lt;div id=&quot;app&quot;&gt;
+      &lt;span v-bind:title=&quot;obj&quot;&gt;
+        鼠标放到这里哟~
+      &lt;/span&gt;
+    &lt;/div&gt;
+
+    ...
+    
+      var obj = {};
+      obj.toString = function() {
+        return &quot;调用了toString()!&quot;;
+      };
+      var vm = new Vue({
+        el: &quot;#app&quot;,
+        data: {
+          obj: obj
+        }
+      });
+</code></pre>
+<p><img src="https://skrupellose.github.io/post-images/1-6.png" alt=""><br>
+果然如此，调用了<code>toString()</code>方法。</p>
+<p>(2) 数组<br>
+接着我们测试数组<br>
+数组类型的 <code>toString</code>方法和对象类型的有所不同，它将执行并返回给我们 <code>arr.join(',')</code> 相同的结果。如 <code>[1, 2, 3].toString()</code> 将返回 <code>'1,2,3'</code>。下面进行测试：</p>
+<pre><code>    &lt;div id=&quot;app&quot;&gt;
+      &lt;span v-bind:title=&quot;arr&quot;&gt;
+        鼠标放到这里哟~
+      &lt;/span&gt;
+    &lt;/div&gt;
+   ...
+      var arr= [1, 2, 3];
+      var vm = new Vue({
+        el: &quot;#app&quot;,
+        data: {
+          arr: arr
+        }
+      });
+</code></pre>
+<p>结果如下：<br>
+<img src="https://skrupellose.github.io/post-images/1-7.png" alt=""><br>
+和我们的最初设想一致</p>
+<p>(3)其余类型</p>
+<ul>
+<li>number 类型，正常执行 toString，包括数字0，结果都正常渲染成对应的字符串；</li>
+<li>boolean 类型，true 正常渲染成字符串 &quot;true&quot;，但 false 虽然执行 toString 方法将返回 &quot;false&quot; 字符串，但是却没有渲染出来；</li>
+<li>null / undefined 类型，二者没有 toString 方法，也没有渲染出来。<br>
+显然，在执行 toString 方法之前，vue 内部应该先做了类型校验，满足条件才输出。而且这里不是简单的真 / 假值校验，因为 0 虽为假值，但最终却像真值一样渲染了出来。</li>
+</ul>
+<h2 id="五-其他操作">五、其他操作</h2>
+<p>之前我们发现了预期值传入的是其他数据类型时会执行<code>toString</code>方法,那么当我们想给属性来添加多个值的时候就可以通过对象或者数组来传值了。<br>
+比如我们给<code>P标签</code>来增添<code>多个css</code>样式，就可以这么来添加。</p>
+<p>说到这里不得不提一下<code>vue</code>对<code>style</code>以及<code>class</code>属性的增强，比如如果我们给p标签的title属性绑定obj，那么最后会执行toString方法返回一个<code>&quot;[object Object]&quot;</code>，但是当绑定的是<code>style</code>以及<code>class</code>的时候，它会自动进行解析。</p>
+<pre><code>&lt;div id=&quot;app&quot;&gt;
+    &lt;p v-bind:title=&quot;obj&quot;&gt;content&lt;/p&gt;
+&lt;/div&gt;
+...
+var obj = {
+    color: 'red',
+    fontSize: '20px',
+};
+
+渲染后的结果为：
+&lt;div id=&quot;app&quot;&gt;
+    &lt;p title=&quot;[object Object]&quot;&gt;content&lt;/p&gt;
+&lt;/div&gt;
+</code></pre>
+<p>但是如果是style属性：</p>
+<pre><code>&lt;div id=&quot;app&quot;&gt;
+    &lt;p v-bind:style=&quot;obj&quot;&gt;content&lt;/p&gt;
+&lt;/div&gt;
+...
+var obj = {
+    color: 'red',
+    fontSize: '20px',
+};
+
+渲染后的结果为：
+&lt;div id=&quot;app&quot;&gt;
+    &lt;p style=&quot;color: red; font-size: 20px;&quot;&gt;content&lt;/p&gt;
+&lt;/div&gt;
+
+</code></pre>
+<p>这是因为vue内部对这两个属性进行了处理：<br>
+只论最后结果的话，下面这种方法可以实现将对象转换成行内css样式所需要的格式<br>
+具体实现后面还是要看源码。</p>
+<pre><code>obj.toString = function () {
+    var str = '';
+    for(var i in this) {
+        if(this[i]) {
+            str += i + ':' + this[i] + ';';
+        }
+    }
+
+    return str;
+};
+</code></pre>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[JavaScript之函数预编译]]></title>
         <id>https://skrupellose.github.io/post/javascript-zhi-han-shu-yu-bian-yi</id>
