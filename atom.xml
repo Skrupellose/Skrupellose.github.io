@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://skrupellose.github.io</id>
     <title>13&apos;s blog</title>
-    <updated>2019-11-09T12:17:37.681Z</updated>
+    <updated>2019-11-11T15:58:46.632Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://skrupellose.github.io"/>
     <link rel="self" href="https://skrupellose.github.io/atom.xml"/>
@@ -10,6 +10,97 @@
     <logo>https://skrupellose.github.io/images/avatar.png</logo>
     <icon>https://skrupellose.github.io/favicon.ico</icon>
     <rights>All rights reserved 2019, 13&apos;s blog</rights>
+    <entry>
+        <title type="html"><![CDATA[优雅的使用async和await]]></title>
+        <id>https://skrupellose.github.io/post/you-ya-de-shi-yong-async-he-await</id>
+        <link href="https://skrupellose.github.io/post/you-ya-de-shi-yong-async-he-await">
+        </link>
+        <updated>2019-11-11T15:09:55.000Z</updated>
+        <summary type="html"><![CDATA[<h3 id="今天是光棍节起名字得起个不太一样的莫名感觉自己有点大佬的味儿了">今天是光棍节，起名字得起个不太一样的(莫名感觉自己有点大佬的味儿了)</h3>
+<h2 id="表明看起来高大上其实就是简单介绍一下两个语法的使用">😏表明看起来高大上，其实就是简单介绍一下两个语法的使用</h2>
+]]></summary>
+        <content type="html"><![CDATA[<h3 id="今天是光棍节起名字得起个不太一样的莫名感觉自己有点大佬的味儿了">今天是光棍节，起名字得起个不太一样的(莫名感觉自己有点大佬的味儿了)</h3>
+<h2 id="表明看起来高大上其实就是简单介绍一下两个语法的使用">😏表明看起来高大上，其实就是简单介绍一下两个语法的使用</h2>
+<!-- more -->
+<h1 id="一-优雅的介绍一下async和await">一、优雅的介绍一下async和await</h1>
+<p><code>async</code> 函数是什么？一句话，它就是 <code>Generator</code> 函数的语法糖。<br>
+<code>async</code>函数就是将 <code>Generator</code> 函数的星号（*）替换成<code>async</code>，将<code>yield</code>替换成<code>await</code>，仅此而已。</p>
+<pre><code>                                                                    ————阮一峰
+</code></pre>
+<p>阮大佬的入门教程如是说道，那么我们就大概知道了<code>async/await</code>也是用来实现异步编程的方式。</p>
+<h1 id="二-上demo冲">二、上demo，冲！</h1>
+<p>在 <code>function</code> 前面加 <code>async</code> 用来说明这个函数是一个异步函数<br>
+不多说代码安排上：</p>
+<pre><code>      let sayHi = async () =&gt; {
+        console.log('hello,飞飞鱼');
+      }
+      sayHi();
+      console.log('hello,丁丁车');
+</code></pre>
+<p>看下控制台的打印：</p>
+<figure data-type="image" tabindex="1"><img src="https://skrupellose.github.io/post-images/1573486162022.png" alt=""></figure>
+<p>emm？👀这不还是同步吗？<br>
+再去看看，async 函数返回的是一个<code>promise</code> 对象，喔，懂了！</p>
+<pre><code>      let sayHi = async () =&gt; {
+        return 'hello,飞飞鱼';
+      }
+      sayHi()
+      console.log('hello,丁丁车');
+</code></pre>
+<p>打开命运石之门：</p>
+<p><img src="https://skrupellose.github.io/post-images/1573486464645.png" alt=""><br>
+这一切都是命运石之门的选择。</p>
+<p>好吧，为什么没有打印出来呢？我们把函数<code>sayHi</code>执行结果打印一下：</p>
+<pre><code>      let sayHi = async () =&gt; {
+        return 'hello,飞飞鱼';
+      }
+      console.log(sayHi());
+      console.log('hello,丁丁车');
+</code></pre>
+<p><img src="https://skrupellose.github.io/post-images/1573486614613.png" alt=""><br>
+额， 忘了返回的是<code>promise对象</code>，那我们直接<code>.then()</code>取值。</p>
+<pre><code>      let sayHi = async () =&gt; {
+       return 'hello,飞飞鱼';
+      }
+      sayHi().then(res =&gt; console.log(res));
+      console.log('hello,丁丁车');
+</code></pre>
+<p><img src="https://skrupellose.github.io/post-images/1573486806717.png" alt=""><br>
+秒啊！我们发现了的确先打印的<code>hello,丁丁车</code>,然后打印的<code>hello,飞飞鱼</code>，证明sayHi的确是异步函数。</p>
+<h1 id="三-await和async">三、await和async</h1>
+<p><code>await</code>后面可以放任何表达式，不过我们更多的是放一个返回<code>promise</code>对象的表达式。注意<code>await</code> 关键字只能放到<code>async</code>函数里面</p>
+<pre><code>      let delay = word =&gt; {
+        return new Promise((resolve, reject) =&gt; {
+          setTimeout(() =&gt; {
+            resolve(word)
+          },2000);
+        })
+      }
+</code></pre>
+<p>先写个2s后执行的<code>delay</code>函数返回一个<code>promise</code>对象，然后再写一个异步函数来调用它</p>
+<pre><code>      let show = async () =&gt; {
+        let res1 = await delay('I');
+        console.log(res1);
+      }
+      show()
+</code></pre>
+<p>然后我们发现2s后的确打印了：<br>
+<img src="https://skrupellose.github.io/post-images/1573487475797.png" alt=""><br>
+那么我们继续添加，尝试用优雅的写法</p>
+<pre><code>      let show = async () =&gt; {
+        let res1 = await delay(&quot;I&quot;);
+        let res2 = await delay(&quot;love&quot;);
+        let res3 = await delay(&quot;YOU&quot;);
+        console.log(res1 + &quot; &quot; + res2 + &quot; &quot; + res3);
+      };
+      show();
+</code></pre>
+<p>然后6s后，打印出了：<br>
+<img src="https://skrupellose.github.io/post-images/1573487604909.png" alt=""></p>
+<p>秒啊，用优雅的同步写法完成了异步操作。<br>
+这里运行的步骤是<code>show</code>函数执行，然后发现了<code>await</code>，它等待第一次<code>promise</code>对象执行完毕，然后向下执行，又发现<code>await</code>，又开始等待，然后重复，最后在6s之后成功完成。</p>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[v-bind的两三事]]></title>
         <id>https://skrupellose.github.io/post/v-bind-de-liang-san-shi</id>
