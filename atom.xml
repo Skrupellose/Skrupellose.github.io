@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://skrupellose.github.io</id>
     <title>13&apos;s blog</title>
-    <updated>2019-11-11T15:58:46.632Z</updated>
+    <updated>2019-11-11T16:01:50.872Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://skrupellose.github.io"/>
     <link rel="self" href="https://skrupellose.github.io/atom.xml"/>
@@ -24,7 +24,7 @@
 <!-- more -->
 <h1 id="一-优雅的介绍一下async和await">一、优雅的介绍一下async和await</h1>
 <p><code>async</code> 函数是什么？一句话，它就是 <code>Generator</code> 函数的语法糖。<br>
-<code>async</code>函数就是将 <code>Generator</code> 函数的星号（*）替换成<code>async</code>，将<code>yield</code>替换成<code>await</code>，仅此而已。</p>
+<code>async</code>函数就是将 <code>Generator</code> 函数的星号<code>（*）</code>替换成<code>async</code>，将<code>yield</code>替换成<code>await</code>，仅此而已。</p>
 <pre><code>                                                                    ————阮一峰
 </code></pre>
 <p>阮大佬的入门教程如是说道，那么我们就大概知道了<code>async/await</code>也是用来实现异步编程的方式。</p>
@@ -40,7 +40,7 @@
 <p>看下控制台的打印：</p>
 <figure data-type="image" tabindex="1"><img src="https://skrupellose.github.io/post-images/1573486162022.png" alt=""></figure>
 <p>emm？👀这不还是同步吗？<br>
-再去看看，async 函数返回的是一个<code>promise</code> 对象，喔，懂了！</p>
+再去看看，<code>async</code>函数返回的是一个<code>promise</code> 对象，喔，懂了！</p>
 <pre><code>      let sayHi = async () =&gt; {
         return 'hello,飞飞鱼';
       }
@@ -98,7 +98,7 @@
 <p>然后6s后，打印出了：<br>
 <img src="https://skrupellose.github.io/post-images/1573487604909.png" alt=""></p>
 <p>秒啊，用优雅的同步写法完成了异步操作。<br>
-这里运行的步骤是<code>show</code>函数执行，然后发现了<code>await</code>，它等待第一次<code>promise</code>对象执行完毕，然后向下执行，又发现<code>await</code>，又开始等待，然后重复，最后在6s之后成功完成。</p>
+这里运行的步骤是<code>show</code>函数执行，然后发现了<code>await</code>，它等待第一次<code>promise</code>对象执行完毕，拿到<code>promise resolve</code>的值并进行返回,然后继续向下执行，又发现<code>await</code>，又开始等待，然后重复，最后在6s之后成功完成打印。</p>
 ]]></content>
     </entry>
     <entry>
