@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://skrupellose.github.io</id>
     <title>13&apos;s blog</title>
-    <updated>2019-11-12T12:36:59.202Z</updated>
+    <updated>2019-11-12T16:15:25.544Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://skrupellose.github.io"/>
     <link rel="self" href="https://skrupellose.github.io/atom.xml"/>
@@ -10,6 +10,175 @@
     <logo>https://skrupellose.github.io/images/avatar.png</logo>
     <icon>https://skrupellose.github.io/favicon.ico</icon>
     <rights>All rights reserved 2019, 13&apos;s blog</rights>
+    <entry>
+        <title type="html"><![CDATA[深浅拷贝小总结]]></title>
+        <id>https://skrupellose.github.io/post/shen-qian-kao-bei-xiao-zong-jie</id>
+        <link href="https://skrupellose.github.io/post/shen-qian-kao-bei-xiao-zong-jie">
+        </link>
+        <updated>2019-11-12T14:28:29.000Z</updated>
+        <content type="html"><![CDATA[<p>👻 拷贝就是复制一份一样的东西出来，浅拷贝简单理解就是通过复制之后，和原件还有关系，彼此的改变会影响到彼此，而深拷贝复制出来后与原件互不相干涉。</p>
+<h1 id="一-数据类型介绍">一、数据类型介绍</h1>
+<p><code>JavaScrip</code>t的数据类型分为基本数据类型和引用数据类型。基本数据类型有：</p>
+<ul>
+<li>String</li>
+<li>Number</li>
+<li>Boolean</li>
+<li>Undefined</li>
+<li>Null</li>
+<li>Symbol</li>
+</ul>
+<p>它们都储存在栈内存中<br>
+然后是引用数据类型：</p>
+<ul>
+<li>Array</li>
+<li>Object</li>
+</ul>
+<p>这两个保存在堆内存中，但是在栈内存中保留了引用</p>
+<h1 id="二-关于基本数据类型的拷贝">二、关于基本数据类型的拷贝</h1>
+<p>基本数据类型的拷贝直接新建一个变量赋值就完事，它只有深拷贝，不那么让人困惑：</p>
+<pre><code>let a = 1;
+let b = a;
+a = 2 ;
+console.log(b)  // 1
+</code></pre>
+<p>b是从a拷贝来的，但是a的重新赋值并没有影响到b，所以是深拷贝。</p>
+<h1 id="三-关于引用数据类型的拷贝">三、关于引用数据类型的拷贝</h1>
+<h2 id="31-引用数据类型的浅拷贝">3.1 引用数据类型的浅拷贝</h2>
+<pre><code>const oriArray = [1,2,3];
+const oriObj = {a:'a',b:'b',c:[1,2,3],d:{d:'d'}};
+
+const cloneArray = oriArray;
+const cloneObj = oriObj;
+
+console.log(oriArray) //[1,2,3]
+console.log(oriObj) //{a:'a',b:'b',c:[1,2,3],d:{d:'d'}}
+
+cloneArray.push(4);
+cloneObj.a = 'A';
+
+console.log(oriArray) //[1,2,3,4]
+console.log(oriObj) //{a:'A',b:'b',c:[1,2,3],d:{d:'d'}}
+</code></pre>
+<p>通过赋值方式拷贝引用数据类型的时候，发现操作克隆值会影响到原来的值，这就是浅拷贝</p>
+<h2 id="32-引用数据类型的深拷贝">3.2 引用数据类型的深拷贝</h2>
+<p>目前实现深拷贝的方法不多，主要是两种：</p>
+<ol>
+<li>利用 <code>JSON</code>对象中的<code>parse</code> 和 <code>stringify</code></li>
+<li>利用递归来实现每一层都重新创建对象并赋值</li>
+</ol>
+<p>首先是第一种：</p>
+<ul>
+<li><code>JSON.stringify</code> 是将一个<code>JavaScript</code> 值转成一个 <code>JSON</code>字符串。</li>
+<li><code>JSON.parse</code> 是将一个<code>JSON</code>字符串转成一个 <code>JavaScript</code> 值或对象。</li>
+</ul>
+<pre><code>const oriArray = [1,2,3];
+const cloneArray = JSON.parse(JSON.stringify(oriArray));
+console.log(cloneArray) //[1,2,3]
+console.log(cloneObj === originObj); // false 只是看起来一样
+cloneArray.push(4)
+console.log(cloneArray) //[1,2,3,4]
+console.log(oriArray) //[1,2,3]
+</code></pre>
+<pre><code>const oriObj = {a:'a',b:[1,2,3],c:{c:'c'}};
+const cloneObj = JSON.parse(JSON.stringify(oriObj));
+console.log(cloneObj); //{a:'a',b:[1,2,3],c:{c:'c'}}
+console.log(cloneObj === oriObj) //fasle 
+cloneObj.b.push(4); 
+console.log(cloneObj); //{a:'a',b:[1,2,3,4],c:{c:'c'}}
+console.log(oriObj) //{a:'a',b:[1,2,3],c:{c:'c'}}
+</code></pre>
+<p>我们发现的确是深拷贝，没有彼此影响<br>
+但是这种方法有个弊端，那就是当引用数据类型内部有<code>undefined</code>、<code>function</code>、<code>symbol</code>它们会在转换过程中被忽略。</p>
+<pre><code>const oriObj = {
+  name:'学习',
+  fn:function(){
+    console.log('Hello World');
+  },
+  a:undefined,
+  b:Symbol
+}
+console.log(oriObj); //{name: &quot;学习&quot;, a: undefined, fn: ƒ(), b: ƒ Symbol()}
+const cloneObj = JSON.parse(JSON.stringify(oriObj));
+console.log(cloneObj); //{name: &quot;学习&quot;}
+</code></pre>
+<p>是的，转换完就只剩学习了👏。<br>
+我的心里只有一件事那就是学习！！!<br>
+所以这种方法有一定的局限，但还是很好用的!</p>
+<p>第二种：递归</p>
+<p>递归的思想就很简单了，就是对每一层的数据都实现一次 <code>创建对象-&gt;对象赋值</code> 的操作</p>
+<pre><code>function deepClone(source){
+  const targetObj = source.constructor === Array ? [] : {}; // 判断复制的目标是数组还是对象
+  for(let keys in source){ // 遍历目标
+    if(source.hasOwnProperty(keys)){
+      if(source[keys] &amp;&amp; typeof source[keys] === 'object'){ // 如果值是对象，就递归一下
+        targetObj[keys] = source[keys].constructor === Array ? [] : {};
+        targetObj[keys] = deepClone(source[keys]);
+      }else{ // 如果不是，就直接赋值
+        targetObj[keys] = source[keys];
+      }
+    } 
+  }
+  return targetObj;
+}
+</code></pre>
+<p>我们实验一下：</p>
+<pre><code>const oriObj = {
+  name:'学习',
+  study: {emm:'emmm'},
+  fn:function(){
+    console.log('Hello World');
+  },
+  a:undefined,
+  b:Symbol
+}
+let res = deepClone(oriObj)
+
+console.log(oriObj); //{name: &quot;学习&quot;, study: {emm:'emmm'}, a: undefined, fn: ƒ, b: ƒ}
+console.log(res) //{name: &quot;学习&quot;, study: {emm:'emmm'}, a: undefined, fn: ƒ, b: ƒ}
+console.log(oriObj === res) //false
+</code></pre>
+<p>不但解决了拷贝问题，还解决了第一种方法的小瑕疵。👍</p>
+<h1 id="四-首层深拷贝的几个方法">四、首层深拷贝的几个方法</h1>
+<p><strong>首层深拷贝</strong>是指对于多层嵌套的引用类型数据只对深拷贝首层数据,更深层的数据还是浅拷贝</p>
+<p><strong>数组</strong><br>
+<code>concat</code> 和 <code>slice</code> 是可以实现对原数组的拷贝的，这两个方法都不会修改原数组，而是返回一个修改后的新数组</p>
+<pre><code>const originArray = [1,2,3];
+const cloneArray = originArray.concat();
+
+console.log(cloneArray === originArray); // false
+cloneArray.push(4); // [1,2,3]
+console.log(originArray); //[1,2,3];
+</code></pre>
+<pre><code>const originArray = [1,2,3];
+const cloneArray = originArray.slice(0);
+
+console.log(cloneArray === originArray); // false
+cloneArray.push(4); // [1,2,3]
+console.log(originArray); //[1,2,3];
+</code></pre>
+<p>以及我们的展开运算符：<code>...</code></p>
+<pre><code>const originArray = [1,2,3];
+const cloneArray = [...originArray];
+
+console.log(cloneArray === originArray); // false
+cloneArray.push(4); // [1,2,3]
+console.log(originArray); //[1,2,3];
+</code></pre>
+<p><strong>对象</strong><br>
+<code>Object.assign()</code>方法用于将所有可枚举的属性的值从一个或多个源对象复制到目标对象，它将返回目标对象。</p>
+<pre><code>let obj1 = { a: 0 , b: { c: 0}}
+let obj2 = Object.assign({}, obj1)
+console.log(JSON.stringify(obj2))
+// {&quot;a&quot;:0,&quot;b&quot;:{&quot;c&quot;:0}}
+obj1.a = 1
+console.log(JSON.stringify(obj1))
+// {&quot;a&quot;:1,&quot;b&quot;:{&quot;c&quot;:0}}
+console.log(JSON.stringify(obj2))
+// {&quot;a&quot;:0,&quot;b&quot;:{&quot;c&quot;:0}}
+</code></pre>
+<p>这些都只能实现首层深拷贝的方法，虽然功能有限但在合适的场合用起来会事半功倍。</p>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[优雅的使用async和await]]></title>
         <id>https://skrupellose.github.io/post/you-ya-de-shi-yong-async-he-await</id>
