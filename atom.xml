@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://skrupellose.github.io</id>
-    <title>13&apos;s blog</title>
-    <updated>2019-11-14T16:16:59.300Z</updated>
+    <title>D.C </title>
+    <updated>2019-11-14T16:24:52.469Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://skrupellose.github.io"/>
     <link rel="self" href="https://skrupellose.github.io/atom.xml"/>
     <subtitle>人类世界真是太有趣了</subtitle>
     <logo>https://skrupellose.github.io/images/avatar.png</logo>
     <icon>https://skrupellose.github.io/favicon.ico</icon>
-    <rights>All rights reserved 2019, 13&apos;s blog</rights>
+    <rights>All rights reserved 2019, D.C </rights>
     <entry>
         <title type="html"><![CDATA[fetch和axios的上手使用]]></title>
         <id>https://skrupellose.github.io/post/fetch-he-axios-de-shang-shou-shi-yong</id>
