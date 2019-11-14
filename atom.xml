@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://skrupellose.github.io</id>
     <title>13&apos;s blog</title>
-    <updated>2019-11-12T16:15:25.544Z</updated>
+    <updated>2019-11-14T15:41:03.324Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://skrupellose.github.io"/>
     <link rel="self" href="https://skrupellose.github.io/atom.xml"/>
@@ -18,7 +18,7 @@
         <updated>2019-11-12T14:28:29.000Z</updated>
         <content type="html"><![CDATA[<p>👻 拷贝就是复制一份一样的东西出来，浅拷贝简单理解就是通过复制之后，和原件还有关系，彼此的改变会影响到彼此，而深拷贝复制出来后与原件互不相干涉。</p>
 <h1 id="一-数据类型介绍">一、数据类型介绍</h1>
-<p><code>JavaScrip</code>t的数据类型分为基本数据类型和引用数据类型。基本数据类型有：</p>
+<p><code>JavaScript</code>的数据类型分为基本数据类型和引用数据类型。基本数据类型有：</p>
 <ul>
 <li>String</li>
 <li>Number</li>
@@ -266,6 +266,17 @@ console.log(JSON.stringify(obj2))
 <img src="https://skrupellose.github.io/post-images/1573487604909.png" alt=""></p>
 <p>秒啊，用优雅的同步写法完成了异步操作。<br>
 这里运行的步骤是<code>show</code>函数执行，然后发现了<code>await</code>，它等待第一次<code>promise</code>对象执行完毕，拿到<code>promise resolve</code>的值并进行返回,然后继续向下执行，又发现<code>await</code>，又开始等待，然后重复，最后在6s之后成功完成打印。</p>
+<p>2019-11-14 补充：</p>
+<pre><code>async function f() {
+return await 123;
+}
+
+f().then(v =&gt; console.log(v))
+// 123
+</code></pre>
+<p>这里打印123的原因：<br>
+1.因为f函数return了一个由await生成的Promise对象，这个对象取代了f函数自己形成的Promise，所以最后通过then()方法返回的是123而不是Promise对象（await参数为123，它被转成Promise对象，它被立即resolve）</p>
+<p>正常情况下，await命令后面是一个 Promise 对象，返回该对象的结果。如果不是 Promise 对象，就直接返回对应的值。</p>
 ]]></content>
     </entry>
     <entry>

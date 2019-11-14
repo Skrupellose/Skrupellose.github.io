@@ -4,7 +4,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>13&#39;s blog</title>
 <meta name="description" content="人类世界真是太有趣了" />
-<link rel="shortcut icon" href="https://skrupellose.github.io/favicon.ico?v=1573575319773">
+<link rel="shortcut icon" href="https://skrupellose.github.io/favicon.ico?v=1573746055368">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
 <link href="https://cdn.remixicon.com/releases/v1.3.1/remixicon.css" rel="stylesheet">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
@@ -24,7 +24,7 @@
       <div class="flex lg:block p-4 lg:px-0 items-center fixed lg:static lg:block top-0 right-0 left-0 bg-white z-50">
         <i class="remixicon-menu-2-line lg:mt-4 text-2xl cursor-pointer animated fadeIn" onclick="openMenu()"></i>
         <a href="https://skrupellose.github.io">
-          <img class="animated fadeInLeft avatar rounded-lg mx-4 lg:mt-32 lg:mx-0 mt-0 lg:w-24 lg:h-24 w-12 w-12" src="https://skrupellose.github.io/images/avatar.png?v=1573575319773" alt="">
+          <img class="animated fadeInLeft avatar rounded-lg mx-4 lg:mt-32 lg:mx-0 mt-0 lg:w-24 lg:h-24 w-12 w-12" src="https://skrupellose.github.io/images/avatar.png?v=1573746055368" alt="">
         </a>
         <h1 class="animated fadeInLeft lg:text-4xl font-extrabold lg:mt-8 mt-0 text-xl" style="animation-delay: 0.2s">13&#39;s blog</h1>
       </div>
@@ -97,7 +97,7 @@
       <div class="content-wrapper py-32 lg:p-8 lg:w-3/4 post-detail animated fadeIn">
         <h1 class="text-3xl font-bold lg:mt-16">优雅的使用async和await</h1>
         <div class="text-sm text-gray-700 lg:my-8">
-          2019-11-11 / 3 min read
+          2019-11-11 / 4 min read
         </div>
         
           <img class="post-feature-image rounded-lg mx-auto my-4" src="http://pic1.win4000.com/wallpaper/5/57a823a8f0511.jpg" alt="">
@@ -182,6 +182,17 @@
 <img src="https://skrupellose.github.io/post-images/1573487604909.png" alt=""></p>
 <p>秒啊，用优雅的同步写法完成了异步操作。<br>
 这里运行的步骤是<code>show</code>函数执行，然后发现了<code>await</code>，它等待第一次<code>promise</code>对象执行完毕，拿到<code>promise resolve</code>的值并进行返回,然后继续向下执行，又发现<code>await</code>，又开始等待，然后重复，最后在6s之后成功完成打印。</p>
+<p>2019-11-14 补充：</p>
+<pre><code>async function f() {
+return await 123;
+}
+
+f().then(v =&gt; console.log(v))
+// 123
+</code></pre>
+<p>这里打印123的原因：<br>
+1.因为f函数return了一个由await生成的Promise对象，这个对象取代了f函数自己形成的Promise，所以最后通过then()方法返回的是123而不是Promise对象（await参数为123，它被转成Promise对象，它被立即resolve）</p>
+<p>正常情况下，await命令后面是一个 Promise 对象，返回该对象的结果。如果不是 Promise 对象，就直接返回对应的值。</p>
 
         </div>
 
