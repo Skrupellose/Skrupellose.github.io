@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://skrupellose.github.io</id>
     <title>13&apos;s blog</title>
-    <updated>2019-11-14T15:41:03.324Z</updated>
+    <updated>2019-11-14T16:16:59.300Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://skrupellose.github.io"/>
     <link rel="self" href="https://skrupellose.github.io/atom.xml"/>
@@ -10,6 +10,214 @@
     <logo>https://skrupellose.github.io/images/avatar.png</logo>
     <icon>https://skrupellose.github.io/favicon.ico</icon>
     <rights>All rights reserved 2019, 13&apos;s blog</rights>
+    <entry>
+        <title type="html"><![CDATA[fetch和axios的上手使用]]></title>
+        <id>https://skrupellose.github.io/post/fetch-he-axios-de-shang-shou-shi-yong</id>
+        <link href="https://skrupellose.github.io/post/fetch-he-axios-de-shang-shou-shi-yong">
+        </link>
+        <updated>2019-11-14T15:41:05.000Z</updated>
+        <content type="html"><![CDATA[<p>复(xue)习一下<code>fetch</code>和<code>axios</code>的用法</p>
+<h1 id="一-fetch的用法">一、fetch的用法</h1>
+<p>直接贴demo了</p>
+<pre><code>      fetch(&quot;url&quot;).then(data =&gt; {
+        return data.text().then(res =&gt; {
+          console.log(res);
+        });
+      });
+</code></pre>
+<ul>
+<li>要获取数据首先要调用<code>text()</code>方法或者<code>json()</code>方法</li>
+<li><code>data.text()/data.json()</code>返回的是<code>promise</code>对象，用<code>.then()</code>处理之后得到的才是结果</li>
+<li><code>text()</code>返回结果为字符串</li>
+<li><code>json()</code>返回结果为json类型</li>
+</ul>
+<h2 id="11-fetch请求参数">1.1 fetch请求参数</h2>
+<ul>
+<li><code>method(String)</code>:http请求方法，默认为<code>GET(GET、POST、PUT、DELETE)</code></li>
+<li><code>body(String)</code>:http的请求参数</li>
+<li><code>header(Object)</code>:http的请求头，默认为{}</li>
+</ul>
+<h2 id="12-get请求">1.2 GET请求</h2>
+<pre><code>
+      // url传递参数
+      fetch('url?id=123',{
+        method: 'get'
+      }).then(data =&gt; {
+        return data.text()
+        .then(res =&gt; {
+          console.log(res);
+        })
+      })
+      // Restful形式的url传递参数
+      fetch('url/123',{
+        method: 'get'
+      }).then(data =&gt; {
+        return data.text()
+        .then(res =&gt; {
+          console.log(res);
+        })
+      })
+</code></pre>
+<h2 id="13-delete请求">1.3 DELETE请求</h2>
+<p>✊偷个懒 只需把<code>method</code>换成<code>delete</code>即可</p>
+<h2 id="14-post请求">1.4 POST请求</h2>
+<pre><code>  //传统参数传递
+  fetch('url',{
+    method: 'post',
+    body: 'name=abc&amp;passwd=123',
+    headers: {
+      'Content-type': 'application/x-www-form-unlencoded',
+    }//请求头必须设置否则body里的数据传不到后台去
+  }).then(data =&gt; {
+    return data.text()
+    .then(res =&gt; {
+      console.log(res);
+    })
+  })
+
+  //json形式参数传递
+  fetch('url',{
+    method: 'post',
+    body: JSON.stringify({
+      name:&quot;abc&quot;,
+      passwd:&quot;123&quot;
+    }),
+    headers: {
+      'Content-type': 'application/json',
+    }//请求头必须设置否则body里的数据传不到后台去
+  }).then(data =&gt; {
+    return data.text()
+    .then(res =&gt; {
+      console.log(res);
+    })
+  })
+</code></pre>
+<h2 id="15-put请求">1.5 PUT请求</h2>
+<pre><code>      fetch('url/456',{
+        method: 'put',
+        body: JSON.stringify({
+          name:&quot;abc&quot;,
+          passwd:&quot;123&quot;
+        }),
+        headers: {
+          'Content-type': 'application/json',
+        }
+      }).then(data =&gt; {
+        return data.text()
+        .then(res =&gt; {
+          console.log(res);
+        })
+      })
+      // 把put的值通过url的Restful形式传过去
+</code></pre>
+<h1 id="二-axios">二、axios</h1>
+<h2 id="21-用法">2.1 用法</h2>
+<pre><code>      axios.get('url')
+      .then(res =&gt; {
+        console.log(res.data)
+        // 需要注意的是使用axios请求数据后.then()返回的对象除去我们想要的数据
+        // 之外还有其他的数据，所以当我们需要拿到想要的数据的时候要使用data属性来获取
+      })
+</code></pre>
+<h2 id="22-get请求">2.2 get请求</h2>
+<pre><code>      // 1.通过url传递
+      axios.get('url?id=123')
+      .then(res =&gt; {
+        console.log(res.data)
+      })
+      // 2.通过params属性传递
+      axios.get('url',{
+        params:{
+          id: 123
+        }
+      })
+      .then(res =&gt; {
+        console.log(res.data)
+      })
+
+</code></pre>
+<h2 id="23-delete请求">2.3 delete请求</h2>
+<p>继续偷个懒，<code>delete</code>方式只需要把<code>ge</code>t换成<code>delete</code>即可</p>
+<h2 id="24-post请求">2.4 post请求</h2>
+<pre><code>  // 通过选项来传递参数默认传递的是json格式的数据
+      axios.post('url',{
+        name: &quot;yy&quot;,
+        age: 16
+      })//通过这种传到后台的数据是json格式
+      .then(res =&gt;{
+        console.log(res.data)
+      })
+
+      // 通过URLSearchParams传递参数
+      const params = new URLSearchParams();
+      params.append('name','abc');
+      params.append('age','16');
+      axios.post('url', params)
+      .then(res =&gt; {
+        console.log(res.data)
+      })
+</code></pre>
+<h2 id="25-put请求">2.5 put请求</h2>
+<pre><code>      axios.post('url/123',{
+        name: &quot;yy&quot;,
+        age: 16
+      })//通过这种传到后台的数据是json格式
+      .then(res =&gt;{
+        console.log(res.data)
+      })
+</code></pre>
+<h2 id="26-请求和响应拦截">2.6 请求和响应拦截</h2>
+<pre><code>      // 请求拦截 发出请求数据之前进行一些配置和处理
+      axios.interceptors.request.use(config =&gt;{
+        ... //一些操作代码
+        return config;
+      })
+
+      // 响应拦截 获取数据之前对数据进行一些处理
+      axios.interceptors.response.use(res =&gt;{
+        ... //一些操作代码
+        return res;
+      })
+
+</code></pre>
+<h2 id="27-axios响应结果">2.7 axios响应结果</h2>
+<p>响应结果被包装成一个对象<br>
+里面的主要属性：<br>
+-<code>data</code>：实际响应回的数据<br>
+-<code>headers</code>： 响应头信息</p>
+<ul>
+<li><code>status</code>：响应状态码</li>
+<li><code>statusText</code>：响应状态信息</li>
+</ul>
+<h2 id="28-axios和asyncawait的联用">2.8 axios和async/await的联用</h2>
+<pre><code>      async function get_(){
+        let res = await axios.get('url');
+        console.log(res.data)
+      }
+      get_() //data
+
+      axios.get('url')
+      .then(res =&gt; {
+        console.log(res.data)
+      })
+</code></pre>
+<p><code>then()</code>方法参数中的函数返回值:</p>
+<ol>
+<li>返回<code>promise</code>对象 返回的对象会调用下一个<code>then</code></li>
+<li>返回普通值，会被直接传递给下一个<code>then()</code>的函数中充当参数</li>
+</ol>
+<p>或是：后面的请求需要前一个请求返回的结果作为参数，可以这么写提高代码可读性</p>
+<pre><code>        async function test(){
+          let res1 = await axios.get('url1')
+          let res2 = await axios.get('url2?info=' + res1.data)
+          return rest2
+        }
+        test().then(res =&gt; {
+          console.log(res);
+        })
+</code></pre>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[深浅拷贝小总结]]></title>
         <id>https://skrupellose.github.io/post/shen-qian-kao-bei-xiao-zong-jie</id>
