@@ -4,7 +4,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>D.C </title>
 <meta name="description" content="人类世界真是太有趣了" />
-<link rel="shortcut icon" href="https://skrupellose.github.io/favicon.ico?v=1573921922055">
+<link rel="shortcut icon" href="https://skrupellose.github.io/favicon.ico?v=1573922011984">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
 <link href="https://cdn.remixicon.com/releases/v1.3.1/remixicon.css" rel="stylesheet">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
@@ -24,7 +24,7 @@
       <div class="flex lg:block p-4 lg:px-0 items-center fixed lg:static lg:block top-0 right-0 left-0 bg-white z-50">
         <i class="remixicon-menu-2-line lg:mt-4 text-2xl cursor-pointer animated fadeIn" onclick="openMenu()"></i>
         <a href="https://skrupellose.github.io">
-          <img class="animated fadeInLeft avatar rounded-lg mx-4 lg:mt-32 lg:mx-0 mt-0 lg:w-24 lg:h-24 w-12 w-12" src="https://skrupellose.github.io/images/avatar.png?v=1573921922055" alt="">
+          <img class="animated fadeInLeft avatar rounded-lg mx-4 lg:mt-32 lg:mx-0 mt-0 lg:w-24 lg:h-24 w-12 w-12" src="https://skrupellose.github.io/images/avatar.png?v=1573922011984" alt="">
         </a>
         <h1 class="animated fadeInLeft lg:text-4xl font-extrabold lg:mt-8 mt-0 text-xl" style="animation-delay: 0.2s">D.C </h1>
       </div>
@@ -37,10 +37,11 @@
             <ul class="markdownIt-TOC">
 <li>
 <ul>
-<li><a href="#%E5%B0%86%E4%B8%8A%E9%9D%A2%E7%9A%84%E6%95%B0%E7%BB%84%E8%BD%AC%E6%8D%A2%E6%88%90%E4%B8%8B%E9%9D%A2%E6%95%B0%E7%BB%84%E7%9A%84%E5%BD%A2%E5%BC%8F">将上面的数组转换成下面数组的形式</a>
+<li><a href="#%E8%A6%81%E6%B1%82">要求：</a>
 <ul>
 <li><a href="#%E6%80%9D%E8%B7%AF">思路：</a></li>
 <li><a href="#%E7%9F%A5%E8%AF%86%E7%82%B9">知识点：</a></li>
+<li><a href="#%E5%AE%9E%E7%8E%B0">实现：</a></li>
 </ul>
 </li>
 </ul>
@@ -105,7 +106,8 @@
           <img class="post-feature-image rounded-lg mx-auto my-4" src="https://i0.hdslb.com/bfs/article/c62dfa0130b73c782d36745765273a578159ac94.jpg@1320w_936h.webp" alt="">
         
         <div class="post-content yue">
-          <h2 id="将上面的数组转换成下面数组的形式">将上面的数组转换成下面数组的形式</h2>
+          <h2 id="要求">要求：</h2>
+<p>将上面的数组转换成下面数组的形式</p>
 <pre><code>      [
         { name: &quot;a&quot;, hobby: &quot;football&quot; },
         { name: &quot;b&quot;, hobby: &quot;basketball&quot; },
@@ -151,6 +153,7 @@
 <p><code>obj.hasOwnProperty(prop)</code></p>
 <p>参数：</p>
 <p><code>prop</code>：要检测的属性的<code>String</code>字符串形式表示的名称，或者<code>Symbol</code></p>
+<h3 id="实现">实现：</h3>
 <pre><code>      const arr = [
 
         { name: &quot;b&quot;, hobby: &quot;basketball&quot; },
