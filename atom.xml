@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://skrupellose.github.io</id>
     <title>D.C </title>
-    <updated>2019-11-14T16:28:09.384Z</updated>
+    <updated>2019-11-16T16:28:40.524Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://skrupellose.github.io"/>
     <link rel="self" href="https://skrupellose.github.io/atom.xml"/>
@@ -10,6 +10,115 @@
     <logo>https://skrupellose.github.io/images/avatar.png</logo>
     <icon>https://skrupellose.github.io/favicon.ico</icon>
     <rights>All rights reserved 2019, D.C </rights>
+    <entry>
+        <title type="html"><![CDATA[算法题--数组(1)]]></title>
+        <id>https://skrupellose.github.io/post/suan-fa-ti-shu-zu-1</id>
+        <link href="https://skrupellose.github.io/post/suan-fa-ti-shu-zu-1">
+        </link>
+        <updated>2019-11-16T14:59:04.000Z</updated>
+        <content type="html"><![CDATA[<h2 id="将上面的数组转换成下面数组的形式">将上面的数组转换成下面数组的形式</h2>
+<pre><code>      [
+        { name: &quot;a&quot;, hobby: &quot;football&quot; },
+        { name: &quot;b&quot;, hobby: &quot;basketball&quot; },
+        { name: &quot;a&quot;, hobby: &quot;swim&quot; },
+        { naem: &quot;b&quot;, hobby: &quot;computer&quot; }
+      ];
+
+      [
+        {name: 'a', hobby: 'football, swim'},
+        {name: 'b', hobby: 'basketball, computer'}
+      ]
+</code></pre>
+<h3 id="思路">思路：</h3>
+<ol>
+<li>新建一个空的新数组，使用<code>forEach</code>遍历原数组取得每一个对象</li>
+<li>进行判断，若此时新数组为空，则将此遍历到的这个对象<code>push</code>到新数组；</li>
+<li>若此时新数组不为空，则使用<code>findIndex()</code>方法，判断当前对象的名称在数组中是否已经存在，若存在则通过返回的索引将值<code>push</code>进对应的对象的<code>hobby</code>属性里，若不存在则将该对象<code>push</code>进新数组</li>
+</ol>
+<h3 id="知识点">知识点：</h3>
+<p><strong>forEach()</strong><br>
+<code>forEach()</code> 方法按升序为数组中含有效值的每一项执行一次<code>callback</code> 函数，那些已删除或者未初始化的项将被跳过</p>
+<p><code>array.forEach(function(currentValue, index, arr), thisValue)</code></p>
+<p>回调函数参数：</p>
+<ul>
+<li><code>currentValue</code>	必需。当前元素</li>
+<li><code>index</code>  可选。当前元素的索引值。</li>
+<li><code>arr</code>	 可选。当前元素所属的数组对象。</li>
+</ul>
+<p><strong>findIndex()</strong><br>
+<code>findIndex()</code> 方法返回传入一个测试条件（函数）符合条件的数组第一个元素位置。</p>
+<p><code>findIndex()</code> 方法为数组中的每个元素都调用一次函数执行：</p>
+<p>当数组中的元素在测试条件时返回 <code>true</code> 时, <code>findIndex()</code>返回符合条件的元素的索引位置，之后的值不会再调用执行函数。<br>
+如果没有符合条件的元素返回 <code>-1</code></p>
+<p><code>array.findIndex(function(currentValue, index, arr), thisValue)</code><br>
+回调函数参数：</p>
+<ul>
+<li><code>currentValue</code> 	必需。当前元素</li>
+<li><code>index</code>  可选。当前元素的索引值。</li>
+<li><code>arr</code>	 可选。当前元素所属的数组对象。</li>
+</ul>
+<p>**hasOwnProperty() **<br>
+<code>hasOwnProperty()</code>方法会返回一个布尔值，指示对象自身属性中是否具有指定的属性（也就是，是否有指定的键）。</p>
+<p><code>obj.hasOwnProperty(prop)</code></p>
+<p>参数：</p>
+<p><code>prop</code>：要检测的属性的<code>String</code>字符串形式表示的名称，或者<code>Symbol</code></p>
+<pre><code>      const arr = [
+
+        { name: &quot;b&quot;, hobby: &quot;basketball&quot; },
+        { name: &quot;a&quot;, hobby: &quot;swim&quot; },
+        { name: &quot;b&quot;, hobby: &quot;computer&quot; },
+        { name: &quot;a&quot;, hobby: &quot;football&quot; }
+      ];
+      let resArr = []
+      arr.forEach((item, index) =&gt; {
+        if (resArr.length) {
+          const res = resArr.findIndex(_item =&gt; _item.name === item.name)
+          if ((res === -1)) {
+            resArr.push({
+              name: item.name,
+              hobby: [item.hobby]
+            });
+          } else {
+            resArr[res][&quot;hobby&quot;].push(item.hobby)
+          }
+        } else {
+          resArr.push({
+            name: item.name,
+            hobby: [item.hobby]
+          })
+        }
+      })
+      console.log(resArr) //[{name: &quot;a&quot; hobby:  [&quot;swim&quot;, &quot;football&quot;]}, {name: &quot;b&quot; hobby: [&quot;basketball&quot;, &quot;computer&quot;]}]
+</code></pre>
+<p>还有另一种写法，思路与上面的大同小异，只是通过<code>hasOwnProperty</code>来判断是否已有重复属性，然后用<code>findIndex()</code>来得到索引。</p>
+<pre><code>      let obj1 = {};
+      let objArr = [];
+      const arr = [
+        { name: &quot;a&quot;, hobby: &quot;football&quot; },
+        { name: &quot;b&quot;, hobby: &quot;basketball&quot; },
+        { name: &quot;a&quot;, hobby: &quot;swim&quot; },
+        { name: &quot;b&quot;, hobby: &quot;computer&quot; }
+      ];
+
+      arr.forEach((item, index) =&gt; {
+        if (obj1.hasOwnProperty(item.name)) {
+          const index = objArr.findIndex(
+            objArrItem =&gt; item.name === objArrItem.name
+          );
+          objArr[index].hobby.push(item.hobby);
+        } else {
+          objArr.push({
+            name: item.name,
+            hobby: [item.hobby]
+          });
+          obj1[item.name] = index;
+        }
+      });
+      console.log(objArr); //[{name: &quot;a&quot; hobby:  [&quot;swim&quot;, &quot;football&quot;]}, {name: &quot;b&quot; hobby: [&quot;basketball&quot;, &quot;computer&quot;]}]
+      console.log(obj1); //{a: 0, b: 1}
+</code></pre>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[fetch和axios的上手使用]]></title>
         <id>https://skrupellose.github.io/post/fetch-he-axios-de-shang-shou-shi-yong</id>
@@ -216,6 +325,15 @@
           console.log(res);
         })
 </code></pre>
+<p>补充：我们还可以新建一个<code>axios</code>实例对象来进行一些配置</p>
+<pre><code>const $axios = axios.create({
+  // 设置超时时间
+  timeout: 30000,
+  // 基础url，会在请求url中自动添加前置链接
+  baseURL: &quot;url&quot;
+});
+</code></pre>
+<p>这样我们在后面使用<code>axios</code>发送请求的时候就不用写那么长的url了</p>
 ]]></content>
     </entry>
     <entry>

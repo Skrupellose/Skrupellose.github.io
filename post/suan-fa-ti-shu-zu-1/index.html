@@ -37,12 +37,14 @@
             <ul class="markdownIt-TOC">
 <li>
 <ul>
-<li><a href="#%E7%AE%80%E5%8D%95%E4%BB%8B%E7%BB%8D%E4%B8%80%E4%B8%8B%E4%B8%A4%E4%B8%AA%E8%AF%AD%E6%B3%95%E7%9A%84%E4%BD%BF%E7%94%A8">😏简单介绍一下两个语法的使用</a></li>
+<li><a href="#%E5%B0%86%E4%B8%8A%E9%9D%A2%E7%9A%84%E6%95%B0%E7%BB%84%E8%BD%AC%E6%8D%A2%E6%88%90%E4%B8%8B%E9%9D%A2%E6%95%B0%E7%BB%84%E7%9A%84%E5%BD%A2%E5%BC%8F">将上面的数组转换成下面数组的形式</a>
+<ul>
+<li><a href="#%E6%80%9D%E8%B7%AF">思路：</a></li>
+<li><a href="#%E7%9F%A5%E8%AF%86%E7%82%B9">知识点：</a></li>
 </ul>
 </li>
-<li><a href="#%E4%B8%80-%E4%BC%98%E9%9B%85%E7%9A%84%E4%BB%8B%E7%BB%8D%E4%B8%80%E4%B8%8Basync%E5%92%8Cawait">一、优雅的介绍一下async和await</a></li>
-<li><a href="#%E4%BA%8C-%E4%B8%8Ademo%E5%86%B2">二、上demo，冲！</a></li>
-<li><a href="#%E4%B8%89-await%E5%92%8Casync">三、await和async</a></li>
+</ul>
+</li>
 </ul>
 
           </div>
@@ -95,135 +97,137 @@
 <div class="mask" onclick="closeMenu()">
 </div>
       <div class="content-wrapper py-32 lg:p-8 lg:w-3/4 post-detail animated fadeIn">
-        <h1 class="text-3xl font-bold lg:mt-16">优雅的使用async和await</h1>
+        <h1 class="text-3xl font-bold lg:mt-16">算法题--数组(1)</h1>
         <div class="text-sm text-gray-700 lg:my-8">
-          2019-11-11 / 4 min read
+          2019-11-16 / 4 min read
         </div>
         
-          <img class="post-feature-image rounded-lg mx-auto my-4" src="http://pic1.win4000.com/wallpaper/5/57a823a8f0511.jpg" alt="">
+          <img class="post-feature-image rounded-lg mx-auto my-4" src="https://i0.hdslb.com/bfs/article/c62dfa0130b73c782d36745765273a578159ac94.jpg@1320w_936h.webp" alt="">
         
         <div class="post-content yue">
-          <h2 id="简单介绍一下两个语法的使用">😏简单介绍一下两个语法的使用</h2>
-<!-- more -->
-<h1 id="一-优雅的介绍一下async和await">一、优雅的介绍一下async和await</h1>
-<p><code>async</code> 函数是什么？一句话，它就是 <code>Generator</code> 函数的语法糖。<br>
-<code>async</code>函数就是将 <code>Generator</code> 函数的星号<code>（*）</code>替换成<code>async</code>，将<code>yield</code>替换成<code>await</code>，仅此而已。</p>
-<pre><code>                                                                    ————阮一峰
-</code></pre>
-<p>阮大佬的入门教程如是说道，那么我们就大概知道了<code>async/await</code>也是用来实现异步编程的方式。</p>
-<h1 id="二-上demo冲">二、上demo，冲！</h1>
-<p>在 <code>function</code> 前面加 <code>async</code> 用来说明这个函数是一个异步函数<br>
-不多说代码安排上：</p>
-<pre><code>      let sayHi = async () =&gt; {
-        console.log('hello,飞飞鱼');
-      }
-      sayHi();
-      console.log('hello,丁丁车');
-</code></pre>
-<p>看下控制台的打印：</p>
-<figure data-type="image" tabindex="1"><img src="https://skrupellose.github.io/post-images/1573486162022.png" alt=""></figure>
-<p>emm？👀这不还是同步吗？<br>
-再去看看，<code>async</code>函数返回的是一个<code>promise</code> 对象，喔，懂了！</p>
-<pre><code>      let sayHi = async () =&gt; {
-        return 'hello,飞飞鱼';
-      }
-      sayHi()
-      console.log('hello,丁丁车');
-</code></pre>
-<p>打开命运石之门：</p>
-<p><img src="https://skrupellose.github.io/post-images/1573486464645.png" alt=""><br>
-这一切都是命运石之门的选择。</p>
-<p>好吧，为什么没有打印出来呢？我们把函数<code>sayHi</code>执行结果打印一下：</p>
-<pre><code>      let sayHi = async () =&gt; {
-        return 'hello,飞飞鱼';
-      }
-      console.log(sayHi());
-      console.log('hello,丁丁车');
-</code></pre>
-<p><img src="https://skrupellose.github.io/post-images/1573486614613.png" alt=""><br>
-额， 忘了返回的是<code>promise对象</code>，那我们直接<code>.then()</code>取值。</p>
-<pre><code>      let sayHi = async () =&gt; {
-       return 'hello,飞飞鱼';
-      }
-      sayHi().then(res =&gt; console.log(res));
-      console.log('hello,丁丁车');
-</code></pre>
-<p><img src="https://skrupellose.github.io/post-images/1573486806717.png" alt=""><br>
-秒啊！我们发现了的确先打印的<code>hello,丁丁车</code>,然后打印的<code>hello,飞飞鱼</code>，证明sayHi的确是异步函数。</p>
-<h1 id="三-await和async">三、await和async</h1>
-<p><code>await</code>后面可以放任何表达式，不过我们更多的是放一个返回<code>promise</code>对象的表达式。注意<code>await</code> 关键字只能放到<code>async</code>函数里面</p>
-<pre><code>      let delay = word =&gt; {
-        return new Promise((resolve, reject) =&gt; {
-          setTimeout(() =&gt; {
-            resolve(word)
-          },2000);
-        })
-      }
-</code></pre>
-<p>先写个2s后执行的<code>delay</code>函数返回一个<code>promise</code>对象，然后再写一个异步函数来调用它</p>
-<pre><code>      let show = async () =&gt; {
-        let res1 = await delay('I');
-        console.log(res1);
-      }
-      show()
-</code></pre>
-<p>然后我们发现2s后的确打印了：<br>
-<img src="https://skrupellose.github.io/post-images/1573487475797.png" alt=""><br>
-那么我们继续添加，尝试用优雅的写法</p>
-<pre><code>      let show = async () =&gt; {
-        let res1 = await delay(&quot;I&quot;);
-        let res2 = await delay(&quot;love&quot;);
-        let res3 = await delay(&quot;YOU&quot;);
-        console.log(res1 + &quot; &quot; + res2 + &quot; &quot; + res3);
-      };
-      show();
-</code></pre>
-<p>然后6s后，打印出了：<br>
-<img src="https://skrupellose.github.io/post-images/1573487604909.png" alt=""></p>
-<p>秒啊，用优雅的同步写法完成了异步操作。<br>
-这里运行的步骤是<code>show</code>函数执行，然后发现了<code>await</code>，它等待第一次<code>promise</code>对象执行完毕，拿到<code>promise resolve</code>的值并进行返回,然后继续向下执行，又发现<code>await</code>，又开始等待，然后重复，最后在6s之后成功完成打印。</p>
-<p>2019-11-14 补充：</p>
-<pre><code>async function f() {
-return await 123;
-}
+          <h2 id="将上面的数组转换成下面数组的形式">将上面的数组转换成下面数组的形式</h2>
+<pre><code>      [
+        { name: &quot;a&quot;, hobby: &quot;football&quot; },
+        { name: &quot;b&quot;, hobby: &quot;basketball&quot; },
+        { name: &quot;a&quot;, hobby: &quot;swim&quot; },
+        { naem: &quot;b&quot;, hobby: &quot;computer&quot; }
+      ];
 
-f().then(v =&gt; console.log(v))
-// 123
+      [
+        {name: 'a', hobby: 'football, swim'},
+        {name: 'b', hobby: 'basketball, computer'}
+      ]
 </code></pre>
-<p>这里打印123的原因：<br>
-1.因为f函数return了一个由await生成的Promise对象，这个对象取代了f函数自己形成的Promise，所以最后通过then()方法返回的是123而不是Promise对象（await参数为123，它被转成Promise对象，它被立即resolve）</p>
-<p>正常情况下，await命令后面是一个 Promise 对象，返回该对象的结果。如果不是 Promise 对象，就直接返回对应的值。</p>
+<h3 id="思路">思路：</h3>
+<ol>
+<li>新建一个空的新数组，使用<code>forEach</code>遍历原数组取得每一个对象</li>
+<li>进行判断，若此时新数组为空，则将此遍历到的这个对象<code>push</code>到新数组；</li>
+<li>若此时新数组不为空，则使用<code>findIndex()</code>方法，判断当前对象的名称在数组中是否已经存在，若存在则通过返回的索引将值<code>push</code>进对应的对象的<code>hobby</code>属性里，若不存在则将该对象<code>push</code>进新数组</li>
+</ol>
+<h3 id="知识点">知识点：</h3>
+<p><strong>forEach()</strong><br>
+<code>forEach()</code> 方法按升序为数组中含有效值的每一项执行一次<code>callback</code> 函数，那些已删除或者未初始化的项将被跳过</p>
+<p><code>array.forEach(function(currentValue, index, arr), thisValue)</code></p>
+<p>回调函数参数：</p>
+<ul>
+<li><code>currentValue</code>	必需。当前元素</li>
+<li><code>index</code>  可选。当前元素的索引值。</li>
+<li><code>arr</code>	 可选。当前元素所属的数组对象。</li>
+</ul>
+<p><strong>findIndex()</strong><br>
+<code>findIndex()</code> 方法返回传入一个测试条件（函数）符合条件的数组第一个元素位置。</p>
+<p><code>findIndex()</code> 方法为数组中的每个元素都调用一次函数执行：</p>
+<p>当数组中的元素在测试条件时返回 <code>true</code> 时, <code>findIndex()</code>返回符合条件的元素的索引位置，之后的值不会再调用执行函数。<br>
+如果没有符合条件的元素返回 <code>-1</code></p>
+<p><code>array.findIndex(function(currentValue, index, arr), thisValue)</code><br>
+回调函数参数：</p>
+<ul>
+<li><code>currentValue</code> 	必需。当前元素</li>
+<li><code>index</code>  可选。当前元素的索引值。</li>
+<li><code>arr</code>	 可选。当前元素所属的数组对象。</li>
+</ul>
+<p>**hasOwnProperty() **<br>
+<code>hasOwnProperty()</code>方法会返回一个布尔值，指示对象自身属性中是否具有指定的属性（也就是，是否有指定的键）。</p>
+<p><code>obj.hasOwnProperty(prop)</code></p>
+<p>参数：</p>
+<p><code>prop</code>：要检测的属性的<code>String</code>字符串形式表示的名称，或者<code>Symbol</code></p>
+<pre><code>      const arr = [
+
+        { name: &quot;b&quot;, hobby: &quot;basketball&quot; },
+        { name: &quot;a&quot;, hobby: &quot;swim&quot; },
+        { name: &quot;b&quot;, hobby: &quot;computer&quot; },
+        { name: &quot;a&quot;, hobby: &quot;football&quot; }
+      ];
+      let resArr = []
+      arr.forEach((item, index) =&gt; {
+        if (resArr.length) {
+          const res = resArr.findIndex(_item =&gt; _item.name === item.name)
+          if ((res === -1)) {
+            resArr.push({
+              name: item.name,
+              hobby: [item.hobby]
+            });
+          } else {
+            resArr[res][&quot;hobby&quot;].push(item.hobby)
+          }
+        } else {
+          resArr.push({
+            name: item.name,
+            hobby: [item.hobby]
+          })
+        }
+      })
+      console.log(resArr) //[{name: &quot;a&quot; hobby:  [&quot;swim&quot;, &quot;football&quot;]}, {name: &quot;b&quot; hobby: [&quot;basketball&quot;, &quot;computer&quot;]}]
+</code></pre>
+<p>还有另一种写法，思路与上面的大同小异，只是通过<code>hasOwnProperty</code>来判断是否已有重复属性，然后用<code>findIndex()</code>来得到索引。</p>
+<pre><code>      let obj1 = {};
+      let objArr = [];
+      const arr = [
+        { name: &quot;a&quot;, hobby: &quot;football&quot; },
+        { name: &quot;b&quot;, hobby: &quot;basketball&quot; },
+        { name: &quot;a&quot;, hobby: &quot;swim&quot; },
+        { name: &quot;b&quot;, hobby: &quot;computer&quot; }
+      ];
+
+      arr.forEach((item, index) =&gt; {
+        if (obj1.hasOwnProperty(item.name)) {
+          const index = objArr.findIndex(
+            objArrItem =&gt; item.name === objArrItem.name
+          );
+          objArr[index].hobby.push(item.hobby);
+        } else {
+          objArr.push({
+            name: item.name,
+            hobby: [item.hobby]
+          });
+          obj1[item.name] = index;
+        }
+      });
+      console.log(objArr); //[{name: &quot;a&quot; hobby:  [&quot;swim&quot;, &quot;football&quot;]}, {name: &quot;b&quot; hobby: [&quot;basketball&quot;, &quot;computer&quot;]}]
+      console.log(obj1); //{a: 0, b: 1}
+</code></pre>
 
         </div>
 
         
-          <a class="animated fadeInUp p-2 items-center text-sm text-gray-700 border hover:bg-gray-300 leading-none rounded-full flex lg:inline-flex m-4 " href="https://skrupellose.github.io/tag/iOcEPOSlg">
-            <span class="flex-auto">es6</span>
+          <a class="animated fadeInUp p-2 items-center text-sm text-gray-700 border hover:bg-gray-300 leading-none rounded-full flex lg:inline-flex m-4 " href="https://skrupellose.github.io/tag/YxEWvaaCT">
+            <span class="flex-auto">算法题</span>
           </a>
         
-          <a class="animated fadeInUp p-2 items-center text-sm text-gray-700 border hover:bg-gray-300 leading-none rounded-full flex lg:inline-flex m-4 " href="https://skrupellose.github.io/tag/qZAGnAXQq">
-            <span class="flex-auto">js</span>
+          <a class="animated fadeInUp p-2 items-center text-sm text-gray-700 border hover:bg-gray-300 leading-none rounded-full flex lg:inline-flex m-4 " href="https://skrupellose.github.io/tag/US3GCl6wY">
+            <span class="flex-auto">数组</span>
           </a>
         
 
 
         <div class="flex justify-between py-8">
           
-            <div class="prev-post">
-              <a href="https://skrupellose.github.io/post/shen-qian-kao-bei-xiao-zong-jie">
-                <h3 class="post-title">
-                  <i class="remixicon-arrow-left-line"></i>
-                  深浅拷贝小总结
-                </h3>
-              </a>
-            </div>
-          
 
           
             <div class="next-post">
-              <a href="https://skrupellose.github.io/post/v-bind-de-liang-san-shi">
+              <a href="https://skrupellose.github.io/post/fetch-he-axios-de-shang-shou-shi-yong">
                 <h3 class="post-title">
-                  v-bind的两三事
+                  fetch和axios的上手使用
                   <i class="remixicon-arrow-right-line"></i>
                 </h3>
               </a>

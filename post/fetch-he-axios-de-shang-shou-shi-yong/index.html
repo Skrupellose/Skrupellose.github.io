@@ -4,7 +4,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>D.C </title>
 <meta name="description" content="人类世界真是太有趣了" />
-<link rel="shortcut icon" href="https://skrupellose.github.io/favicon.ico?v=1573748829898">
+<link rel="shortcut icon" href="https://skrupellose.github.io/favicon.ico?v=1573921684289">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
 <link href="https://cdn.remixicon.com/releases/v1.3.1/remixicon.css" rel="stylesheet">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
@@ -24,7 +24,7 @@
       <div class="flex lg:block p-4 lg:px-0 items-center fixed lg:static lg:block top-0 right-0 left-0 bg-white z-50">
         <i class="remixicon-menu-2-line lg:mt-4 text-2xl cursor-pointer animated fadeIn" onclick="openMenu()"></i>
         <a href="https://skrupellose.github.io">
-          <img class="animated fadeInLeft avatar rounded-lg mx-4 lg:mt-32 lg:mx-0 mt-0 lg:w-24 lg:h-24 w-12 w-12" src="https://skrupellose.github.io/images/avatar.png?v=1573748829898" alt="">
+          <img class="animated fadeInLeft avatar rounded-lg mx-4 lg:mt-32 lg:mx-0 mt-0 lg:w-24 lg:h-24 w-12 w-12" src="https://skrupellose.github.io/images/avatar.png?v=1573921684289" alt="">
         </a>
         <h1 class="animated fadeInLeft lg:text-4xl font-extrabold lg:mt-8 mt-0 text-xl" style="animation-delay: 0.2s">D.C </h1>
       </div>
@@ -316,6 +316,15 @@
           console.log(res);
         })
 </code></pre>
+<p>补充：我们还可以新建一个<code>axios</code>实例对象来进行一些配置</p>
+<pre><code>const $axios = axios.create({
+  // 设置超时时间
+  timeout: 30000,
+  // 基础url，会在请求url中自动添加前置链接
+  baseURL: &quot;url&quot;
+});
+</code></pre>
+<p>这样我们在后面使用<code>axios</code>发送请求的时候就不用写那么长的url了</p>
 
         </div>
 
@@ -335,6 +344,15 @@
 
 
         <div class="flex justify-between py-8">
+          
+            <div class="prev-post">
+              <a href="https://skrupellose.github.io/post/suan-fa-ti-shu-zu-1">
+                <h3 class="post-title">
+                  <i class="remixicon-arrow-left-line"></i>
+                  算法题--数组(1)
+                </h3>
+              </a>
+            </div>
           
 
           
