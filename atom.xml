@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://skrupellose.github.io</id>
     <title>D.C </title>
-    <updated>2019-11-16T16:28:40.524Z</updated>
+    <updated>2019-11-16T16:32:04.702Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://skrupellose.github.io"/>
     <link rel="self" href="https://skrupellose.github.io/atom.xml"/>
@@ -57,7 +57,7 @@
 <li><code>index</code>  可选。当前元素的索引值。</li>
 <li><code>arr</code>	 可选。当前元素所属的数组对象。</li>
 </ul>
-<p>**hasOwnProperty() **<br>
+<p><strong>hasOwnProperty()</strong><br>
 <code>hasOwnProperty()</code>方法会返回一个布尔值，指示对象自身属性中是否具有指定的属性（也就是，是否有指定的键）。</p>
 <p><code>obj.hasOwnProperty(prop)</code></p>
 <p>参数：</p>
