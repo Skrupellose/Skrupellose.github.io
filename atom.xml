@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://skrupellose.github.io</id>
     <title>D.C </title>
-    <updated>2019-11-17T14:54:31.789Z</updated>
+    <updated>2019-11-17T15:29:07.501Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://skrupellose.github.io"/>
     <link rel="self" href="https://skrupellose.github.io/atom.xml"/>
@@ -10,6 +10,15 @@
     <logo>https://skrupellose.github.io/images/avatar.png</logo>
     <icon>https://skrupellose.github.io/favicon.ico</icon>
     <rights>All rights reserved 2019, D.C </rights>
+    <entry>
+        <title type="html"><![CDATA[vue+element.ui+axios做一个简单用户管理demo]]></title>
+        <id>https://skrupellose.github.io/post/vueelementuiaxios-zuo-yi-ge-jian-dan-yong-hu-guan-li-demo</id>
+        <link href="https://skrupellose.github.io/post/vueelementuiaxios-zuo-yi-ge-jian-dan-yong-hu-guan-li-demo">
+        </link>
+        <updated>2019-11-17T14:55:23.000Z</updated>
+        <content type="html"><![CDATA[<h1 id="技术栈">技术栈</h1>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[算法题--数组(1)]]></title>
         <id>https://skrupellose.github.io/post/suan-fa-ti-shu-zu-1</id>
