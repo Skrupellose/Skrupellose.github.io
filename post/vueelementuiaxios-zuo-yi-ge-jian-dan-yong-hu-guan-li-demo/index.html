@@ -4,7 +4,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>D.C </title>
 <meta name="description" content="人类世界真是太有趣了" />
-<link rel="shortcut icon" href="https://skrupellose.github.io/favicon.ico?v=1574006212107">
+<link rel="shortcut icon" href="https://skrupellose.github.io/favicon.ico?v=1574085155362">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
 <link href="https://cdn.remixicon.com/releases/v1.3.1/remixicon.css" rel="stylesheet">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
@@ -24,7 +24,7 @@
       <div class="flex lg:block p-4 lg:px-0 items-center fixed lg:static lg:block top-0 right-0 left-0 bg-white z-50">
         <i class="remixicon-menu-2-line lg:mt-4 text-2xl cursor-pointer animated fadeIn" onclick="openMenu()"></i>
         <a href="https://skrupellose.github.io">
-          <img class="animated fadeInLeft avatar rounded-lg mx-4 lg:mt-32 lg:mx-0 mt-0 lg:w-24 lg:h-24 w-12 w-12" src="https://skrupellose.github.io/images/avatar.png?v=1574006212107" alt="">
+          <img class="animated fadeInLeft avatar rounded-lg mx-4 lg:mt-32 lg:mx-0 mt-0 lg:w-24 lg:h-24 w-12 w-12" src="https://skrupellose.github.io/images/avatar.png?v=1574085155362" alt="">
         </a>
         <h1 class="animated fadeInLeft lg:text-4xl font-extrabold lg:mt-8 mt-0 text-xl" style="animation-delay: 0.2s">D.C </h1>
       </div>
@@ -35,7 +35,15 @@
           </p>
           <div class="toc-container hidden lg:block">
             <ul class="markdownIt-TOC">
-<li><a href="#%E6%8A%80%E6%9C%AF%E6%A0%88">技术栈</a></li>
+<li><a href="#%E4%B8%80-%E6%8A%80%E6%9C%AF%E6%A0%88">一、技术栈</a></li>
+<li><a href="#%E4%BA%8C-%E5%87%86%E5%A4%87%E5%B7%A5%E4%BD%9C">二、准备工作</a></li>
+<li><a href="#%E4%B8%89-%E5%85%B7%E4%BD%93%E5%AE%9E%E7%8E%B0">三、具体实现</a>
+<ul>
+<li><a href="#31-%E7%94%A8%E6%88%B7%E6%95%B0%E6%8D%AE%E5%B1%95%E7%A4%BA%E5%92%8C%E5%88%A0%E9%99%A4">3.1 用户数据展示和删除</a></li>
+<li><a href="#32-%E7%94%A8%E6%88%B7%E6%B7%BB%E5%8A%A0">3.2 用户添加</a></li>
+<li><a href="#33-%E7%94%A8%E6%88%B7%E6%90%9C%E7%B4%A2">3.3 用户搜索</a></li>
+</ul>
+</li>
 </ul>
 
           </div>
@@ -90,14 +98,153 @@
       <div class="content-wrapper py-32 lg:p-8 lg:w-3/4 post-detail animated fadeIn">
         <h1 class="text-3xl font-bold lg:mt-16">vue+element.ui+axios做一个简单用户管理demo</h1>
         <div class="text-sm text-gray-700 lg:my-8">
-          2019-11-17 / 1 min read
+          2019-11-17 / 6 min read
         </div>
         
+          <img class="post-feature-image rounded-lg mx-auto my-4" src="https://i0.hdslb.com/bfs/article/84f9f73a6e08a3027890b3e39239fec8abd2f383.jpg@1320w_742h.webp" alt="">
+        
         <div class="post-content yue">
-          <h1 id="技术栈">技术栈</h1>
+          <h1 id="一-技术栈">一、技术栈</h1>
+<p>vue、element.ui、axios</p>
+<h1 id="二-准备工作">二、准备工作</h1>
+<p>接口：<br>
+<code>http://www.liulongbin.top:3005/</code><br>
+这是在b站上小伙伴留下的测试接口</p>
+<p>要实现的功能：</p>
+<ol>
+<li>
+<p>添加用户<br>
+<img src="https://skrupellose.github.io/post-images/1574007328629.png" alt=""></p>
+</li>
+<li>
+<p>搜索功能<br>
+<img src="https://skrupellose.github.io/post-images/1574007313864.png" alt=""><br>
+<img src="https://skrupellose.github.io/post-images/1574007386230.png" alt=""></p>
+</li>
+<li>
+<p>删除用户<br>
+<img src="https://skrupellose.github.io/post-images/1574007394205.png" alt=""></p>
+</li>
+</ol>
+<h1 id="三-具体实现">三、具体实现</h1>
+<h2 id="31-用户数据展示和删除">3.1 用户数据展示和删除</h2>
+<p>我们的用户数据用table显示，新增用户用form结合dialog组件实现。</p>
+<p>这里主要是讲 <code>&lt;template slot-scope=&quot;scope&quot;&gt;</code>,官方文档讲通过<code>Scoped slot</code>可以获取到<code>row</code>, <code>column</code>, <code>$index</code> 和 <code>store（table 内部的状态管理）</code>的数据。<br>
+我们一般表格只是显示数据的话，那么我们只需要在<code>el-table-column</code>标签中添加prop属性，填上对应的值，那么表格就能渲染出来。如：</p>
+<pre><code>        &lt;el-table :data=&quot;tableData&quot; ref=&quot;tableData&quot; border stripe&gt;
+          &lt;el-table-column label=&quot;序号&quot; width=&quot;90&quot; prop=&quot;id&quot;&gt;
+          &lt;/el-table-column&gt;
+           &lt;el-table-column label=&quot;用户名&quot; prop=&quot;name&quot;&gt;
+          &lt;/el-table-column&gt;
+           &lt;el-table-column label=&quot;时间&quot; prop=&quot;ctime&quot;&gt;
+          &lt;/el-table-column&gt;
+        &lt;/el-table&gt;
+</code></pre>
+<p>但是这样我们不好监听删除事件，所以我们使用<code>&lt;template slot-scope=&quot;scope&quot;&gt;</code></p>
+<pre><code>        &lt;el-table :data=&quot;tableData&quot; ref=&quot;tableData&quot; border stripe&gt;
+          &lt;el-table-column label=&quot;序号&quot; width=&quot;90&quot;&gt;
+            &lt;template slot-scope=&quot;scope&quot;&gt;
+              &lt;span style=&quot;margin-left: 10px&quot;&gt;{{ scope.row.id }}&lt;/span&gt;
+            &lt;/template&gt;
+          &lt;/el-table-column&gt;
+          &lt;el-table-column label=&quot;用户名&quot;&gt;
+            &lt;template slot-scope=&quot;scope&quot;&gt;
+              &lt;span style=&quot;margin-left: 10px&quot;&gt;{{ scope.row.name }}&lt;/span&gt;
+            &lt;/template&gt;
+          &lt;/el-table-column&gt;
+          &lt;el-table-column label=&quot;时间&quot;&gt;
+            &lt;template slot-scope=&quot;scope&quot;&gt;
+              &lt;span style=&quot;margin-left: 10px&quot;&gt;{{ scope.row.ctime }}&lt;/span&gt;
+            &lt;/template&gt;
+          &lt;/el-table-column&gt;
+          &lt;el-table-column label=&quot;操作&quot; width=&quot;160&quot;&gt;
+            &lt;template slot-scope=&quot;scope&quot;&gt;
+              &lt;el-button type=&quot;primary&quot;&gt;编辑&lt;/el-button&gt;
+              &lt;el-button @click.native.prevent=&quot;_del(scope.row.id)&quot; type=&quot;danger&quot;&gt;移除&lt;/el-button&gt;
+            &lt;/template&gt;
+          &lt;/el-table-column&gt;
+        &lt;/el-table&gt;
+</code></pre>
+<p>通过<code>scope.row.id</code>我们就能得到当前点击的数据的id值，这也是它的唯一索引，我们通过向后台提交这个值来达到删除该条数据的目的。</p>
+<pre><code>function del(id) {
+  const url = &quot;api/delproduct/&quot;;
+  return $axios.get(url + id);
+</code></pre>
+<pre><code>method:
+
+   _del(id) {
+      del(id).then(res =&gt; {
+        const result = res.data;
+        if (result.status === 0) {
+          this._getlist();//删除之后获取新数据达到刷新效果
+        }
+        console.log(res);
+      });
+    },
+</code></pre>
+<h2 id="32-用户添加">3.2 用户添加</h2>
+<p>我们获取用户列表的时候执行一次axios请求，添加之后也要执行一下这个方法达到刷新的目的，删除也是这样。</p>
+<pre><code>const $axios = axios.create({
+  // 设置超时时间
+  timeout: 30000,
+  // 基础url，会在请求url中自动添加前置链接
+  baseURL: &quot;http://www.liulongbin.top:3005/&quot;
+});
+</code></pre>
+<p>我们还是配置一下我们的axios实例，这样后面写url的时候会方便很多。<br>
+获取列表的方法：</p>
+<pre><code>function getlist() {
+  const url = &quot;api/getprodlist&quot;;
+  return $axios.get(url);
+}
+</code></pre>
+<p>然后在method中对这个请求做一下处理：</p>
+<pre><code>    _getlist() {
+      getlist().then(res =&gt; {
+        console.log(res);
+        this.allList = res.data.message;
+        this.tableData = this.allList;
+      });
+    },
+</code></pre>
+<p>之后我们在<code>create</code>的时候第一次执行<code>_getlist()</code>获取用户信息。<br>
+用户添加功能我们写在<code>form</code>表单里面，然后写一个<code>dialog</code>控件把<code>form</code>嵌在<code>dialog</code>上，平时使它的值为<code>false</code>，在点击添加的时候变为<code>true</code>，这样<code>dialog</code>就会显示出来，我们就能在<code>form</code>上添加用户了。</p>
+<p>这里需要注意的一点就是关于函数的this指向，我之前也是将<code>add()</code>函数封装了一下，外面又套了一个函数<code>_add()</code>对<code>add()</code>方法返回的信息进行处理，在添加用户的时候调用_add()方法，然后传值<code>this.formData.name</code>,但是这个时候this指向的不是表单，而是调用套在它外面的<code>_add()</code>函数（add方法是<code>axios</code>请求，此时在<code>add</code>方法里传<code>this.formData.name</code>的话就会去调用它的<code>_add</code>方法里去找）。</p>
+<p>所以我们直接写一个addUser方法就好：</p>
+<pre><code>    addUser() {
+      const url = &quot;api/addproduct&quot;;
+      $axios.post(url, { name: this.formData.name }).then(res =&gt; {
+        const result = res.data;
+        if (result.status === 0) {
+          this._getlist();
+        }
+      });
+</code></pre>
+<p>在添加成功用户之后再执行一次<code>_getlist()</code>方法刷新页面。</p>
+<h2 id="33-用户搜索">3.3 用户搜索</h2>
+<p>我们首先新建一个数组来储存符合要求的用户，然后给input输入框设置双向绑定来获取当前里面的值，然后通过在总数据中使用forEach遍历，对每个数据的名字用IndexOf进行判断看是否是我们要找的数据，如果不为-1证明是我们要找的值，将它push到新数组，然后将数组的值传给表格进行渲染。</p>
+<pre><code>    searchTab() {
+      let newlist = [];
+      this.allList.forEach(item =&gt; {
+        if (item.name.indexOf(this.keywords) != -1) {
+          newlist.push(item);
+        }
+      });
+      this.tableData = newlist;
+    },
+</code></pre>
+<p>一个和这个差不多的<a href="https://github.com/Skrupellose/manage-demo/blob/master/index.html">例子</a></p>
 
         </div>
 
+        
+          <a class="animated fadeInUp p-2 items-center text-sm text-gray-700 border hover:bg-gray-300 leading-none rounded-full flex lg:inline-flex m-4 " href="https://skrupellose.github.io/tag/4tSxaGaLB">
+            <span class="flex-auto">axios</span>
+          </a>
+        
+          <a class="animated fadeInUp p-2 items-center text-sm text-gray-700 border hover:bg-gray-300 leading-none rounded-full flex lg:inline-flex m-4 " href="https://skrupellose.github.io/tag/2F5bZ1YNL">
+            <span class="flex-auto">vue</span>
+          </a>
         
 
 

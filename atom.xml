@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://skrupellose.github.io</id>
     <title>D.C </title>
-    <updated>2019-11-17T15:56:57.558Z</updated>
+    <updated>2019-11-18T13:52:39.344Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://skrupellose.github.io"/>
     <link rel="self" href="https://skrupellose.github.io/atom.xml"/>
@@ -16,7 +16,136 @@
         <link href="https://skrupellose.github.io/post/vueelementuiaxios-zuo-yi-ge-jian-dan-yong-hu-guan-li-demo">
         </link>
         <updated>2019-11-17T14:55:23.000Z</updated>
-        <content type="html"><![CDATA[<h1 id="技术栈">技术栈</h1>
+        <content type="html"><![CDATA[<h1 id="一-技术栈">一、技术栈</h1>
+<p>vue、element.ui、axios</p>
+<h1 id="二-准备工作">二、准备工作</h1>
+<p>接口：<br>
+<code>http://www.liulongbin.top:3005/</code><br>
+这是在b站上小伙伴留下的测试接口</p>
+<p>要实现的功能：</p>
+<ol>
+<li>
+<p>添加用户<br>
+<img src="https://skrupellose.github.io/post-images/1574007328629.png" alt=""></p>
+</li>
+<li>
+<p>搜索功能<br>
+<img src="https://skrupellose.github.io/post-images/1574007313864.png" alt=""><br>
+<img src="https://skrupellose.github.io/post-images/1574007386230.png" alt=""></p>
+</li>
+<li>
+<p>删除用户<br>
+<img src="https://skrupellose.github.io/post-images/1574007394205.png" alt=""></p>
+</li>
+</ol>
+<h1 id="三-具体实现">三、具体实现</h1>
+<h2 id="31-用户数据展示和删除">3.1 用户数据展示和删除</h2>
+<p>我们的用户数据用table显示，新增用户用form结合dialog组件实现。</p>
+<p>这里主要是讲 <code>&lt;template slot-scope=&quot;scope&quot;&gt;</code>,官方文档讲通过<code>Scoped slot</code>可以获取到<code>row</code>, <code>column</code>, <code>$index</code> 和 <code>store（table 内部的状态管理）</code>的数据。<br>
+我们一般表格只是显示数据的话，那么我们只需要在<code>el-table-column</code>标签中添加prop属性，填上对应的值，那么表格就能渲染出来。如：</p>
+<pre><code>        &lt;el-table :data=&quot;tableData&quot; ref=&quot;tableData&quot; border stripe&gt;
+          &lt;el-table-column label=&quot;序号&quot; width=&quot;90&quot; prop=&quot;id&quot;&gt;
+          &lt;/el-table-column&gt;
+           &lt;el-table-column label=&quot;用户名&quot; prop=&quot;name&quot;&gt;
+          &lt;/el-table-column&gt;
+           &lt;el-table-column label=&quot;时间&quot; prop=&quot;ctime&quot;&gt;
+          &lt;/el-table-column&gt;
+        &lt;/el-table&gt;
+</code></pre>
+<p>但是这样我们不好监听删除事件，所以我们使用<code>&lt;template slot-scope=&quot;scope&quot;&gt;</code></p>
+<pre><code>        &lt;el-table :data=&quot;tableData&quot; ref=&quot;tableData&quot; border stripe&gt;
+          &lt;el-table-column label=&quot;序号&quot; width=&quot;90&quot;&gt;
+            &lt;template slot-scope=&quot;scope&quot;&gt;
+              &lt;span style=&quot;margin-left: 10px&quot;&gt;{{ scope.row.id }}&lt;/span&gt;
+            &lt;/template&gt;
+          &lt;/el-table-column&gt;
+          &lt;el-table-column label=&quot;用户名&quot;&gt;
+            &lt;template slot-scope=&quot;scope&quot;&gt;
+              &lt;span style=&quot;margin-left: 10px&quot;&gt;{{ scope.row.name }}&lt;/span&gt;
+            &lt;/template&gt;
+          &lt;/el-table-column&gt;
+          &lt;el-table-column label=&quot;时间&quot;&gt;
+            &lt;template slot-scope=&quot;scope&quot;&gt;
+              &lt;span style=&quot;margin-left: 10px&quot;&gt;{{ scope.row.ctime }}&lt;/span&gt;
+            &lt;/template&gt;
+          &lt;/el-table-column&gt;
+          &lt;el-table-column label=&quot;操作&quot; width=&quot;160&quot;&gt;
+            &lt;template slot-scope=&quot;scope&quot;&gt;
+              &lt;el-button type=&quot;primary&quot;&gt;编辑&lt;/el-button&gt;
+              &lt;el-button @click.native.prevent=&quot;_del(scope.row.id)&quot; type=&quot;danger&quot;&gt;移除&lt;/el-button&gt;
+            &lt;/template&gt;
+          &lt;/el-table-column&gt;
+        &lt;/el-table&gt;
+</code></pre>
+<p>通过<code>scope.row.id</code>我们就能得到当前点击的数据的id值，这也是它的唯一索引，我们通过向后台提交这个值来达到删除该条数据的目的。</p>
+<pre><code>function del(id) {
+  const url = &quot;api/delproduct/&quot;;
+  return $axios.get(url + id);
+</code></pre>
+<pre><code>method:
+
+   _del(id) {
+      del(id).then(res =&gt; {
+        const result = res.data;
+        if (result.status === 0) {
+          this._getlist();//删除之后获取新数据达到刷新效果
+        }
+        console.log(res);
+      });
+    },
+</code></pre>
+<h2 id="32-用户添加">3.2 用户添加</h2>
+<p>我们获取用户列表的时候执行一次axios请求，添加之后也要执行一下这个方法达到刷新的目的，删除也是这样。</p>
+<pre><code>const $axios = axios.create({
+  // 设置超时时间
+  timeout: 30000,
+  // 基础url，会在请求url中自动添加前置链接
+  baseURL: &quot;http://www.liulongbin.top:3005/&quot;
+});
+</code></pre>
+<p>我们还是配置一下我们的axios实例，这样后面写url的时候会方便很多。<br>
+获取列表的方法：</p>
+<pre><code>function getlist() {
+  const url = &quot;api/getprodlist&quot;;
+  return $axios.get(url);
+}
+</code></pre>
+<p>然后在method中对这个请求做一下处理：</p>
+<pre><code>    _getlist() {
+      getlist().then(res =&gt; {
+        console.log(res);
+        this.allList = res.data.message;
+        this.tableData = this.allList;
+      });
+    },
+</code></pre>
+<p>之后我们在<code>create</code>的时候第一次执行<code>_getlist()</code>获取用户信息。<br>
+用户添加功能我们写在<code>form</code>表单里面，然后写一个<code>dialog</code>控件把<code>form</code>嵌在<code>dialog</code>上，平时使它的值为<code>false</code>，在点击添加的时候变为<code>true</code>，这样<code>dialog</code>就会显示出来，我们就能在<code>form</code>上添加用户了。</p>
+<p>这里需要注意的一点就是关于函数的this指向，我之前也是将<code>add()</code>函数封装了一下，外面又套了一个函数<code>_add()</code>对<code>add()</code>方法返回的信息进行处理，在添加用户的时候调用_add()方法，然后传值<code>this.formData.name</code>,但是这个时候this指向的不是表单，而是调用套在它外面的<code>_add()</code>函数（add方法是<code>axios</code>请求，此时在<code>add</code>方法里传<code>this.formData.name</code>的话就会去调用它的<code>_add</code>方法里去找）。</p>
+<p>所以我们直接写一个addUser方法就好：</p>
+<pre><code>    addUser() {
+      const url = &quot;api/addproduct&quot;;
+      $axios.post(url, { name: this.formData.name }).then(res =&gt; {
+        const result = res.data;
+        if (result.status === 0) {
+          this._getlist();
+        }
+      });
+</code></pre>
+<p>在添加成功用户之后再执行一次<code>_getlist()</code>方法刷新页面。</p>
+<h2 id="33-用户搜索">3.3 用户搜索</h2>
+<p>我们首先新建一个数组来储存符合要求的用户，然后给input输入框设置双向绑定来获取当前里面的值，然后通过在总数据中使用forEach遍历，对每个数据的名字用IndexOf进行判断看是否是我们要找的数据，如果不为-1证明是我们要找的值，将它push到新数组，然后将数组的值传给表格进行渲染。</p>
+<pre><code>    searchTab() {
+      let newlist = [];
+      this.allList.forEach(item =&gt; {
+        if (item.name.indexOf(this.keywords) != -1) {
+          newlist.push(item);
+        }
+      });
+      this.tableData = newlist;
+    },
+</code></pre>
+<p>一个和这个差不多的<a href="https://github.com/Skrupellose/manage-demo/blob/master/index.html">例子</a></p>
 ]]></content>
     </entry>
     <entry>
