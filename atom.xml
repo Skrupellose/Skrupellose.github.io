@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://skrupellose.github.io</id>
     <title>D.C </title>
-    <updated>2019-11-18T13:52:39.344Z</updated>
+    <updated>2019-11-24T16:08:02.625Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://skrupellose.github.io"/>
     <link rel="self" href="https://skrupellose.github.io/atom.xml"/>
@@ -10,6 +10,115 @@
     <logo>https://skrupellose.github.io/images/avatar.png</logo>
     <icon>https://skrupellose.github.io/favicon.ico</icon>
     <rights>All rights reserved 2019, D.C </rights>
+    <entry>
+        <title type="html"><![CDATA[有趣的axios源码（一）]]></title>
+        <id>https://skrupellose.github.io/post/you-qu-de-axios-yuan-ma-yi</id>
+        <link href="https://skrupellose.github.io/post/you-qu-de-axios-yuan-ma-yi">
+        </link>
+        <updated>2019-11-24T14:48:17.000Z</updated>
+        <content type="html"><![CDATA[<h1 id="一-现象">一、现象：</h1>
+<p>若我们添加两组请求和响应拦截器<br>
+请求拦截器先添加的后执行，响应拦截器先添加的先执行。</p>
+<pre><code>axios.interceptors.request.use(
+  config =&gt; {
+    console.log('request interceptor1 onResolved()')
+      return config
+  },
+  error =&gt; {
+    console.log('request interceptor1 onResolved()')
+      return Promise.reject(error);
+  }
+)
+axios.interceptors.request.use(
+  config =&gt; {
+    console.log('request interceptor2 onResolved()')
+      return config
+  },
+  error =&gt; {
+    console.log('request interceptor2 onResolved()')
+      return Promise.reject(error);
+  }
+)
+axios.interceptors.response.use(
+  response =&gt; {
+    console.log('response interceptor1 onResolved()')
+      return response
+  },
+  error =&gt; {
+    console.log('response interceptor1 onResolved()')
+      return Promise.reject(error);
+  }
+)
+axios.interceptors.response.use(
+  response =&gt; {
+    console.log('response interceptor2 onResolved()')
+      return response
+  },
+  error =&gt; {
+    console.log('response interceptor2 onResolved()')
+      return Promise.reject(error);
+  }
+)
+</code></pre>
+<figure data-type="image" tabindex="1"><img src="https://skrupellose.github.io/post-images/1574609692911.png" alt=""></figure>
+<h1 id="二-原因">二、原因</h1>
+<p>axios基于promise进行封装<br>
+这部分的源码：(axios/lib/core/Axios.js)</p>
+<pre><code>
+  var chain = [dispatchRequest, undefined];
+  var promise = Promise.resolve(config);
+//后添加的请求拦截器放在数组前面
+  this.interceptors.request.forEach(function unshiftRequestInterceptors(interceptor) {
+//每个拦截器都包含两个回调函数一个成功的回调一个失败的回调
+    chain.unshift(interceptor.fulfilled, interceptor.rejected);
+  });
+//后添加的响应拦截器放在数组后面
+  this.interceptors.response.forEach(function pushResponseInterceptors(interceptor) {
+    chain.push(interceptor.fulfilled, interceptor.rejected);
+  });
+//通过promise的then()方法串连起所有的请求拦截器/请求方法/响应拦截器
+  while (chain.length) {
+    promise = promise.then(chain.shift(), chain.shift());
+  }
+//最后返回我们使用axios函数指定了onResolved和onRejectd的promise
+  return promise;
+};
+</code></pre>
+<p>通过分析我们可以看出这个流程的大概步骤：</p>
+<ol>
+<li>隐式创建出用来保存请求和响应拦截函数的数组 -&gt; requestInterceptor和responseInterceptor</li>
+<li>chain数组保存发送请求的函数</li>
+<li>chain数组通过unshift和push方法分别往里面添加请求拦截函数和响应拦截函数</li>
+<li>数组左边放的是请求拦截器函数</li>
+<li>数组右边放的是响应拦截器函数</li>
+</ol>
+<pre><code>//我们用1,2,3,4分别代表从第一个请求拦截器到第二个响应拦截
+1. requestInterceptor:[{fulfilled1(){}, rejected1(){}}, {fulfilled2(){}, rejected2(){}}]
+   responseInterceptor:[{fulfilled3(){}, rejected3(){}}, {fulfilled4(){}, rejected4(){}}]
+2. chain:[dispatchRequest, undefined]
+3. chain:[
+        fulfilled2, rejected2, fulfilled1, rejected1, 
+        dispatchRequest, undefined, 
+        fulfilled3, rejected3, fulfilled4, rejected4
+        ]
+//这就是最后的chain数组的样子，我们可以看到后添加的请求拦截器在数组的首位
+</code></pre>
+<p>其实看到chain.unshift请求拦截函数的时候就已经能够解释为什么添加多组响应器时请求拦截器先添加的后执行，因为unshift方法就是往数组的首位去插入元素，而push是往末尾添加元素。</p>
+<p>之后通过</p>
+<pre><code>while (chain.length) {
+    //每次取出两个元素，正好对应一个拦截器的成功回调与失败回调
+    promise = promise.then(chain.shift(), chain.shift());
+return promise;
+</code></pre>
+<p>shift()删除第一个当前数组元素并返回该数据，这也正好我们拦截器的执行顺序，从chain数组的首位开始执行。故有了我们请求拦截器先添加的后执行，响应拦截器先添加的先执行的现象<br>
+我们promise链的样子就是这样的：</p>
+<pre><code>config =&gt; (fulfilled2, rejected2) =&gt; (fulfilled1, rejected1) //请求拦截器处理
+       =&gt; (dispatchRequest, undefined) //发请求
+       =&gt; (fulfilled3, rejected3) =&gt; (fulfilled4, rejected4) //响应拦截器处理
+       =&gt; (onResolved, onRejected) //我们通过axios发送请求后的处理
+</code></pre>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[vue+element.ui+axios做一个简单用户管理demo]]></title>
         <id>https://skrupellose.github.io/post/vueelementuiaxios-zuo-yi-ge-jian-dan-yong-hu-guan-li-demo</id>
