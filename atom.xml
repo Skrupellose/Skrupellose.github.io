@@ -2,18 +2,166 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://skrupellose.github.io</id>
     <title>D.C </title>
-    <updated>2019-11-24T16:08:02.625Z</updated>
+    <updated>2020-03-04T03:30:27.090Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://skrupellose.github.io"/>
     <link rel="self" href="https://skrupellose.github.io/atom.xml"/>
     <subtitle>人类世界真是太有趣了</subtitle>
     <logo>https://skrupellose.github.io/images/avatar.png</logo>
     <icon>https://skrupellose.github.io/favicon.ico</icon>
-    <rights>All rights reserved 2019, D.C </rights>
+    <rights>All rights reserved 2020, D.C </rights>
+    <entry>
+        <title type="html"><![CDATA[flex布局的使用]]></title>
+        <id>https://skrupellose.github.io/post/flex-bu-ju-de-shi-yong/</id>
+        <link href="https://skrupellose.github.io/post/flex-bu-ju-de-shi-yong/">
+        </link>
+        <updated>2020-01-07T05:10:29.000Z</updated>
+        <content type="html"><![CDATA[<h1 id="一-认识flex布局">一、认识flex布局</h1>
+<p>flex布局已经成为了web开发中使用最多的布局方案</p>
+<h2 id="11-两个概念">1.1 两个概念</h2>
+<ul>
+<li>开启了flex布局的元素叫<code>flex container</code></li>
+<li><code>flex container</code>里面的直接子元素叫做<code>flex items</code></li>
+</ul>
+<h2 id="12-如何开启flex布局">1.2 如何开启flex布局</h2>
+<p>设置display属性为flex或者inline-flex可以成为flex container</p>
+<ul>
+<li>flex：flex container以block-level形式存在</li>
+<li>inline-flex：flex container以inline-level形式存在</li>
+</ul>
+<h1 id="二-flex布局模型">二、flex布局模型</h1>
+<figure data-type="image" tabindex="1"><img src="https://skrupellose.github.io/post-images/1578374921989.png" alt="" loading="lazy"></figure>
+<h2 id="2flex相关属性">2.flex相关属性</h2>
+<h3 id="21-应用在flex-container上的css属性">2.1 应用在flex container上的css属性</h3>
+<ul>
+<li>flex-flow</li>
+<li>flex-direction</li>
+<li>flex-wrap</li>
+<li>justify-content</li>
+<li>align-items</li>
+<li>align-content</li>
+</ul>
+<p><code>flex items</code>默认都是沿着<code>main axis</code>(主轴)从<code>main start</code>开始往<code>main end</code>方向排布</p>
+<h3 id="211-flex-direction决定了main-axis的方向有四个取值row默认-row-reverse-column-column-reverse">2.1.1 <code>flex-direction</code>决定了<code>main axis</code>的方向，有四个取值：<code>row</code>(默认)、<code>row-reverse</code>、<code>column</code>、<code>column-reverse</code></h3>
+<h3 id="212-justify-content决定flex-items的主轴mian-axis对齐方式取值">2.1.2 <code>justify-content</code>决定<code>flex items</code>的主轴(mian axis)对齐方式，取值：</h3>
+<ul>
+<li>flex-start：与main start对齐</li>
+<li>flex-end：与 main end对齐</li>
+<li>center：居中对齐</li>
+<li>space-between：flex items之间距离相等且与main start、main end两端对齐</li>
+<li>space-evenly：flex items之间距离相等且与main start、main end等距</li>
+<li>space-around：flex items与main start、main end之间的距离是flex items之间距离的一半</li>
+</ul>
+<p>若<code>flex items</code>不设置高度，那么默认情况下它的高度就是<code>cross size</code></p>
+<h3 id="213-align-items决定了flex-items的交叉轴cross-axis上的对齐方式取值">2.1.3 <code>align-items</code>决定了<code>flex items</code>的交叉轴(cross axis)上的对齐方式,取值：</h3>
+<ul>
+<li>normal：弹性布局中，效果与stretch一样</li>
+<li>stretch：当flex items在cross axis方向的size为auto时，会自动拉伸至填充flex container</li>
+<li>flex-start：在交叉轴的起点对齐</li>
+<li>flex-end：在交叉轴的终点对齐</li>
+<li>center：在交叉轴的中点对齐</li>
+<li>baseline：基准线对齐</li>
+</ul>
+<p>默认情况下所有的flex items会在同一行显示，放不下的会进行收缩然后在同行显示</p>
+<h3 id="214-flex-wrap决定了flex-container是单行还是多行用于控制换行取值">2.1.4 <code>flex-wrap</code>决定了flex container是单行还是多行用于控制换行，取值：</h3>
+<ul>
+<li>normal：默认（单行）</li>
+<li>wrap：多行</li>
+<li>warp-reverse：多行（对比wrap，cross start和cross end相反）</li>
+</ul>
+<h3 id="215-flex-flow是flex-directionflex-wrap的简写">2.1.5 <code>flex-flow</code>是flex-direction||flex-wrap的简写</h3>
+<ul>
+<li>可以省略，顺序随意</li>
+</ul>
+<h3 id="216-align-content决定了多行flex-items在交叉轴上的对齐方式用法与just-content类似取值">2.1.6 <code>align-content</code>决定了多行flex items在交叉轴上的对齐方式，用法与<code>just-content</code>类似，取值：</h3>
+<ul>
+<li>flex-start：与cross start对齐</li>
+<li>flex-end：与cross end对齐</li>
+<li>center：居中对齐</li>
+<li>space-between：flex items之间距离相等且与cross start、cross end两端对齐</li>
+<li>space-evenly：flex items之间距离相等且与cross start、cross end等距</li>
+<li>space-around：flex items与cross start、cross end之间的距离是flex items之间距离的一半</li>
+</ul>
+<h3 id="22-应用在flex-items上的css属性">2.2 应用在flex items上的css属性</h3>
+<ul>
+<li>flex</li>
+<li>flex-grow</li>
+<li>flex-basis</li>
+<li>flex-shrink</li>
+<li>order</li>
+<li>align-self</li>
+</ul>
+<h3 id="221-order决定了flex-items的排布顺序">2.2.1 <code>order</code>决定了flex items的排布顺序</h3>
+<ul>
+<li>可以设置成任意整数，数值越小越靠前</li>
+<li>默认值是0</li>
+</ul>
+<h3 id="222-align-self单独决定flex-item的排布顺序通过覆盖flex-container设置的align-items">2.2.2 <code>align-self</code>单独决定flex item的排布顺序（通过覆盖flex container设置的align-items）</h3>
+<ul>
+<li>auto（默认值）：遵从flex container的align-items设置</li>
+<li>stretch、flex-start、flex-end、center、baseline，效果与align-items一致</li>
+</ul>
+<h3 id="223-flex-grow决定了flex-items如何扩展">2.2.3 <code>flex-grow</code>决定了flex items如何扩展</h3>
+<ul>
+<li>可以设置成任意非负数字（正小数、正整数、0），默认是0</li>
+<li>当flex container在主轴方向有剩余的size的时候，flex-grow属性才会生效</li>
+<li>如果所有flex items的flex-grow总和sum超过1，每个flex item扩展的size为：flex container剩余的size * flex-grow / sum</li>
+<li>如果所有的flex items的flex-grow总和sum没有超过1，每个flex item扩展的size为：flex container的剩余size * flex-grow</li>
+<li>flex items扩展后的最终size不能超过max-width/max-height</li>
+</ul>
+<h3 id="224-flex-shrink决定了flex-items如何收缩">2.2.4 <code>flex-shrink</code>决定了flex items如何收缩</h3>
+<ul>
+<li>可以设置成任意非负数字（正小数、正整数、0），默认是1</li>
+<li>当flex items在主轴方向上的size超过了flex container的size，flex-shrink超会生效</li>
+<li>如果所有的flex items的flex-shrink总和超过1，每个flex items的收缩的size为：flex items超出的flex items超出flex container的size * 收缩比例 / 所有flex items收缩比例之和</li>
+<li>如果所有的flex items的flex-shrink总和不超过1，每个flex items收缩的size为：flex items超出的flex container的size * flex-shrink值</li>
+<li>flex items收缩之和最终size不能小于min-width/min-height</li>
+</ul>
+<h3 id="225-flex-basis设置flex-items在主轴方向上的base-size">2.2.5 <code>flex-basis</code>设置flex items在主轴方向上的base size</h3>
+<ul>
+<li>auto 默认值、具体的宽度数值</li>
+<li>决定flex items最终base size的因素，从优先级高到低：<br>
+1.max-width/max-height/min-width/min-height<br>
+2.flex-basis<br>
+3.width/height<br>
+4.内容本身的size</li>
+</ul>
+<h3 id="226-flex是flex-growflex-shrinkflex-basic的缩写属性可以指定1-3个值">2.2.6 <code>flex</code>是flex-grow||flex-shrink||flex-basic的缩写属性，可以指定1-3个值。</h3>
+<ul>
+<li>
+<p>单值语法：值必须为以下值之一：</p>
+<ul>
+<li>一个无单位数 它会被当作flex-grow的值</li>
+<li>一个有效宽度值 它会被当做flex-basis的值</li>
+<li>关键字none、auto或者initial</li>
+</ul>
+</li>
+<li>
+<p>双值语法：第一个值必须为一个无单位数，它会被当做flex-grow的值</p>
+<ul>
+<li>第二个值必须为以下之一：
+<ul>
+<li>一个无单位数，被当做flex-shrink值</li>
+<li>一个有效宽度值，被当做flex-basis值</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>三值语法：</p>
+<ul>
+<li>第一个值必须为一个无单位数，被当做flex-grow的值</li>
+<li>第二个值必须为一个无单位数，被当做flex-shrink的值</li>
+<li>第三个值必须为一个有效宽度值，被当做flex-basis的值</li>
+</ul>
+</li>
+</ul>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[有趣的axios源码（一）]]></title>
-        <id>https://skrupellose.github.io/post/you-qu-de-axios-yuan-ma-yi</id>
-        <link href="https://skrupellose.github.io/post/you-qu-de-axios-yuan-ma-yi">
+        <id>https://skrupellose.github.io/post/you-qu-de-axios-yuan-ma-yi/</id>
+        <link href="https://skrupellose.github.io/post/you-qu-de-axios-yuan-ma-yi/">
         </link>
         <updated>2019-11-24T14:48:17.000Z</updated>
         <content type="html"><![CDATA[<h1 id="一-现象">一、现象：</h1>
@@ -60,7 +208,7 @@ axios.interceptors.response.use(
   }
 )
 </code></pre>
-<figure data-type="image" tabindex="1"><img src="https://skrupellose.github.io/post-images/1574609692911.png" alt=""></figure>
+<figure data-type="image" tabindex="1"><img src="https://skrupellose.github.io/post-images/1574609692911.png" alt="" loading="lazy"></figure>
 <h1 id="二-原因">二、原因</h1>
 <p>axios基于promise进行封装<br>
 这部分的源码：(axios/lib/core/Axios.js)</p>
@@ -121,8 +269,8 @@ return promise;
     </entry>
     <entry>
         <title type="html"><![CDATA[vue+element.ui+axios做一个简单用户管理demo]]></title>
-        <id>https://skrupellose.github.io/post/vueelementuiaxios-zuo-yi-ge-jian-dan-yong-hu-guan-li-demo</id>
-        <link href="https://skrupellose.github.io/post/vueelementuiaxios-zuo-yi-ge-jian-dan-yong-hu-guan-li-demo">
+        <id>https://skrupellose.github.io/post/vueelementuiaxios-zuo-yi-ge-jian-dan-yong-hu-guan-li-demo/</id>
+        <link href="https://skrupellose.github.io/post/vueelementuiaxios-zuo-yi-ge-jian-dan-yong-hu-guan-li-demo/">
         </link>
         <updated>2019-11-17T14:55:23.000Z</updated>
         <content type="html"><![CDATA[<h1 id="一-技术栈">一、技术栈</h1>
@@ -135,16 +283,16 @@ return promise;
 <ol>
 <li>
 <p>添加用户<br>
-<img src="https://skrupellose.github.io/post-images/1574007328629.png" alt=""></p>
+<img src="https://skrupellose.github.io/post-images/1574007328629.png" alt="" loading="lazy"></p>
 </li>
 <li>
 <p>搜索功能<br>
-<img src="https://skrupellose.github.io/post-images/1574007313864.png" alt=""><br>
-<img src="https://skrupellose.github.io/post-images/1574007386230.png" alt=""></p>
+<img src="https://skrupellose.github.io/post-images/1574007313864.png" alt="" loading="lazy"><br>
+<img src="https://skrupellose.github.io/post-images/1574007386230.png" alt="" loading="lazy"></p>
 </li>
 <li>
 <p>删除用户<br>
-<img src="https://skrupellose.github.io/post-images/1574007394205.png" alt=""></p>
+<img src="https://skrupellose.github.io/post-images/1574007394205.png" alt="" loading="lazy"></p>
 </li>
 </ol>
 <h1 id="三-具体实现">三、具体实现</h1>
@@ -259,8 +407,8 @@ return promise;
     </entry>
     <entry>
         <title type="html"><![CDATA[算法题--数组(1)]]></title>
-        <id>https://skrupellose.github.io/post/suan-fa-ti-shu-zu-1</id>
-        <link href="https://skrupellose.github.io/post/suan-fa-ti-shu-zu-1">
+        <id>https://skrupellose.github.io/post/suan-fa-ti-shu-zu-1/</id>
+        <link href="https://skrupellose.github.io/post/suan-fa-ti-shu-zu-1/">
         </link>
         <updated>2019-11-16T14:59:04.000Z</updated>
         <content type="html"><![CDATA[<h2 id="要求">要求：</h2>
@@ -370,8 +518,8 @@ return promise;
     </entry>
     <entry>
         <title type="html"><![CDATA[fetch和axios的上手使用]]></title>
-        <id>https://skrupellose.github.io/post/fetch-he-axios-de-shang-shou-shi-yong</id>
-        <link href="https://skrupellose.github.io/post/fetch-he-axios-de-shang-shou-shi-yong">
+        <id>https://skrupellose.github.io/post/fetch-he-axios-de-shang-shou-shi-yong/</id>
+        <link href="https://skrupellose.github.io/post/fetch-he-axios-de-shang-shou-shi-yong/">
         </link>
         <updated>2019-11-14T15:41:05.000Z</updated>
         <content type="html"><![CDATA[<p>复(xue)习一下<code>fetch</code>和<code>axios</code>的用法</p>
@@ -587,8 +735,8 @@ return promise;
     </entry>
     <entry>
         <title type="html"><![CDATA[深浅拷贝小总结]]></title>
-        <id>https://skrupellose.github.io/post/shen-qian-kao-bei-xiao-zong-jie</id>
-        <link href="https://skrupellose.github.io/post/shen-qian-kao-bei-xiao-zong-jie">
+        <id>https://skrupellose.github.io/post/shen-qian-kao-bei-xiao-zong-jie/</id>
+        <link href="https://skrupellose.github.io/post/shen-qian-kao-bei-xiao-zong-jie/">
         </link>
         <updated>2019-11-12T14:28:29.000Z</updated>
         <content type="html"><![CDATA[<p>👻 拷贝就是复制一份一样的东西出来，浅拷贝简单理解就是通过复制之后，和原件还有关系，彼此的改变会影响到彼此，而深拷贝复制出来后与原件互不相干涉。</p>
@@ -756,8 +904,8 @@ console.log(JSON.stringify(obj2))
     </entry>
     <entry>
         <title type="html"><![CDATA[优雅的使用async和await]]></title>
-        <id>https://skrupellose.github.io/post/you-ya-de-shi-yong-async-he-await</id>
-        <link href="https://skrupellose.github.io/post/you-ya-de-shi-yong-async-he-await">
+        <id>https://skrupellose.github.io/post/you-ya-de-shi-yong-async-he-await/</id>
+        <link href="https://skrupellose.github.io/post/you-ya-de-shi-yong-async-he-await/">
         </link>
         <updated>2019-11-11T15:09:55.000Z</updated>
         <summary type="html"><![CDATA[<h2 id="简单介绍一下两个语法的使用">😏简单介绍一下两个语法的使用</h2>
@@ -780,7 +928,7 @@ console.log(JSON.stringify(obj2))
       console.log('hello,丁丁车');
 </code></pre>
 <p>看下控制台的打印：</p>
-<figure data-type="image" tabindex="1"><img src="https://skrupellose.github.io/post-images/1573486162022.png" alt=""></figure>
+<figure data-type="image" tabindex="1"><img src="https://skrupellose.github.io/post-images/1573486162022.png" alt="" loading="lazy"></figure>
 <p>emm？👀这不还是同步吗？<br>
 再去看看，<code>async</code>函数返回的是一个<code>promise</code> 对象，喔，懂了！</p>
 <pre><code>      let sayHi = async () =&gt; {
@@ -790,7 +938,7 @@ console.log(JSON.stringify(obj2))
       console.log('hello,丁丁车');
 </code></pre>
 <p>打开命运石之门：</p>
-<p><img src="https://skrupellose.github.io/post-images/1573486464645.png" alt=""><br>
+<p><img src="https://skrupellose.github.io/post-images/1573486464645.png" alt="" loading="lazy"><br>
 这一切都是命运石之门的选择。</p>
 <p>好吧，为什么没有打印出来呢？我们把函数<code>sayHi</code>执行结果打印一下：</p>
 <pre><code>      let sayHi = async () =&gt; {
@@ -799,7 +947,7 @@ console.log(JSON.stringify(obj2))
       console.log(sayHi());
       console.log('hello,丁丁车');
 </code></pre>
-<p><img src="https://skrupellose.github.io/post-images/1573486614613.png" alt=""><br>
+<p><img src="https://skrupellose.github.io/post-images/1573486614613.png" alt="" loading="lazy"><br>
 额， 忘了返回的是<code>promise对象</code>，那我们直接<code>.then()</code>取值。</p>
 <pre><code>      let sayHi = async () =&gt; {
        return 'hello,飞飞鱼';
@@ -807,7 +955,7 @@ console.log(JSON.stringify(obj2))
       sayHi().then(res =&gt; console.log(res));
       console.log('hello,丁丁车');
 </code></pre>
-<p><img src="https://skrupellose.github.io/post-images/1573486806717.png" alt=""><br>
+<p><img src="https://skrupellose.github.io/post-images/1573486806717.png" alt="" loading="lazy"><br>
 秒啊！我们发现了的确先打印的<code>hello,丁丁车</code>,然后打印的<code>hello,飞飞鱼</code>，证明sayHi的确是异步函数。</p>
 <h1 id="三-await和async">三、await和async</h1>
 <p><code>await</code>后面可以放任何表达式，不过我们更多的是放一个返回<code>promise</code>对象的表达式。注意<code>await</code> 关键字只能放到<code>async</code>函数里面</p>
@@ -827,7 +975,7 @@ console.log(JSON.stringify(obj2))
       show()
 </code></pre>
 <p>然后我们发现2s后的确打印了：<br>
-<img src="https://skrupellose.github.io/post-images/1573487475797.png" alt=""><br>
+<img src="https://skrupellose.github.io/post-images/1573487475797.png" alt="" loading="lazy"><br>
 那么我们继续添加，尝试用优雅的写法</p>
 <pre><code>      let show = async () =&gt; {
         let res1 = await delay(&quot;I&quot;);
@@ -838,7 +986,7 @@ console.log(JSON.stringify(obj2))
       show();
 </code></pre>
 <p>然后6s后，打印出了：<br>
-<img src="https://skrupellose.github.io/post-images/1573487604909.png" alt=""></p>
+<img src="https://skrupellose.github.io/post-images/1573487604909.png" alt="" loading="lazy"></p>
 <p>秒啊，用优雅的同步写法完成了异步操作。<br>
 这里运行的步骤是<code>show</code>函数执行，然后发现了<code>await</code>，它等待第一次<code>promise</code>对象执行完毕，拿到<code>promise resolve</code>的值并进行返回,然后继续向下执行，又发现<code>await</code>，又开始等待，然后重复，最后在6s之后成功完成打印。</p>
 <p>2019-11-14 补充：</p>
@@ -856,8 +1004,8 @@ f().then(v =&gt; console.log(v))
     </entry>
     <entry>
         <title type="html"><![CDATA[v-bind的两三事]]></title>
-        <id>https://skrupellose.github.io/post/v-bind-de-liang-san-shi</id>
-        <link href="https://skrupellose.github.io/post/v-bind-de-liang-san-shi">
+        <id>https://skrupellose.github.io/post/v-bind-de-liang-san-shi/</id>
+        <link href="https://skrupellose.github.io/post/v-bind-de-liang-san-shi/">
         </link>
         <updated>2019-11-09T06:53:46.000Z</updated>
         <content type="html"><![CDATA[<h1 id="关于-v-bind-的两三事">关于 v-bind 的两三事</h1>
@@ -882,12 +1030,12 @@ var vm = new Vue({
 });
 </code></pre>
 <p>打开浏览器我们发现：<br>
-<img src="https://skrupellose.github.io/post-images/1573283056492.png" alt=""></p>
+<img src="https://skrupellose.github.io/post-images/1573283056492.png" alt="" loading="lazy"></p>
 <p><code>&lt;span&gt;</code>标签的<code>title</code>属性有了<code>message值</code></p>
 <p>这个 <code>title</code>属性规定关于元素的额外信息。</p>
 <p>这些信息通常会在鼠标移到元素上时显示一段工具提示文本,如上面的例子。</p>
 <p>打开控制台：<br>
-<img src="https://skrupellose.github.io/post-images/1573283243201.png" alt=""><br>
+<img src="https://skrupellose.github.io/post-images/1573283243201.png" alt="" loading="lazy"><br>
 我们发现的确如此。</p>
 <h2 id="三-指令预期值">三、指令预期值</h2>
 <p>初步了解了<code>v-bind</code>之后，我们继续来看关于指令，vue官方将</p>
@@ -917,7 +1065,7 @@ var vm = new Vue({
 
 </code></pre>
 <p>查看效果：<br>
-<img src="https://skrupellose.github.io/post-images/1573283256464.png" alt=""></p>
+<img src="https://skrupellose.github.io/post-images/1573283256464.png" alt="" loading="lazy"></p>
 <p>(2)执行函数</p>
 <pre><code>    &lt;div id=&quot;app&quot;&gt;
       &lt;span v-bind:title=&quot;show()&quot;&gt;
@@ -934,7 +1082,7 @@ var vm = new Vue({
         }
       });
 </code></pre>
-<p><img src="https://skrupellose.github.io/post-images/1573283285683.png" alt=""><br>
+<p><img src="https://skrupellose.github.io/post-images/1573283285683.png" alt="" loading="lazy"><br>
 同样的也成功了</p>
 <h2 id="四-预期值支持的数据类型">四、预期值支持的数据类型</h2>
 <p>我们发现刚才我们预期值传入的都是字符串类型的数据，那么如果传入其他数据类型的会怎么样呢？</p>
@@ -955,7 +1103,7 @@ var vm = new Vue({
     });
 </code></pre>
 <p>打开控制台：<br>
-<img src="https://skrupellose.github.io/post-images/1573283298341.png" alt=""><br>
+<img src="https://skrupellose.github.io/post-images/1573283298341.png" alt="" loading="lazy"><br>
 我们发现了<code>title=&quot;[object Object]&quot;</code>,这个熟悉的字符串让人想起了对象的 <code>toString</code> 方法的返回值。那么我们继续测试：</p>
 <p>因为我们创建的对象还没有<code>toString()</code>方法，所以我们给它添加一个，这样它就不用顺着原型链去找了</p>
 <pre><code>    &lt;div id=&quot;app&quot;&gt;
@@ -977,7 +1125,7 @@ var vm = new Vue({
         }
       });
 </code></pre>
-<p><img src="https://skrupellose.github.io/post-images/1573283314809.png" alt=""><br>
+<p><img src="https://skrupellose.github.io/post-images/1573283314809.png" alt="" loading="lazy"><br>
 果然如此，调用了<code>toString()</code>方法。</p>
 <p>(2) 数组<br>
 接着我们测试数组<br>
@@ -997,7 +1145,7 @@ var vm = new Vue({
       });
 </code></pre>
 <p>结果如下：<br>
-<img src="https://skrupellose.github.io/post-images/1573283327009.png" alt=""><br>
+<img src="https://skrupellose.github.io/post-images/1573283327009.png" alt="" loading="lazy"><br>
 和我们的最初设想一致</p>
 <p>(3)其余类型</p>
 <ul>
@@ -1058,8 +1206,8 @@ var obj = {
     </entry>
     <entry>
         <title type="html"><![CDATA[JavaScript之函数预编译]]></title>
-        <id>https://skrupellose.github.io/post/javascript-zhi-han-shu-yu-bian-yi</id>
-        <link href="https://skrupellose.github.io/post/javascript-zhi-han-shu-yu-bian-yi">
+        <id>https://skrupellose.github.io/post/javascript-zhi-han-shu-yu-bian-yi/</id>
+        <link href="https://skrupellose.github.io/post/javascript-zhi-han-shu-yu-bian-yi/">
         </link>
         <updated>2019-11-09T04:25:45.000Z</updated>
         <summary type="html"><![CDATA[<h1 id="js执行三部曲语法分析-预编译-解释执行">JS执行三部曲：<strong>语法分析</strong> <strong>预编译</strong> <strong>解释执行</strong></h1>

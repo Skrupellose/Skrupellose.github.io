@@ -4,7 +4,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>D.C </title>
 <meta name="description" content="人类世界真是太有趣了" />
-<link rel="shortcut icon" href="https://skrupellose.github.io/favicon.ico?v=1574611676191">
+<link rel="shortcut icon" href="https://skrupellose.github.io/favicon.ico?v=1583292571424">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
 <link href="https://cdn.remixicon.com/releases/v1.3.1/remixicon.css" rel="stylesheet">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
@@ -24,7 +24,7 @@
       <div class="flex lg:block p-4 lg:px-0 items-center fixed lg:static lg:block top-0 right-0 left-0 bg-white z-50">
         <i class="remixicon-menu-2-line lg:mt-4 text-2xl cursor-pointer animated fadeIn" onclick="openMenu()"></i>
         <a href="https://skrupellose.github.io">
-          <img class="animated fadeInLeft avatar rounded-lg mx-4 lg:mt-32 lg:mx-0 mt-0 lg:w-24 lg:h-24 w-12 w-12" src="https://skrupellose.github.io/images/avatar.png?v=1574611676191" alt="">
+          <img class="animated fadeInLeft avatar rounded-lg mx-4 lg:mt-32 lg:mx-0 mt-0 lg:w-24 lg:h-24 w-12 w-12" src="https://skrupellose.github.io/images/avatar.png?v=1583292571424" alt="">
         </a>
         <h1 class="animated fadeInLeft lg:text-4xl font-extrabold lg:mt-8 mt-0 text-xl" style="animation-delay: 0.2s">D.C </h1>
       </div>
@@ -121,7 +121,7 @@
       console.log('hello,丁丁车');
 </code></pre>
 <p>看下控制台的打印：</p>
-<figure data-type="image" tabindex="1"><img src="https://skrupellose.github.io/post-images/1573486162022.png" alt=""></figure>
+<figure data-type="image" tabindex="1"><img src="https://skrupellose.github.io/post-images/1573486162022.png" alt="" loading="lazy"></figure>
 <p>emm？👀这不还是同步吗？<br>
 再去看看，<code>async</code>函数返回的是一个<code>promise</code> 对象，喔，懂了！</p>
 <pre><code>      let sayHi = async () =&gt; {
@@ -131,7 +131,7 @@
       console.log('hello,丁丁车');
 </code></pre>
 <p>打开命运石之门：</p>
-<p><img src="https://skrupellose.github.io/post-images/1573486464645.png" alt=""><br>
+<p><img src="https://skrupellose.github.io/post-images/1573486464645.png" alt="" loading="lazy"><br>
 这一切都是命运石之门的选择。</p>
 <p>好吧，为什么没有打印出来呢？我们把函数<code>sayHi</code>执行结果打印一下：</p>
 <pre><code>      let sayHi = async () =&gt; {
@@ -140,7 +140,7 @@
       console.log(sayHi());
       console.log('hello,丁丁车');
 </code></pre>
-<p><img src="https://skrupellose.github.io/post-images/1573486614613.png" alt=""><br>
+<p><img src="https://skrupellose.github.io/post-images/1573486614613.png" alt="" loading="lazy"><br>
 额， 忘了返回的是<code>promise对象</code>，那我们直接<code>.then()</code>取值。</p>
 <pre><code>      let sayHi = async () =&gt; {
        return 'hello,飞飞鱼';
@@ -148,7 +148,7 @@
       sayHi().then(res =&gt; console.log(res));
       console.log('hello,丁丁车');
 </code></pre>
-<p><img src="https://skrupellose.github.io/post-images/1573486806717.png" alt=""><br>
+<p><img src="https://skrupellose.github.io/post-images/1573486806717.png" alt="" loading="lazy"><br>
 秒啊！我们发现了的确先打印的<code>hello,丁丁车</code>,然后打印的<code>hello,飞飞鱼</code>，证明sayHi的确是异步函数。</p>
 <h1 id="三-await和async">三、await和async</h1>
 <p><code>await</code>后面可以放任何表达式，不过我们更多的是放一个返回<code>promise</code>对象的表达式。注意<code>await</code> 关键字只能放到<code>async</code>函数里面</p>
@@ -168,7 +168,7 @@
       show()
 </code></pre>
 <p>然后我们发现2s后的确打印了：<br>
-<img src="https://skrupellose.github.io/post-images/1573487475797.png" alt=""><br>
+<img src="https://skrupellose.github.io/post-images/1573487475797.png" alt="" loading="lazy"><br>
 那么我们继续添加，尝试用优雅的写法</p>
 <pre><code>      let show = async () =&gt; {
         let res1 = await delay(&quot;I&quot;);
@@ -179,7 +179,7 @@
       show();
 </code></pre>
 <p>然后6s后，打印出了：<br>
-<img src="https://skrupellose.github.io/post-images/1573487604909.png" alt=""></p>
+<img src="https://skrupellose.github.io/post-images/1573487604909.png" alt="" loading="lazy"></p>
 <p>秒啊，用优雅的同步写法完成了异步操作。<br>
 这里运行的步骤是<code>show</code>函数执行，然后发现了<code>await</code>，它等待第一次<code>promise</code>对象执行完毕，拿到<code>promise resolve</code>的值并进行返回,然后继续向下执行，又发现<code>await</code>，又开始等待，然后重复，最后在6s之后成功完成打印。</p>
 <p>2019-11-14 补充：</p>
@@ -197,11 +197,11 @@ f().then(v =&gt; console.log(v))
         </div>
 
         
-          <a class="animated fadeInUp p-2 items-center text-sm text-gray-700 border hover:bg-gray-300 leading-none rounded-full flex lg:inline-flex m-4 " href="https://skrupellose.github.io/tag/iOcEPOSlg">
+          <a class="animated fadeInUp p-2 items-center text-sm text-gray-700 border hover:bg-gray-300 leading-none rounded-full flex lg:inline-flex m-4 " href="https://skrupellose.github.io/tag/iOcEPOSlg/">
             <span class="flex-auto">es6</span>
           </a>
         
-          <a class="animated fadeInUp p-2 items-center text-sm text-gray-700 border hover:bg-gray-300 leading-none rounded-full flex lg:inline-flex m-4 " href="https://skrupellose.github.io/tag/qZAGnAXQq">
+          <a class="animated fadeInUp p-2 items-center text-sm text-gray-700 border hover:bg-gray-300 leading-none rounded-full flex lg:inline-flex m-4 " href="https://skrupellose.github.io/tag/qZAGnAXQq/">
             <span class="flex-auto">js</span>
           </a>
         
@@ -210,7 +210,7 @@ f().then(v =&gt; console.log(v))
         <div class="flex justify-between py-8">
           
             <div class="prev-post">
-              <a href="https://skrupellose.github.io/post/shen-qian-kao-bei-xiao-zong-jie">
+              <a href="https://skrupellose.github.io/post/shen-qian-kao-bei-xiao-zong-jie/">
                 <h3 class="post-title">
                   <i class="remixicon-arrow-left-line"></i>
                   深浅拷贝小总结
@@ -221,7 +221,7 @@ f().then(v =&gt; console.log(v))
 
           
             <div class="next-post">
-              <a href="https://skrupellose.github.io/post/v-bind-de-liang-san-shi">
+              <a href="https://skrupellose.github.io/post/v-bind-de-liang-san-shi/">
                 <h3 class="post-title">
                   v-bind的两三事
                   <i class="remixicon-arrow-right-line"></i>

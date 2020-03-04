@@ -4,7 +4,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>D.C </title>
 <meta name="description" content="人类世界真是太有趣了" />
-<link rel="shortcut icon" href="https://skrupellose.github.io/favicon.ico?v=1574611676191">
+<link rel="shortcut icon" href="https://skrupellose.github.io/favicon.ico?v=1583292571424">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
 <link href="https://cdn.remixicon.com/releases/v1.3.1/remixicon.css" rel="stylesheet">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
@@ -24,7 +24,7 @@
       <div class="flex lg:block p-4 lg:px-0 items-center fixed lg:static lg:block top-0 right-0 left-0 bg-white z-50">
         <i class="remixicon-menu-2-line lg:mt-4 text-2xl cursor-pointer animated fadeIn" onclick="openMenu()"></i>
         <a href="https://skrupellose.github.io">
-          <img class="animated fadeInLeft avatar rounded-lg mx-4 lg:mt-32 lg:mx-0 mt-0 lg:w-24 lg:h-24 w-12 w-12" src="https://skrupellose.github.io/images/avatar.png?v=1574611676191" alt="">
+          <img class="animated fadeInLeft avatar rounded-lg mx-4 lg:mt-32 lg:mx-0 mt-0 lg:w-24 lg:h-24 w-12 w-12" src="https://skrupellose.github.io/images/avatar.png?v=1583292571424" alt="">
         </a>
         <h1 class="animated fadeInLeft lg:text-4xl font-extrabold lg:mt-8 mt-0 text-xl" style="animation-delay: 0.2s">D.C </h1>
       </div>
@@ -126,12 +126,12 @@ var vm = new Vue({
 });
 </code></pre>
 <p>打开浏览器我们发现：<br>
-<img src="https://skrupellose.github.io/post-images/1573283056492.png" alt=""></p>
+<img src="https://skrupellose.github.io/post-images/1573283056492.png" alt="" loading="lazy"></p>
 <p><code>&lt;span&gt;</code>标签的<code>title</code>属性有了<code>message值</code></p>
 <p>这个 <code>title</code>属性规定关于元素的额外信息。</p>
 <p>这些信息通常会在鼠标移到元素上时显示一段工具提示文本,如上面的例子。</p>
 <p>打开控制台：<br>
-<img src="https://skrupellose.github.io/post-images/1573283243201.png" alt=""><br>
+<img src="https://skrupellose.github.io/post-images/1573283243201.png" alt="" loading="lazy"><br>
 我们发现的确如此。</p>
 <h2 id="三-指令预期值">三、指令预期值</h2>
 <p>初步了解了<code>v-bind</code>之后，我们继续来看关于指令，vue官方将</p>
@@ -161,7 +161,7 @@ var vm = new Vue({
 
 </code></pre>
 <p>查看效果：<br>
-<img src="https://skrupellose.github.io/post-images/1573283256464.png" alt=""></p>
+<img src="https://skrupellose.github.io/post-images/1573283256464.png" alt="" loading="lazy"></p>
 <p>(2)执行函数</p>
 <pre><code>    &lt;div id=&quot;app&quot;&gt;
       &lt;span v-bind:title=&quot;show()&quot;&gt;
@@ -178,7 +178,7 @@ var vm = new Vue({
         }
       });
 </code></pre>
-<p><img src="https://skrupellose.github.io/post-images/1573283285683.png" alt=""><br>
+<p><img src="https://skrupellose.github.io/post-images/1573283285683.png" alt="" loading="lazy"><br>
 同样的也成功了</p>
 <h2 id="四-预期值支持的数据类型">四、预期值支持的数据类型</h2>
 <p>我们发现刚才我们预期值传入的都是字符串类型的数据，那么如果传入其他数据类型的会怎么样呢？</p>
@@ -199,7 +199,7 @@ var vm = new Vue({
     });
 </code></pre>
 <p>打开控制台：<br>
-<img src="https://skrupellose.github.io/post-images/1573283298341.png" alt=""><br>
+<img src="https://skrupellose.github.io/post-images/1573283298341.png" alt="" loading="lazy"><br>
 我们发现了<code>title=&quot;[object Object]&quot;</code>,这个熟悉的字符串让人想起了对象的 <code>toString</code> 方法的返回值。那么我们继续测试：</p>
 <p>因为我们创建的对象还没有<code>toString()</code>方法，所以我们给它添加一个，这样它就不用顺着原型链去找了</p>
 <pre><code>    &lt;div id=&quot;app&quot;&gt;
@@ -221,7 +221,7 @@ var vm = new Vue({
         }
       });
 </code></pre>
-<p><img src="https://skrupellose.github.io/post-images/1573283314809.png" alt=""><br>
+<p><img src="https://skrupellose.github.io/post-images/1573283314809.png" alt="" loading="lazy"><br>
 果然如此，调用了<code>toString()</code>方法。</p>
 <p>(2) 数组<br>
 接着我们测试数组<br>
@@ -241,7 +241,7 @@ var vm = new Vue({
       });
 </code></pre>
 <p>结果如下：<br>
-<img src="https://skrupellose.github.io/post-images/1573283327009.png" alt=""><br>
+<img src="https://skrupellose.github.io/post-images/1573283327009.png" alt="" loading="lazy"><br>
 和我们的最初设想一致</p>
 <p>(3)其余类型</p>
 <ul>
@@ -302,7 +302,7 @@ var obj = {
         </div>
 
         
-          <a class="animated fadeInUp p-2 items-center text-sm text-gray-700 border hover:bg-gray-300 leading-none rounded-full flex lg:inline-flex m-4 " href="https://skrupellose.github.io/tag/2F5bZ1YNL">
+          <a class="animated fadeInUp p-2 items-center text-sm text-gray-700 border hover:bg-gray-300 leading-none rounded-full flex lg:inline-flex m-4 " href="https://skrupellose.github.io/tag/2F5bZ1YNL/">
             <span class="flex-auto">vue</span>
           </a>
         
@@ -311,7 +311,7 @@ var obj = {
         <div class="flex justify-between py-8">
           
             <div class="prev-post">
-              <a href="https://skrupellose.github.io/post/you-ya-de-shi-yong-async-he-await">
+              <a href="https://skrupellose.github.io/post/you-ya-de-shi-yong-async-he-await/">
                 <h3 class="post-title">
                   <i class="remixicon-arrow-left-line"></i>
                   优雅的使用async和await
@@ -322,7 +322,7 @@ var obj = {
 
           
             <div class="next-post">
-              <a href="https://skrupellose.github.io/post/javascript-zhi-han-shu-yu-bian-yi">
+              <a href="https://skrupellose.github.io/post/javascript-zhi-han-shu-yu-bian-yi/">
                 <h3 class="post-title">
                   JavaScript之函数预编译
                   <i class="remixicon-arrow-right-line"></i>
