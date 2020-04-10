@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://skrupellose.github.io</id>
     <title>D.C </title>
-    <updated>2020-03-04T03:30:27.090Z</updated>
+    <updated>2020-04-10T14:16:09.241Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://skrupellose.github.io"/>
     <link rel="self" href="https://skrupellose.github.io/atom.xml"/>
@@ -10,6 +10,1060 @@
     <logo>https://skrupellose.github.io/images/avatar.png</logo>
     <icon>https://skrupellose.github.io/favicon.ico</icon>
     <rights>All rights reserved 2020, D.C </rights>
+    <entry>
+        <title type="html"><![CDATA[http]]></title>
+        <id>https://skrupellose.github.io/post/http/</id>
+        <link href="https://skrupellose.github.io/post/http/">
+        </link>
+        <updated>2020-04-01T11:28:39.000Z</updated>
+        <content type="html"><![CDATA[<ol>
+<li></li>
+</ol>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[React学习笔记]]></title>
+        <id>https://skrupellose.github.io/post/react-xue-xi-bi-ji/</id>
+        <link href="https://skrupellose.github.io/post/react-xue-xi-bi-ji/">
+        </link>
+        <updated>2020-03-09T02:30:55.000Z</updated>
+        <content type="html"><![CDATA[<h2 id="yi">yi</h2>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[MongoDB笔记]]></title>
+        <id>https://skrupellose.github.io/post/mongodb-bi-ji/</id>
+        <link href="https://skrupellose.github.io/post/mongodb-bi-ji/">
+        </link>
+        <updated>2020-03-04T09:54:20.000Z</updated>
+        <content type="html"><![CDATA[<h1 id="一-关于mongodb">一、 关于MongoDB</h1>
+<p>MongoDB是一个面向文档的数据库管理系统，用C++语言编写。</p>
+<h1 id="二-简单上手使用">二、简单上手使用</h1>
+<h2 id="21-下载安装">2.1 下载安装</h2>
+<p><a href="https://www.mongodb.com/">官网</a><br>
+然后正常安装</p>
+<h2 id="22-软件使用">2.2 软件使用</h2>
+<ol>
+<li>
+<p>选一个磁盘来存储数据<br>
+比如想在D盘存储数据，那么我们就需要在D盘下新建一个<code>data</code>文件夹，再在其中新建<code>db</code>文件夹，这样我们后面数据库的数据就会被保存在<code>db</code>文件夹</p>
+</li>
+<li>
+<p>启动MongoDB<br>
+打开CMD，切换到D盘，执行<code>mongod</code>启动命令，然后最小化。</p>
+</li>
+<li>
+<p>操作数据库<br>
+输入<code>mongo</code>就可以进行数据库的相关操作</p>
+<h2 id="23-一些基本命令">2.3 一些基本命令</h2>
+<ol>
+<li>切换/创建数据库<br>
+<code>use DBname</code></li>
+<li>删除当前数据库<br>
+<code>db.dropDatabase()</code></li>
+<li>查询数据库<br>
+<code>show dbs</code></li>
+<li>得到当前数据库所有集合<br>
+<code>db.getCollectionNames();</code></li>
+<li>集合查询所有记录<br>
+<code>db.collectionname.find()</code></li>
+</ol>
+</li>
+</ol>
+<h2 id="24-node操作mongodb">2.4 Node操作MongoDB</h2>
+<pre><code>var mongoose = require ('mongoose')
+var Schema = mongoose.Schema
+
+mongoose.connect('mongodb://localhost/dbName',{ useNewUrlParser: true })
+
+var userSchema = new Schema({
+  username: {
+    type: String,
+    required: true
+  },
+  password: {
+    type: String,
+    required: true
+  }
+})
+
+var User = mongoose.model('User', userSchema)
+</code></pre>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Promise与相关题型]]></title>
+        <id>https://skrupellose.github.io/post/promise/</id>
+        <link href="https://skrupellose.github.io/post/promise/">
+        </link>
+        <updated>2020-03-04T03:31:42.000Z</updated>
+        <content type="html"><![CDATA[<h1 id="一-promise">一、Promise</h1>
+<h2 id="11-promise概念">1.1 Promise概念</h2>
+<h3 id="111-关于promise">1.1.1 关于Promise</h3>
+<p>Promise是es6新增的一个API，它本身不是异步的，但是它内部进行封装的往往是异步任务。</p>
+<p>Promise容器最开始的状态是<code>Pending</code>，它最后会根据内部任务的成功与否改为<code>Resolved</code>（成功）和<code>Rejected</code>（失败），且不会再次改变状态</p>
+<p><strong>Promise容器一旦创建，就开始执行里面的代码</strong></p>
+<pre><code>var fs = require('fs')
+new Promise(function () {
+  fs.readFile('./a.txt','utf8',function(err, data){
+    if(err) {
+      console.log(err)
+    }
+    console.log(data)
+  })
+})
+// 就会立马打印出a.txt的内容出来
+</code></pre>
+<h3 id="112-promise基础语法">1.1.2 Promise基础语法</h3>
+<pre><code>var p1 = new Promise(function(resolve, reject) {
+  fs.readFile('./a.txt','utf8',function(err, data) {
+    if(err) {
+      reject(err)
+    }
+    resolve(data)
+  })
+})
+p1.then(function(data){
+  console.log(data)
+},function(err){
+  console.log(err)
+})
+</code></pre>
+<p>还是刚才的例子我们通过<code>Promise</code>构造函数构造了一个名为p1的<code>Promise</code>实例：<br>
+然后在<code>Promise</code>构造函数中传了两个函数作为参数，一个是<code>resolve</code>；一个是<code>reject</code>。<br>
+之后在fs.readFile执行后，根据执行结果分别执行<code>reject</code>和<code>resolve</code>方法。<br>
+我们想要拿到结果就需要通过构造出的<code>Promise</code>实例的<code>then</code>方法。<br>
+<code>then</code>方法也是接受两个函数作为形参，第一个是对应成功时执行；第二个是对应失败后执行。两个方法分别对应上面的<code>resolve</code>和<code>reject</code>。</p>
+<p>关于then方法的链式调用需要介绍：<br>
+当then方法执行完之后return一个对象，我们就可以对这个对象进行处理，当我们面对回调嵌套的时候就可以使用Promise。</p>
+<pre><code>p1.then(function(data){
+  console.log(data)
+  return p2
+}).then(function(data) {
+  console.log(data)
+  return p3
+}).then(function(data){
+  console.log(data)
+})
+</code></pre>
+<p>then方法的第一个形参就是调用then方法的实例的resolve方法。<br>
+如果return的是一个简单数据类型，那么充当then方法的形参的那个方法就能获取的这个值。</p>
+<h1 id="二-promise基础题型">二、promise基础题型</h1>
+<h2 id="21-题目1">2.1 题目1</h2>
+<pre><code>const promise = newPromise((resolve, reject) =&gt; {
+  console.log(1);
+  console.log(2);
+});
+promise.then(() =&gt; {
+  console.log(3);
+});
+console.log(4);
+</code></pre>
+<p>tips:</p>
+<ul>
+<li>结果并不是<code>1 2 4 3</code></li>
+<li>虽然promise.then属于微任务，但是前面新建的promise对象过程中并没有改变状态。因此promise.then并不会执行</li>
+<li>所以执行结果为<code>1 2 4</code></li>
+</ul>
+<h2 id="22-题目2">2.2 题目2</h2>
+<pre><code>const promise1 = newPromise((resolve, reject) =&gt; {
+  console.log('promise1')
+  resolve('resolve1')
+})
+const promise2 = promise1.then(res =&gt; {
+  console.log(res)
+})
+console.log('1', promise1);
+console.log('2', promise2);
+</code></pre>
+<p>tips：</p>
+<ul>
+<li>第一轮宏任务首先执行<code>promise1</code></li>
+<li>然后将<code>promise1</code>的状态修改为<code>resolved</code>，然后保存结果</li>
+<li>把<code>promise2</code>放入微任务队列，等待执行</li>
+<li>接着执行同步代码1，结果为<code>resolved</code></li>
+<li>然后执行同步代码2，结果为<code>pending</code>，因为此时<code>promise2</code>被放入微任务队列还没执行，promise状态为<code>pending</code><br>
+所以结果为:</li>
+</ul>
+<pre><code>'promise1'
+'1' Promise{&lt;resolved&gt;: 'resolve1'}
+'2' Promise{&lt;pending&gt;}
+'resolve1'
+</code></pre>
+<h2 id="23-题目3">2.3 题目3</h2>
+<pre><code>const fn = () =&gt;(new Promise((resolve, reject) =&gt; {
+  console.log(1);
+  resolve('success')
+}))
+fn().then(res =&gt; {
+  console.log(res)
+})
+console.log('start')
+</code></pre>
+<p>tips：</p>
+<ul>
+<li>首先执行<code>fn</code>函数，它返回一个promise对象，并且将状态修改为<code>resolved</code>，因此首先打印1</li>
+<li>然后将<code>.then()</code>放入微任务队列</li>
+<li>接着执行同步任务打印<code>start</code></li>
+<li>之后执行任务.then()，打印<code>success</code><br>
+所以结果为：</li>
+</ul>
+<pre><code>1
+start
+success
+</code></pre>
+<h1 id="三-promise结合定时器">三、promise结合定时器</h1>
+<h2 id="31-题目1">3.1 题目1</h2>
+<pre><code>console.log('start')
+setTimeout(() =&gt; {
+  console.log('time')
+})
+Promise.resolve().then(() =&gt; {
+  console.log('resolve')
+})
+console.log('end')
+</code></pre>
+<p>tip:</p>
+<ul>
+<li>首先按照执行顺序，打印<code>start</code></li>
+<li>然后遇到定时器将其放入下一个宏任务队列</li>
+<li>将<code>promise.then()</code>也放入微任务队列</li>
+<li>打印<code>end</code></li>
+<li>执行<code>promise.then</code>打印resolve</li>
+<li>执行定时器打印<code>time</code></li>
+<li>这里还需要注意的是<code>Promise.resolve()</code>相当于定义一个状态为<code>fullfilled</code>的<code>promise</code>，只有<code>fullfilled</code>状态的<code>promise</code>才能执行<code>.then()</code><br>
+执行结果：</li>
+</ul>
+<pre><code>start
+end
+resolve
+time
+</code></pre>
+<h2 id="32-题目2">3.2 题目2</h2>
+<pre><code>const promise = newPromise((resolve, reject) =&gt; {
+  console.log(1);
+  setTimeout(() =&gt; {
+    console.log(&quot;timerStart&quot;);
+    resolve(&quot;success&quot;);
+    console.log(&quot;timerEnd&quot;);
+  }, 0);
+  console.log(2);
+});
+promise.then((res) =&gt; {
+  console.log(res);
+});
+console.log(4);
+</code></pre>
+<p>tip:</p>
+<ul>
+<li>首先打印<code>1</code></li>
+<li>然后将定时器加入下次宏任务队列</li>
+<li>打印<code>2</code></li>
+<li>将<code>promise.then</code>加入微任务队列</li>
+<li>打印<code>4</code></li>
+<li>暂不执行<code>promise.then()</code>，虽然此时应该执行微任务中的<code>.then()</code>,但此时<code>promise</code>状态还为<code>pending</code>，所以不执行</li>
+<li>最后开始执行宏任务里的定时器打印出timerstart，修改promise状态为<code>resolved</code>，打印<code>timerend</code></li>
+<li>此时promise状态已为<code>resolved</code>，开始执行微任务中的<code>.then()</code>，打印出<code>success</code><br>
+执行结果：</li>
+</ul>
+<pre><code>1
+2
+4
+timerstart
+timerend
+success
+</code></pre>
+<h2 id="33-题目3">3.3 题目3</h2>
+<pre><code>Promise.resolve().then(() =&gt; {
+  console.log('promise1');
+  const timer2 = setTimeout(() =&gt; {
+    console.log('timer2')
+  }, 0)
+});
+const timer1 = setTimeout(() =&gt; {
+  console.log('timer1')
+  Promise.resolve().then(() =&gt; {
+    console.log('promise2')
+  })
+}, 0)
+console.log('start');
+</code></pre>
+<p>tips:</p>
+<ul>
+<li>首先把<code>promise.then()</code>放入微任务队列</li>
+<li>将<code>timer1</code>放入宏任务队列</li>
+<li>打印<code>start</code></li>
+<li>执行微任务中的<code>promise.then()</code></li>
+<li>打印<code>promise1</code></li>
+<li>将<code>timer2</code>放入宏任务队列</li>
+<li>执行<code>timer1</code>，打印<code>timer1</code>，将第二个<code>promise.then()</code>放入微任务队列</li>
+<li>执行第二个<code>promise.then()</code>，打印<code>promise2</code></li>
+<li>执行<code>timer2</code>，打印<code>timer2</code></li>
+</ul>
+<p>执行结果</p>
+<pre><code>start
+promise1
+timer1
+promise2
+timer2
+</code></pre>
+<h2 id="34-题目4">3.4 题目4</h2>
+<pre><code>const promise1 = new Promise((resolve, reject) =&gt; {
+  setTimeout(() =&gt; {
+    resolve('success')
+  }, 1000)
+})
+const promise2 = promise1.then(() =&gt; {
+  throw new Error('error!!!')
+})
+console.log('promise1', promise1)
+console.log('promise2', promise2)
+setTimeout(() =&gt; {
+  console.log('promise1', promise1)
+  console.log('promise2', promise2)
+}, 2000)
+</code></pre>
+<p>tips:</p>
+<ul>
+<li>首先执行<code>promise1</code>，将定时器放入宏任务队列</li>
+<li>把<code>promise2</code>放入微任务队列</li>
+<li>执行同步代码，打印<code>promise1</code>，此时<code>promise1</code>还未改变状态，所以为<code>pending</code></li>
+<li>执行同步代码，打印<code>promise2</code>，由于<code>promise1.then()</code>返回的还是一个<code>promise</code>对象，所以为<code>pending</code></li>
+<li>将定时器放入宏任务队列</li>
+<li><code>promise2</code>暂不执行，因为<code>p1</code>的状态还未修改</li>
+<li>执行第一个定时器，将<code>promise1</code>状态修改为<code>resolved</code></li>
+<li>执行<code>p2</code>，<code>throw</code>一个错误<code>error</code></li>
+<li>执行第二个定时器，打印<code>resolved和rejected</code></li>
+</ul>
+<p>执行结果：</p>
+<pre><code>'promise1' Promise{&lt;pending&gt;}
+'promise2' Promise{&lt;pending&gt;}
+test5.html:102 Uncaught (in promise) Error: error!!! at test.html:102
+'promise1' Promise{&lt;resolved&gt;: &quot;success&quot;}
+'promise2' Promise{&lt;rejected&gt;: Error: error!!!}
+</code></pre>
+<h2 id="35-题目5">3.5 题目5</h2>
+<pre><code>const promise1 = new Promise((resolve, reject) =&gt; {
+  setTimeout(() =&gt; {
+    resolve(&quot;success&quot;);
+    console.log(&quot;timer1&quot;);
+  }, 1000);
+  console.log(&quot;promise1里的内容&quot;);
+});
+const promise2 = promise1.then(() =&gt; {
+  throw new Error(&quot;error!!!&quot;);
+});
+console.log(&quot;promise1&quot;, promise1);
+console.log(&quot;promise2&quot;, promise2);
+setTimeout(() =&gt; {
+  console.log(&quot;timer2&quot;);
+  console.log(&quot;promise1&quot;, promise1);
+  console.log(&quot;promise2&quot;, promise2);
+}, 2000);
+</code></pre>
+<p>tips：</p>
+<ul>
+<li>执行<code>p1</code>，将第一个定时器放入宏任务队列，并打印<code>p1</code>里的内容</li>
+<li>把<code>p2</code>放入微任务队列</li>
+<li>执行同步代码，打印两个<code>pending</code></li>
+<li>把第二个定时器加入宏任务队列</li>
+<li>p1状态未修改暂不执行p2</li>
+<li>执行第一个定时器修改p1的状态并打印<code>timer1</code></li>
+<li>执行微任务throw一个错误修改p2状态为<code>rejected</code></li>
+<li>执行第二个定时器，打印<code>timer2</code>后分别打印<code>resolved:success和rejected</code></li>
+</ul>
+<p>执行结果：</p>
+<pre><code>'promise1里的内容'
+'promise1' Promise{&lt;pending&gt;}
+'promise2' Promise{&lt;pending&gt;}
+'timer1'
+test5.html:102 Uncaught (in promise) Error: error!!! at test.html:102
+'timer2'
+'promise1' Promise{&lt;resolved&gt;: &quot;success&quot;}
+'promise2' Promise{&lt;rejected&gt;: Error: error!!!}
+</code></pre>
+<p>#四、promise进阶</p>
+<h2 id="41-题目1">4.1 题目1</h2>
+<pre><code>const promise = new Promise((resolve, reject) =&gt; {
+  reject(&quot;error&quot;);
+  resolve(&quot;success2&quot;);
+});
+promise
+.then(res =&gt; {
+    console.log(&quot;then1: &quot;, res);
+  }).then(res =&gt; {
+    console.log(&quot;then2: &quot;, res);
+  }).catch(err =&gt; {
+    console.log(&quot;catch: &quot;, err);
+  }).then(res =&gt; {
+    console.log(&quot;then3: &quot;, res);
+  })
+</code></pre>
+<p>tips：</p>
+<ul>
+<li>promise状态一经改变便不会再次改变，所以promise状态为<code>rejected</code></li>
+<li>之后将<code>promise.then()</code>加入微任务队列</li>
+<li>直到被<code>catch</code>捕获错误，<code>catch</code>不论连接在哪里都可以捕获到上级错误</li>
+</ul>
+<p>执行结果：</p>
+<pre><code>&quot;catch: &quot; &quot;error&quot;
+&quot;then3: &quot; undefined
+</code></pre>
+<h2 id="42-题目2">4.2 题目2</h2>
+<pre><code>Promise.resolve(1)
+  .then(res =&gt; {
+    console.log(res);
+    return2;
+  })
+  .catch(err =&gt; {
+    return3;
+  })
+  .then(res =&gt; {
+    console.log(res);
+  });
+</code></pre>
+<p>tips:</p>
+<ul>
+<li><code>Promise.resolve(1)</code>内部返回的结果是1，打印得到1</li>
+<li><code>return2</code>被包装成为<code>resolve(2)</code>，所以该<code>promise</code>对象返回值为2</li>
+<li><code>resolve</code>下不走<code>catch</code>，<code>.then</code>打印得到<code>2</code></li>
+</ul>
+<h2 id="43-题目3">4.3 题目3</h2>
+<pre><code>Promise.resolve().then(() =&gt; {
+  return new Error('error!!!')
+}).then(res =&gt; {
+  console.log(&quot;then: &quot;, res)
+}).catch(err =&gt; {
+  console.log(&quot;catch: &quot;, err)
+})
+</code></pre>
+<p>tips:</p>
+<ul>
+<li><code>Promise.resolve().then()</code>return一个错误,当promise对象返回的不是一个promise对象的话就会被包装成一个promise对象，<code>return new Error('error!!!')</code>会被包装成<code>return Promise.resolve(new Error('error!!!'))</code></li>
+<li>因此走的是.then()而不是.catch()</li>
+<li>若想抛出错误，可以<code>return Promise.reject(newError('error!!!'));</code>或者<code>throw newError('error!!!')</code></li>
+</ul>
+<p>执行结果：</p>
+<pre><code>&quot;then: &quot; &quot;Error: error!!!&quot;
+</code></pre>
+<h2 id="44-题目4">4.4 题目4</h2>
+<pre><code>const promise = Promise.resolve().then(() =&gt; {
+  return promise;
+})
+promise.catch(console.err)
+</code></pre>
+<p>tips:</p>
+<ul>
+<li><code>promise.then()</code>或者<code>.catch()</code>不能返回promise自身</li>
+<li>所以会报错</li>
+</ul>
+<p>执行结果：</p>
+<pre><code>Uncaught (in promise) TypeError: Chaining cycle detected for promise #&lt;Promise&gt;
+</code></pre>
+<h2 id="45-题目5">4.5 题目5</h2>
+<pre><code>Promise.resolve(1)
+  .then(2)
+  .then(Promise.resolve(3))
+  .then(console.log)
+</code></pre>
+<p>tips：</p>
+<ul>
+<li><code>promise.then()</code>和<code>.catch()</code>的期望值是函数</li>
+<li>传入非函数就会发生值传透</li>
+<li>第一个<code>then</code>传的是数字</li>
+<li>第二个<code>then</code>传的是对象</li>
+<li>所以第三个<code>then</code>获取的值是<code>1</code></li>
+</ul>
+<p>执行结果：</p>
+<pre><code>1
+</code></pre>
+<h2 id="46-题目6">4.6 题目6</h2>
+<pre><code>Promise.reject('err!!!')
+  .then((res) =&gt; {
+    console.log('success', res)
+  }, (err) =&gt; {
+    console.log('error', err)
+  }).catch(err =&gt; {
+    console.log('catch', err)
+  })
+</code></pre>
+<p>tips:</p>
+<ul>
+<li><code>promise.then()</code>有两个参数，一个是用来处理<code>promise</code>成功的函数，另一个是处理失败的函数</li>
+<li>当有处理失败函数的时候，错误会走失败的函数而不会走.catch()</li>
+</ul>
+<p>执行结果：</p>
+<pre><code>'error' 'error!!!'
+</code></pre>
+<ul>
+<li>若不写第二个函数，则会走<code>.catch()</code>函数</li>
+<li>若在执行成功的函数中抛出一个错误，则该错误只能在<code>.catch()</code>中捕获到，不能在第二个处理错误的函数中被捕获</li>
+</ul>
+<h2 id="47-题目7">4.7 题目7</h2>
+<pre><code>Promise.resolve('1')
+  .then(res =&gt; {
+    console.log(res)
+  })
+  .finally(() =&gt; {
+    console.log('finally')
+  })
+Promise.resolve('2')
+  .finally(() =&gt; {
+    console.log('finally2')
+  	return'我是finally2返回的值'
+  })
+  .then(res =&gt; {
+    console.log('finally2后面的then函数', res)
+  })
+</code></pre>
+<p>tips:</p>
+<ul>
+<li>第一个<code>promise</code>修改状态为<code>resolved</code>并得到返回值<code>1</code></li>
+<li>将<code>.then()</code>移入微任务队列</li>
+<li>因为<code>.then()</code>和<code>.finally()</code>是链式调用，<code>.then()</code>不执行，<code>.finally()</code>也不会执行，所以这里会跳出第一个promise函数</li>
+<li>第二个promise修改状态为<code>resolved</code>并得到返回值<code>2</code></li>
+<li>将第二个<code>.finally()</code>移入微任务队列</li>
+<li>将第一个<code>.finally()</code>移入微任务队列</li>
+<li>将第二个<code>.then()</code>移入微任务队列</li>
+<li>开始执行第一个<code>.then()</code>,得到1</li>
+<li>执行第二个<code>.finally()</code>,打印<code>finally2</code>，且返回一个新的值</li>
+<li>执行第一个<code>.finally()</code>,打印<code>finally</code></li>
+<li>执行第二个<code>.then()</code>,打印结果2，因为<code>.finally()</code>默认返回的都是原来的<code>promise</code>对象的值，只有当抛出的是一个错误，才会返回这个错误*</li>
+</ul>
+<p>执行结果：</p>
+<pre><code>1
+finally2
+finally
+finally2后面的then函数 2
+</code></pre>
+<p>*:</p>
+<pre><code>Promise.resolve('1')
+  .finally(() =&gt; {
+    console.log('finally1')
+    throw new Error('我是finally中抛出的异常')
+  })
+  .then(res =&gt; {
+    console.log('finally后面的then函数', res)
+  })
+  .catch(err =&gt; {
+    console.log('捕获错误', err)
+  })
+</code></pre>
+<pre><code>'finally1'
+'捕获错误' Error: 我是finally中抛出的异常
+</code></pre>
+<h2 id="48-题目8">4.8 题目8</h2>
+<pre><code>function promise1 () {
+  let p = new Promise((resolve) =&gt; {
+    console.log('promise1');
+    resolve('1')
+  })
+  return p;
+}
+function promise2 () {
+  return new Promise((resolve, reject) =&gt; {
+    reject('error')
+  })
+}
+promise1()
+  .then(res =&gt;console.log(res))
+  .catch(err =&gt;console.log(err))
+  .finally(() =&gt;console.log('finally1'))
+
+promise2()
+  .then(res =&gt;console.log(res))
+  .catch(err =&gt;console.log(err))
+  .finally(() =&gt;console.log('finally2'))
+</code></pre>
+<p>tips:</p>
+<ul>
+<li><code>p1</code>执行，打印<code>promise1</code>，并且修改<code>promise1</code>状态值为<code>resolved</code>，返回<code>1</code></li>
+<li>把第一个<code>.then()</code>移入微任务队列</li>
+<li>执行<code>p2</code>，返回一个<code>rejected</code>状态的<code>promise</code>对象，返回值为<code>error</code></li>
+<li>因为<code>p2</code>状态为<code>rejected</code>，所以第二个<code>.then()</code>不会执行将第二个<code>.catch</code>移入微任务队列</li>
+<li>执行第一个<code>.then()</code>，打印<code>1</code></li>
+<li>执行第二个<code>.catch()</code>, 打印<code>error</code></li>
+<li>之后把第一个<code>.finally()</code>移入微任务队列</li>
+<li>将第二个<code>.finally()</code>移入微任务队列</li>
+<li>执行第一个<code>.finally()</code>，打印<code>finally1</code></li>
+<li>执行第二个<code>.finally()</code>，打印<code>finally2</code></li>
+</ul>
+<p>执行结果：</p>
+<pre><code>promise1
+1
+error
+finally1
+finally2
+</code></pre>
+<h2 id="49-题目9">4.9 题目9</h2>
+<pre><code>function runAsync (x) {
+	const p = new Promise(r =&gt; setTimeout(() =&gt; r(x, console.log(x)), 1000))
+	return p
+}
+Promise.all([runAsync(1), runAsync(2), runAsync(3)])
+  .then(res =&gt;console.log(res))
+</code></pre>
+<p>tips:</p>
+<ul>
+<li><code>promise.all(</code>)并行执行多个异步操作，并在一个回调中处理所有的数据</li>
+</ul>
+<p>执行结果：</p>
+<pre><code>1
+2
+3
+[1, 2, 3]
+</code></pre>
+<h2 id="410-题目10">4.10 题目10</h2>
+<pre><code>function runAsync (x) {
+  const p = new Promise(r =&gt; setTimeout(() =&gt; r(x, console.log(x)), 1000))
+  return p
+}
+function runReject (x) {
+  const p = new Promise((res, rej) =&gt; setTimeout(() =&gt; rej(`Error: ${x}`, console.log(x)), 1000 * x))
+  return p
+}
+Promise.all([runAsync(1), runReject(4), runAsync(3), runReject(2)])
+  .then(res =&gt;console.log(res))
+  .catch(err =&gt;console.log(err))
+</code></pre>
+<p>tips:</p>
+<ul>
+<li>
+<p><code>promise.all()</code>中参数的顺序就是加入任务队列的顺序，但是定时器执行先后由时间长短排序</p>
+</li>
+<li>
+<p>所以执行顺序为<code>runAsync(1)</code>、 <code>runAsync(3)</code>、 <code>runReject(2)</code>、<code>runReject(4)</code></p>
+</li>
+<li>
+<p>又因为<code>runReject</code>函数抛出错误，所以<code>promise.all().then()</code>不会执行，而<code>.catch()</code>会捕获<code>.all()</code>之中最先的异常</p>
+<p>执行结果：</p>
+<pre><code></code></pre>
+</li>
+</ul>
+<p>1<br>
+3<br>
+// 2s后输出<br>
+2<br>
+Error: 2<br>
+// 4s后输出<br>
+4</p>
+<pre><code>
+## 4.11 题目11
+</code></pre>
+<p>function runAsync (x) {<br>
+const p = new Promise(r =&gt; setTimeout(() =&gt; r(x, console.log(x)), 1000))<br>
+return p<br>
+}<br>
+Promise.race([runAsync(1), runAsync(2), runAsync(3)])<br>
+.then(res =&gt;console.log('result: ', res))<br>
+.catch(err =&gt;console.log(err))</p>
+<pre><code>tips：
+- `.race()`只会获取最先执行完的结果
+
+执行结果：
+</code></pre>
+<p>1<br>
+'result: ' 1<br>
+2<br>
+3</p>
+<pre><code>
+#五、async和await
+## 5.1 题目1
+</code></pre>
+<p>async function async1() {<br>
+console.log(&quot;async1 start&quot;);<br>
+await async2();<br>
+console.log(&quot;async1 end&quot;);<br>
+}<br>
+async function async2() {<br>
+console.log(&quot;async2&quot;);<br>
+}<br>
+async1();<br>
+console.log('start')</p>
+<pre><code>tips：
+- `async1`函数执行，打印`async1 start`
+- 执行`async2`函数，打印`async2`
+- 跳出`async1`，打印`start`
+- 再打印`async1 end`
+- `await`后面的内容将放到下一次执行，类似于`promise.then()`
+
+执行结果：
+</code></pre>
+<p>'async start'<br>
+'promise'<br>
+'async1 end'<br>
+'start'</p>
+<pre><code>
+## 5.2 题目2
+</code></pre>
+<p>async function async1() {<br>
+console.log(&quot;async1 start&quot;);<br>
+await async2();<br>
+console.log(&quot;async1 end&quot;);<br>
+}<br>
+async function async2() {<br>
+setTimeout(() =&gt; {<br>
+console.log('timer')<br>
+}, 0)<br>
+console.log(&quot;async2&quot;);<br>
+}<br>
+async1();<br>
+console.log(&quot;start&quot;)</p>
+<pre><code>tips:
+- 与上一道题不同的是async2函数内多了一个定时器，定时器会被放到下一次宏任务中执行
+
+执行结果：
+</code></pre>
+<p>async1 start<br>
+async2<br>
+start<br>
+async1 end<br>
+timer</p>
+<pre><code>
+## 5.3 题目3
+</code></pre>
+<p>async function async1() {<br>
+console.log(&quot;async1 start&quot;);<br>
+await async2();<br>
+console.log(&quot;async1 end&quot;);<br>
+setTimeout(() =&gt; {<br>
+console.log('timer1')<br>
+}, 0)<br>
+}<br>
+async function async2() {<br>
+setTimeout(() =&gt; {<br>
+console.log('timer2')<br>
+}, 0)<br>
+console.log(&quot;async2&quot;);<br>
+}<br>
+async1();<br>
+setTimeout(() =&gt; {<br>
+console.log('timer3')<br>
+}, 0)<br>
+console.log(&quot;start&quot;)</p>
+<pre><code>tips：
+- `async1`函数执行，打印`async1 start`
+- `async2`函数执行，将`timer2`移入宏任务队列，然后打印`async2`
+- 将`timer3`移入宏任务队列
+- 打印`start`
+- 打印`async1 end`并且将`timer1`移入宏任务队列
+- 执行第一个宏任务，打印`timer2`，微任务队列没有任务，将剩下的两个宏任务依次执行打印`timer3`和`timer1`
+
+执行结果：
+</code></pre>
+<p>async1 start<br>
+async2<br>
+start<br>
+async1 end<br>
+timer2<br>
+timer3<br>
+timer1</p>
+<pre><code>
+## 5.4 题目4
+</code></pre>
+<p>async function async1 () {<br>
+console.log('async1 start');<br>
+await new Promise(resolve =&gt; {<br>
+console.log('promise1')<br>
+})<br>
+console.log('async1 success');<br>
+return 'async1 end'<br>
+}<br>
+console.log('script start')<br>
+async1().then(res =&gt;console.log(res))<br>
+console.log('script end')</p>
+<pre><code>tips:
+- 打印`script start`
+- `async1`执行
+- 打印`async1 start`
+- 新创建一个`promise`对象，打印`promise1`
+- 将`.then()`加入微任务队列
+- 打印`script end`
+- 由于新创建的`promise`对象并没有改变状态，所以`.then()`不会执行，`await`后面的内容也不会执行
+
+执行结果：
+</code></pre>
+<p>'script start'<br>
+'async1 start'<br>
+'promise1'<br>
+'script end'</p>
+<pre><code>## 5.5 题目5
+</code></pre>
+<p>async function async1 () {<br>
+console.log('async1 start');<br>
+await new Promise(resolve =&gt; {<br>
+console.log('promise1')<br>
+resolve('promise1 resolve')<br>
+}).then(res =&gt;console.log(res))<br>
+console.log('async1 success');<br>
+return 'async1 end'<br>
+}<br>
+console.log('script start')<br>
+async1().then(res =&gt;console.log(res))<br>
+console.log('script end')</p>
+<pre><code>
+tips:
+- 打印`script start`
+- `async1`执行，打印`async1 start`
+- 新建一个`promise`对象，打印`promise1`，修改状态为`resolved`，返回值为`promise1 resolve`
+- 打印`script end`
+- 执行`.then()`
+- 打印`async1 success`
+- 修改`promise`返回值为`async1 end`
+- 执行第二个`.then()`，打印`async1 end`
+
+执行结果：
+</code></pre>
+<p>'script start'<br>
+'async1 start'<br>
+'promise1'<br>
+'script end'<br>
+'promise1 resolve'<br>
+'async1 success'<br>
+'async1 end'</p>
+<pre><code>## 5.6 题目6
+</code></pre>
+<p>async function testSometing() {<br>
+console.log(&quot;执行testSometing&quot;);<br>
+return&quot;testSometing&quot;;<br>
+}</p>
+<p>async function testAsync() {<br>
+console.log(&quot;执行testAsync&quot;);<br>
+return Promise.resolve(&quot;hello async&quot;);<br>
+}</p>
+<p>async function test() {<br>
+console.log(&quot;test start...&quot;);<br>
+const v1 = await testSometing();<br>
+console.log(v1);<br>
+const v2 = await testAsync();<br>
+console.log(v2);<br>
+console.log(v1, v2);<br>
+}</p>
+<p>test();</p>
+<p>var promise = newPromise(resolve =&gt; {<br>
+console.log(&quot;promise start...&quot;);<br>
+resolve(&quot;promise&quot;);<br>
+});<br>
+promise.then(val =&gt;console.log(val));</p>
+<p>console.log(&quot;test end...&quot;);</p>
+<pre><code>tips:
+- 执行`test`函数，打印`test start`
+- 执行`testSomething`函数，打印`执行testSomething`
+- 跳出`test`函数，打印`promise start`并且修改promise的值和状态
+- 将`.then()`加入微任务队列
+- 打印`test end`
+- 打印`v1`的值 `testSomething`
+- 执行`testAsync`函数，打印`执行testAsync`
+- 跳出`tes`t函数，执行微任务的`.then()`,打印`promise`
+- 打印`v2`的值` hello async`
+- 打印`v1`、`v2`的值
+
+</code></pre>
+<p>'test start...'<br>
+'执行testSometing'<br>
+'promise start...'<br>
+'test end...'<br>
+'testSometing'<br>
+'执行testAsync'<br>
+'promise'<br>
+'hello async'<br>
+'testSometing' 'hello async'</p>
+<pre><code>
+## 5.7 题目7
+</code></pre>
+<p>async function async1 () {<br>
+await async2();<br>
+console.log('async1');<br>
+return 'async1 success'<br>
+}<br>
+async function async2 () {<br>
+return new Promise((resolve, reject) =&gt; {<br>
+console.log('async2')<br>
+reject('error')<br>
+})<br>
+}<br>
+async1().then(res =&gt;console.log(res))</p>
+<pre><code>
+tips:
+- `async`函数中抛出了错误，则不会往下继续执行
+- `throw new Error`是一样的效果
+
+执行结果：
+</code></pre>
+<p>'async2'<br>
+Uncaught (in promise) error</p>
+<pre><code>## 5.8 题目8
+</code></pre>
+<p>async function async1 () {<br>
+try {<br>
+await Promise.reject('error!!!')<br>
+} catch(e) {<br>
+console.log(e)<br>
+}<br>
+console.log('async1');<br>
+return Promise.resolve('async1 success')<br>
+}<br>
+async1().then(res =&gt;console.log(res))<br>
+console.log('script start')</p>
+<pre><code>
+tips:
+- 若不想错误影响函数后面的执行则可以使用`try catch `
+
+执行结果：
+</code></pre>
+<p>'script start'<br>
+'error!!!'<br>
+'async1'<br>
+'async1 success'</p>
+<pre><code>或者在`Promise.reject`后面跟着一个`catch()`方法
+</code></pre>
+<p>async function async1 () {<br>
+await Promise.reject('error!!!')<br>
+.catch(e =&gt;console.log(e))<br>
+console.log('async1');<br>
+return Promise.resolve('async1 success')<br>
+}<br>
+async1().then(res =&gt;console.log(res))<br>
+console.log('script start')</p>
+<pre><code>#六、综合题
+## 6.1 题目1
+</code></pre>
+<p>const first = () =&gt;(new Promise((resolve, reject) =&gt; {<br>
+console.log(3);<br>
+let p = new Promise((resolve, reject) =&gt; {<br>
+console.log(7);<br>
+setTimeout(() =&gt; {<br>
+console.log(5);<br>
+resolve(6);<br>
+console.log(p)<br>
+}, 0)<br>
+resolve(1);<br>
+});<br>
+resolve(2);<br>
+p.then((arg) =&gt; {<br>
+console.log(arg);<br>
+});</p>
+<p>}));</p>
+<p>first().then((arg) =&gt; {<br>
+console.log(arg);<br>
+});<br>
+console.log(4);</p>
+<pre><code>tips:
+- `first`函数执行，打印`3`
+- 新建第二个`promise`对象，打印`7`，将定时器移入宏任务队列，并且修改值和状态为`1`和`resolved`
+- 将第一个`promise`对象的值和状态修改为`2`和`resolved`
+- 将`p.then()`移入微任务队列
+- 将`first.then()`移入微任务队列
+- 打印`4`
+- 执行`p.then()`打印`1`
+- 执行`first.then()`打印`2`
+- 最后执行宏任务里的定时器
+- 打印`5`，修改`p`的状态和返回值，但是`p`的状态已经改变过了，所以不会再改变，打印`Promise{&lt;resolved&gt;: 1}`
+
+执行结果：
+</code></pre>
+<p>3<br>
+7<br>
+4<br>
+1<br>
+2<br>
+5<br>
+Promise{<resolved>: 1}</p>
+<pre><code>
+## 6.2 题目2
+</code></pre>
+<p>const async1 = async () =&gt; {<br>
+console.log('async1');<br>
+setTimeout(() =&gt; {<br>
+console.log('timer1')<br>
+}, 2000)<br>
+await new Promise(resolve =&gt; {<br>
+console.log('promise1')<br>
+resolve(2)<br>
+})<br>
+console.log('async1 end')<br>
+return 'async1 success'<br>
+}<br>
+console.log('script start');<br>
+async1().then(res =&gt;console.log(res));<br>
+console.log('script end');<br>
+Promise.resolve(1)<br>
+.then(2)<br>
+.then(Promise.resolve(3))<br>
+.catch(4)<br>
+.then(res =&gt;console.log(res))<br>
+setTimeout(() =&gt; {<br>
+console.log('timer2')<br>
+}, 1000)</p>
+<pre><code>tips:
+- 打印`script start`
+- 执行`async1`函数，打印`async1`，将`timer1`移入宏任务队列
+- 新创建一个`promise`对象，打印`promise1`
+- 跳出`async1`，打印`script end`
+- 获得一个状态为`resolved`且值为`1`的`promise`对象，由于发生值穿透，直接将最后一个`.then()`加入微任务队列
+- 将`timer2`移入宏任务队列
+- new 的promise对象没有修改状态，所以下面的程序不会执行
+- 把`async1().then()`加入微任务队列，依次执行两个微任务,又因为`async1`函数中的`promise`对象状态还是`pending`，所以`async1().then()`不执行
+- 两个定时器按照时间执行
+
+执行结果:
+</code></pre>
+<p>'script start'<br>
+'async1'<br>
+'promise1'<br>
+'script end'<br>
+1<br>
+'timer2'<br>
+'timer1'</p>
+<pre><code>若new的promise对象修改了状态，则执行结果就是：
+</code></pre>
+<p>'script start'<br>
+'async1'<br>
+'promise1'<br>
+'script end'<br>
+'async1 end'<br>
+'async1 success'<br>
+1<br>
+'timer2'<br>
+'timer1'</p>
+<pre><code>
+## 6.3 题目3
+</code></pre>
+<p>const p1 = new Promise((resolve) =&gt; {<br>
+setTimeout(() =&gt; {<br>
+resolve('resolve3');<br>
+console.log('timer1')<br>
+}, 0)<br>
+resolve('resovle1');<br>
+resolve('resolve2');<br>
+}).then(res =&gt; {<br>
+console.log(res)<br>
+setTimeout(() =&gt; {<br>
+console.log(p1)<br>
+}, 1000)<br>
+}).finally(res =&gt; {<br>
+console.log('finally', res)<br>
+})</p>
+<pre><code>tips:
+- 将timer1移入宏任务
+- 修改promise状态为resolved，值修改为resolve1
+- 将.then()移入微任务队列
+- 将第二个定时器移入宏任务队列
+- 将.finally()移入微任务队列
+- 执行.then()，打印resolve1
+- 执行.finally()，由于.finally()的回调函数不接受参数，所以为undefined
+- 执行定时器1，打印timer1
+- 执行定时器2，此时通过链式调用，返回值已经变成undefined
+
+执行结果：
+</code></pre>
+<p>'resolve1'<br>
+'finally' undefined<br>
+'timer1'<br>
+Promise{<resolved>: undefined}</p>
+<pre><code></code></pre>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[flex布局的使用]]></title>
         <id>https://skrupellose.github.io/post/flex-bu-ju-de-shi-yong/</id>
@@ -900,546 +1954,6 @@ console.log(JSON.stringify(obj2))
 // {&quot;a&quot;:0,&quot;b&quot;:{&quot;c&quot;:0}}
 </code></pre>
 <p>这些都只能实现首层深拷贝的方法，虽然功能有限但在合适的场合用起来会事半功倍。</p>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[优雅的使用async和await]]></title>
-        <id>https://skrupellose.github.io/post/you-ya-de-shi-yong-async-he-await/</id>
-        <link href="https://skrupellose.github.io/post/you-ya-de-shi-yong-async-he-await/">
-        </link>
-        <updated>2019-11-11T15:09:55.000Z</updated>
-        <summary type="html"><![CDATA[<h2 id="简单介绍一下两个语法的使用">😏简单介绍一下两个语法的使用</h2>
-]]></summary>
-        <content type="html"><![CDATA[<h2 id="简单介绍一下两个语法的使用">😏简单介绍一下两个语法的使用</h2>
-<!-- more -->
-<h1 id="一-优雅的介绍一下async和await">一、优雅的介绍一下async和await</h1>
-<p><code>async</code> 函数是什么？一句话，它就是 <code>Generator</code> 函数的语法糖。<br>
-<code>async</code>函数就是将 <code>Generator</code> 函数的星号<code>（*）</code>替换成<code>async</code>，将<code>yield</code>替换成<code>await</code>，仅此而已。</p>
-<pre><code>                                                                    ————阮一峰
-</code></pre>
-<p>阮大佬的入门教程如是说道，那么我们就大概知道了<code>async/await</code>也是用来实现异步编程的方式。</p>
-<h1 id="二-上demo冲">二、上demo，冲！</h1>
-<p>在 <code>function</code> 前面加 <code>async</code> 用来说明这个函数是一个异步函数<br>
-不多说代码安排上：</p>
-<pre><code>      let sayHi = async () =&gt; {
-        console.log('hello,飞飞鱼');
-      }
-      sayHi();
-      console.log('hello,丁丁车');
-</code></pre>
-<p>看下控制台的打印：</p>
-<figure data-type="image" tabindex="1"><img src="https://skrupellose.github.io/post-images/1573486162022.png" alt="" loading="lazy"></figure>
-<p>emm？👀这不还是同步吗？<br>
-再去看看，<code>async</code>函数返回的是一个<code>promise</code> 对象，喔，懂了！</p>
-<pre><code>      let sayHi = async () =&gt; {
-        return 'hello,飞飞鱼';
-      }
-      sayHi()
-      console.log('hello,丁丁车');
-</code></pre>
-<p>打开命运石之门：</p>
-<p><img src="https://skrupellose.github.io/post-images/1573486464645.png" alt="" loading="lazy"><br>
-这一切都是命运石之门的选择。</p>
-<p>好吧，为什么没有打印出来呢？我们把函数<code>sayHi</code>执行结果打印一下：</p>
-<pre><code>      let sayHi = async () =&gt; {
-        return 'hello,飞飞鱼';
-      }
-      console.log(sayHi());
-      console.log('hello,丁丁车');
-</code></pre>
-<p><img src="https://skrupellose.github.io/post-images/1573486614613.png" alt="" loading="lazy"><br>
-额， 忘了返回的是<code>promise对象</code>，那我们直接<code>.then()</code>取值。</p>
-<pre><code>      let sayHi = async () =&gt; {
-       return 'hello,飞飞鱼';
-      }
-      sayHi().then(res =&gt; console.log(res));
-      console.log('hello,丁丁车');
-</code></pre>
-<p><img src="https://skrupellose.github.io/post-images/1573486806717.png" alt="" loading="lazy"><br>
-秒啊！我们发现了的确先打印的<code>hello,丁丁车</code>,然后打印的<code>hello,飞飞鱼</code>，证明sayHi的确是异步函数。</p>
-<h1 id="三-await和async">三、await和async</h1>
-<p><code>await</code>后面可以放任何表达式，不过我们更多的是放一个返回<code>promise</code>对象的表达式。注意<code>await</code> 关键字只能放到<code>async</code>函数里面</p>
-<pre><code>      let delay = word =&gt; {
-        return new Promise((resolve, reject) =&gt; {
-          setTimeout(() =&gt; {
-            resolve(word)
-          },2000);
-        })
-      }
-</code></pre>
-<p>先写个2s后执行的<code>delay</code>函数返回一个<code>promise</code>对象，然后再写一个异步函数来调用它</p>
-<pre><code>      let show = async () =&gt; {
-        let res1 = await delay('I');
-        console.log(res1);
-      }
-      show()
-</code></pre>
-<p>然后我们发现2s后的确打印了：<br>
-<img src="https://skrupellose.github.io/post-images/1573487475797.png" alt="" loading="lazy"><br>
-那么我们继续添加，尝试用优雅的写法</p>
-<pre><code>      let show = async () =&gt; {
-        let res1 = await delay(&quot;I&quot;);
-        let res2 = await delay(&quot;love&quot;);
-        let res3 = await delay(&quot;YOU&quot;);
-        console.log(res1 + &quot; &quot; + res2 + &quot; &quot; + res3);
-      };
-      show();
-</code></pre>
-<p>然后6s后，打印出了：<br>
-<img src="https://skrupellose.github.io/post-images/1573487604909.png" alt="" loading="lazy"></p>
-<p>秒啊，用优雅的同步写法完成了异步操作。<br>
-这里运行的步骤是<code>show</code>函数执行，然后发现了<code>await</code>，它等待第一次<code>promise</code>对象执行完毕，拿到<code>promise resolve</code>的值并进行返回,然后继续向下执行，又发现<code>await</code>，又开始等待，然后重复，最后在6s之后成功完成打印。</p>
-<p>2019-11-14 补充：</p>
-<pre><code>async function f() {
-return await 123;
-}
-
-f().then(v =&gt; console.log(v))
-// 123
-</code></pre>
-<p>这里打印123的原因：<br>
-1.因为f函数return了一个由await生成的Promise对象，这个对象取代了f函数自己形成的Promise，所以最后通过then()方法返回的是123而不是Promise对象（await参数为123，它被转成Promise对象，它被立即resolve）</p>
-<p>正常情况下，await命令后面是一个 Promise 对象，返回该对象的结果。如果不是 Promise 对象，就直接返回对应的值。</p>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[v-bind的两三事]]></title>
-        <id>https://skrupellose.github.io/post/v-bind-de-liang-san-shi/</id>
-        <link href="https://skrupellose.github.io/post/v-bind-de-liang-san-shi/">
-        </link>
-        <updated>2019-11-09T06:53:46.000Z</updated>
-        <content type="html"><![CDATA[<h1 id="关于-v-bind-的两三事">关于 v-bind 的两三事</h1>
-<h2 id="一-前言">一、前言</h2>
-<p>在之前学习前端的过程中经常是碎片式的学习，没有形成一个知识系统，正好在实习中再次接触到<code>vue.js</code>，结合之前的学习和工作中的使用做一个总结，巩固一下知识点。</p>
-<h2 id="二-关于-v-bind">二、关于 v-bind</h2>
-<p>在 vue.js 官方教程中介绍<code>v-bind</code>指令可以绑定元素特性</p>
-<p>我们上个例子：</p>
-<pre><code>&lt;div id=&quot;app&quot;&gt;
-  &lt;span v-bind:title=&quot;message&quot;&gt;
-    鼠标放到这里哟~
-  &lt;/span&gt;
-&lt;/div&gt;
-
-...
-
-var vm = new Vue({
-  el: &quot;#app&quot;,
-  data: {
-     message: &quot;鼠标移到我身上你就可以看到我&quot;
-  }
-});
-</code></pre>
-<p>打开浏览器我们发现：<br>
-<img src="https://skrupellose.github.io/post-images/1573283056492.png" alt="" loading="lazy"></p>
-<p><code>&lt;span&gt;</code>标签的<code>title</code>属性有了<code>message值</code></p>
-<p>这个 <code>title</code>属性规定关于元素的额外信息。</p>
-<p>这些信息通常会在鼠标移到元素上时显示一段工具提示文本,如上面的例子。</p>
-<p>打开控制台：<br>
-<img src="https://skrupellose.github.io/post-images/1573283243201.png" alt="" loading="lazy"><br>
-我们发现的确如此。</p>
-<h2 id="三-指令预期值">三、指令预期值</h2>
-<p>初步了解了<code>v-bind</code>之后，我们继续来看关于指令，vue官方将</p>
-<p><code>v-bind:title=&quot;message&quot;</code></p>
-<p>分为三部分：</p>
-<ol>
-<li><code>v-bind</code> 这个称之为指令</li>
-<li><code>：</code>后面的<code>title</code> 这个被称为属性</li>
-<li><code>message</code> 则被成为‘预期值’</li>
-</ol>
-<p><code>title</code>除了跟上面例子一样是字符串类型变量外，也可以是一个<code>单一js表达式</code></p>
-<p>故属性可以有以下操作：</p>
-<p>(1)执行运算</p>
-<pre><code>    &lt;div id=&quot;app&quot;&gt;
-      &lt;span v-bind:title=&quot;m1 + ' ' + m2&quot;&gt;
-        鼠标放到这里哟~
-      &lt;/span&gt;
-    &lt;/div&gt;
-    ...
-    var vm = new Vue({
-        el: &quot;#app&quot;,
-        data: {
-          m1: 'hello',
-          m2: 'vue.js'
-        }
-      });
-
-</code></pre>
-<p>查看效果：<br>
-<img src="https://skrupellose.github.io/post-images/1573283256464.png" alt="" loading="lazy"></p>
-<p>(2)执行函数</p>
-<pre><code>    &lt;div id=&quot;app&quot;&gt;
-      &lt;span v-bind:title=&quot;show()&quot;&gt;
-        鼠标放到这里哟~
-      &lt;/span&gt;
-    &lt;/div&gt;
-    ...
-    var vm = new Vue({
-        el: &quot;#app&quot;,
-        data: {
-          show(){
-            return 'hello fn'
-          }
-        }
-      });
-</code></pre>
-<p><img src="https://skrupellose.github.io/post-images/1573283285683.png" alt="" loading="lazy"><br>
-同样的也成功了</p>
-<h2 id="四-预期值支持的数据类型">四、预期值支持的数据类型</h2>
-<p>我们发现刚才我们预期值传入的都是字符串类型的数据，那么如果传入其他数据类型的会怎么样呢？</p>
-<p>那么我们来尝试一下：</p>
-<p>(1) 对象</p>
-<pre><code>    &lt;div id=&quot;app&quot;&gt;
-      &lt;span v-bind:title=obj&gt;
-        鼠标放到这里哟~
-      &lt;/span&gt;
-    &lt;/div&gt;
-......
-    var obj = {};
-    var vm = new Vue({
-      el: '#app',
-      data: {
-        obj: obj
-      }
-    });
-</code></pre>
-<p>打开控制台：<br>
-<img src="https://skrupellose.github.io/post-images/1573283298341.png" alt="" loading="lazy"><br>
-我们发现了<code>title=&quot;[object Object]&quot;</code>,这个熟悉的字符串让人想起了对象的 <code>toString</code> 方法的返回值。那么我们继续测试：</p>
-<p>因为我们创建的对象还没有<code>toString()</code>方法，所以我们给它添加一个，这样它就不用顺着原型链去找了</p>
-<pre><code>    &lt;div id=&quot;app&quot;&gt;
-      &lt;span v-bind:title=&quot;obj&quot;&gt;
-        鼠标放到这里哟~
-      &lt;/span&gt;
-    &lt;/div&gt;
-
-    ...
-    
-      var obj = {};
-      obj.toString = function() {
-        return &quot;调用了toString()!&quot;;
-      };
-      var vm = new Vue({
-        el: &quot;#app&quot;,
-        data: {
-          obj: obj
-        }
-      });
-</code></pre>
-<p><img src="https://skrupellose.github.io/post-images/1573283314809.png" alt="" loading="lazy"><br>
-果然如此，调用了<code>toString()</code>方法。</p>
-<p>(2) 数组<br>
-接着我们测试数组<br>
-数组类型的 <code>toString</code>方法和对象类型的有所不同，它将执行并返回给我们 <code>arr.join(',')</code> 相同的结果。如 <code>[1, 2, 3].toString()</code> 将返回 <code>'1,2,3'</code>。下面进行测试：</p>
-<pre><code>    &lt;div id=&quot;app&quot;&gt;
-      &lt;span v-bind:title=&quot;arr&quot;&gt;
-        鼠标放到这里哟~
-      &lt;/span&gt;
-    &lt;/div&gt;
-   ...
-      var arr= [1, 2, 3];
-      var vm = new Vue({
-        el: &quot;#app&quot;,
-        data: {
-          arr: arr
-        }
-      });
-</code></pre>
-<p>结果如下：<br>
-<img src="https://skrupellose.github.io/post-images/1573283327009.png" alt="" loading="lazy"><br>
-和我们的最初设想一致</p>
-<p>(3)其余类型</p>
-<ul>
-<li>number 类型，正常执行 toString，包括数字0，结果都正常渲染成对应的字符串；</li>
-<li>boolean 类型，true 正常渲染成字符串 &quot;true&quot;，但 false 虽然执行 toString 方法将返回 &quot;false&quot; 字符串，但是却没有渲染出来；</li>
-<li>null / undefined 类型，二者没有 toString 方法，也没有渲染出来。<br>
-显然，在执行 toString 方法之前，vue 内部应该先做了类型校验，满足条件才输出。而且这里不是简单的真 / 假值校验，因为 0 虽为假值，但最终却像真值一样渲染了出来。</li>
-</ul>
-<h2 id="五-其他操作">五、其他操作</h2>
-<p>之前我们发现了预期值传入的是其他数据类型时会执行<code>toString</code>方法,那么当我们想给属性来添加多个值的时候就可以通过对象或者数组来传值了。<br>
-比如我们给<code>P标签</code>来增添<code>多个css</code>样式，就可以这么来添加。</p>
-<p>说到这里不得不提一下<code>vue</code>对<code>style</code>以及<code>class</code>属性的增强，比如如果我们给p标签的title属性绑定obj，那么最后会执行toString方法返回一个<code>&quot;[object Object]&quot;</code>，但是当绑定的是<code>style</code>以及<code>class</code>的时候，它会自动进行解析。</p>
-<pre><code>&lt;div id=&quot;app&quot;&gt;
-    &lt;p v-bind:title=&quot;obj&quot;&gt;content&lt;/p&gt;
-&lt;/div&gt;
-...
-var obj = {
-    color: 'red',
-    fontSize: '20px',
-};
-
-渲染后的结果为：
-&lt;div id=&quot;app&quot;&gt;
-    &lt;p title=&quot;[object Object]&quot;&gt;content&lt;/p&gt;
-&lt;/div&gt;
-</code></pre>
-<p>但是如果是style属性：</p>
-<pre><code>&lt;div id=&quot;app&quot;&gt;
-    &lt;p v-bind:style=&quot;obj&quot;&gt;content&lt;/p&gt;
-&lt;/div&gt;
-...
-var obj = {
-    color: 'red',
-    fontSize: '20px',
-};
-
-渲染后的结果为：
-&lt;div id=&quot;app&quot;&gt;
-    &lt;p style=&quot;color: red; font-size: 20px;&quot;&gt;content&lt;/p&gt;
-&lt;/div&gt;
-
-</code></pre>
-<p>这是因为vue内部对这两个属性进行了处理：<br>
-只论最后结果的话，下面这种方法可以实现将对象转换成行内css样式所需要的格式<br>
-具体实现后面还是要看源码。</p>
-<pre><code>obj.toString = function () {
-    var str = '';
-    for(var i in this) {
-        if(this[i]) {
-            str += i + ':' + this[i] + ';';
-        }
-    }
-
-    return str;
-};
-</code></pre>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[JavaScript之函数预编译]]></title>
-        <id>https://skrupellose.github.io/post/javascript-zhi-han-shu-yu-bian-yi/</id>
-        <link href="https://skrupellose.github.io/post/javascript-zhi-han-shu-yu-bian-yi/">
-        </link>
-        <updated>2019-11-09T04:25:45.000Z</updated>
-        <summary type="html"><![CDATA[<h1 id="js执行三部曲语法分析-预编译-解释执行">JS执行三部曲：<strong>语法分析</strong> <strong>预编译</strong> <strong>解释执行</strong></h1>
-]]></summary>
-        <content type="html"><![CDATA[<h1 id="js执行三部曲语法分析-预编译-解释执行">JS执行三部曲：<strong>语法分析</strong> <strong>预编译</strong> <strong>解释执行</strong></h1>
-<!-- more -->
-<p><strong>语法分析</strong>：简单来说就是浏览器先不运行代码，而是检查你代码是否有语法错误比如少加了符号啊，写入了中文字符等等操作。类似于老师检查你的作文，先不看你的内容怎么样，而是看有没有错别字。(啊哈哈，只是类比一下，好像有点不恰当，老师一般是直接一遍看过去)<br>
-<strong>预编译</strong>：<br>
-预编译有两个抽象出来的知识点：</p>
-<ul>
-<li>函数声明整体提升</li>
-<li>变量 声明提升</li>
-</ul>
-<p><strong>函数声明整体提升</strong>指的是当你使用了函数声明，那么函数声明默认会提升至script顶部</p>
-<pre><code>	function up(){
-          console.log(&quot;hello,world&quot;);
-        }
-       up();
-       //打印hello,world
-
-       up();
-       //也能打印出hello,world
-	 	function up(){
-          console.log(&quot;hello,world&quot;);
-        }
-    
-</code></pre>
-<p>这就是说<code>function up(){ console.log(&quot;hello,world&quot;); }</code>这个函数被默认提升到顶部，所以第二种方法执行函数的时候没有报错并且成功了。</p>
-<p><strong>变量 声明提升</strong>指的是变量在声明的时候，也会被提升至逻辑的顶端。</p>
-<pre><code>var a;
-//这个叫做变量声明
-var a = 1;
-//这个叫做变量初始化 它相当于变量声明加变量赋值的双重操作
-//即var a; a = 1;
-</code></pre>
-<p>我们需要注意的是提升的只有变量声明，也就是说：</p>
-<pre><code>console.log(a);
-var a = 123;
-//这里打印的是undefined而不是123
-</code></pre>
-<p>上面的操作拆解一下应该是这样：</p>
-<pre><code>var a；
-console.log(a);
- a = 123;
-//这里相当于只声明了变量a但是没有进行赋值，所以打印的是undefined
-</code></pre>
-<p>但是我们遇到声明的变量为a，声明的函数名也为a，那我们打印的a的时候打印的是哪一个呢？因为两者都有提升，哪一个更加优先呢？</p>
-<pre><code>	console.log(a);
-		//a(){}
-        function a(){
-        }
-        var a;
-</code></pre>
-<p>我们发现打印的是函数体a，但是这有可能是因为函数声明写在变量声明之前，那么我们颠倒一下顺序试一试：</p>
-<pre><code> 	console.log(a);
- 		//a(){}
-        var a = 123;
-        function a(){
-        }
-</code></pre>
-<p>我们发现结果没有变，还是打印的函数a，那么这个原理是什么呢？我们需要更深的去了解JS预编译的过程。</p>
-<p>这里我们先了解两个知识点：</p>
-<ol>
-<li>imply global 暗示全局变量：即任何变量未经声明就赋值，那么这个变量就为全局对象所有。全局变量指的是window</li>
-</ol>
-<pre><code>	 a = 123;
-        console.log(a);
-        //123
-        console.log(window.a);
-        //123
-
-</code></pre>
-<pre><code>	var a = b = 123;
-        console.log(window.a);
-        //123
-        console.log(window.b);
-        //123
-</code></pre>
-<p>这里b变量未经声明就赋值所以变成了window的属性，但是a声明了为什么也变成了window的属性呢？这是因为下面一条规则<br>
-2. 一切声明的全局变量全部变为window的属性<br>
-上面代码的a是全局声明的，所以它也变成了window的属性。</p>
-<pre><code>      
-&lt;!-- more --&gt;
- function go(){
-         var a = b =123;
-       }
-       go();
-       console.log(window.a);
-       //undefined
-       console.log(window.b);
-       //123
-
-
-</code></pre>
-<p>而当我们在<strong>函数内部</strong>声明变量的时候 它就<strong>不是</strong>全局变量了，它变成了<strong>局部变量</strong>，就不满足第二条规则了，所以打印window.a的时候，结果显示的是undefined，而b还是未声明就赋值，所以它还是一个全局变量，因此打印了出来。</p>
-<p>我们继续讲回预编译：<br>
-<strong>预编译，它发生在函数执行的前一刻</strong>，它有以下几个环节：</p>
-<ol>
-<li>创建AO对象 Activation Object（执行期上下文）</li>
-<li>找形参和变量声明，将变量和形参名作为AO对象的属性名，值为undefined</li>
-<li>将实参形参相统一</li>
-<li>在函数体里找到函数声明，把函数声明当做值赋予函数体<br>
-让我们根据一个例子操作一下：</li>
-</ol>
-<pre><code>     function test(a) {
-        console.log(a);
-        console.log(b); 
-        var b = 234;
-        console.log(b); 
-        a = 123;
-        console.log(a);
-        function a() {};
-        var a;
-        b = 234;
-        var b = function() {};
-        console.log(a); 
-        console.log(b); 
-        function d() {};
-      }
-      test(1);
-</code></pre>
-<ol>
-<li>创建AO对象</li>
-</ol>
-<pre><code>AO{
-}
-</code></pre>
-<ol start="2">
-<li>找形参和变量声明，将变量和形参名作为AO对象的属性名，值为undefined</li>
-</ol>
-<p>我们首先寻找形参，发现函数的形参有a同时变量名它也有a我们只需要保留一个就行了,然后赋值undefined。</p>
-<pre><code>AO{
-	a : undefined,
-	b : undefined,
-}
-</code></pre>
-<ol start="3">
-<li>将实参形参相统一<br>
-test(1)传的值是1</li>
-</ol>
-<pre><code>AO{
-	a : 1,
-	b : undefined,
-}
-</code></pre>
-<p>4.在函数体里找到函数声明，把函数声明当做值赋予函数体。关于函数体，比如:</p>
-<pre><code>  function test() {
-        console.log(&quot;hello&quot;);
-      }
-      test();
-      console.log(test);
-      // function test() {
-        console.log(&quot;hello&quot;);
-      }
-</code></pre>
-<p>这里我们打印test，输出的是test这整个函数，test就指代着函数体。<br>
-这里我们还需要注意的是 <code>function fn(){}</code>这种形式才叫做<strong>函数声明</strong>，而<code>var fn = function(){}</code>j叫做<strong>函数表达式</strong></p>
-<pre><code>AO{
-	a : function a (){},
-	b : undefined,
-	d : function d (){},
-}
-</code></pre>
-<p>然后我们就得到了该函数完整的执行期上下文，然后以此为基础我们开始重新赋值</p>
-<pre><code>    function test(a) {
-        console.log(a); 1
-        console.log(b); 2
-        var b = 234;
-        console.log(b);  3
-        a = 123;
-        console.log(a);  4
-        function a() {};
-        var a;
-        b = 234;
-        var b = function() {};
-        console.log(a);  5
-        console.log(b);  6
-        function d() {};
-      }
-      test(1);
-</code></pre>
-<ol>
-<li>第一个打印的a根据AO对象我们知道应该是<code>function a (){}</code></li>
-<li>第一个打印的b我们根据AO对象知道应该是<code>undefined</code></li>
-<li>第二个打印的b我们这里要注意一下，因为上面有一句赋值语句：<code>var b = 234;</code>，所以这个时候打印的b变成了<code>234</code></li>
-<li>同理，第二个打印的a因为上面又进行了赋值，所以变成了<code>123</code></li>
-<li>第三个打印的a并没有重新赋值，所以还是<code>123</code></li>
-<li>第三个打印的b因为上面将函数体赋给了它，所以它变成了<code>function (){}</code></li>
-</ol>
-<p>好的，完成了！<br>
-那么接下来我们解决刚才的那个问题</p>
-<pre><code>	console.log(a);
-		//a(){}
-        function a(){
-        }
-        var a;
-</code></pre>
-<p>按照步骤首先创建AO对象</p>
-<pre><code>AO{
-}
-</code></pre>
-<p>然后寻找形参和变量声明并赋值undefined</p>
-<pre><code>AO{
-a : undefined
-}
-</code></pre>
-<p>接着将实参形参相统一</p>
-<p>最后在函数体里找到函数声明，把函数声明当做值赋予函数体</p>
-<pre><code>AO{
-a : function a (){}
-}
-</code></pre>
-<p>然后打印a，所以最后的结果是 <code>function a (){}</code><br>
-这个其实应该用全局的预编译，具体环节和函数预编译差不多，只是我们发现好像第三步形参实参相统一多余了，所以我们<strong>全局预编译</strong>只有三步：</p>
-<ol>
-<li>创建我们全局的执行上下文叫GO对象即（Global Object）</li>
-<li>找变量声明，将变量名作为GO对象的属性名，值为undefined</li>
-<li>最后在函数体里找到函数声明，把函数声明当做值赋予函数体<br>
-<strong>我们的GO先于AO生成，并且首先元素查找AO，若AO没有则去GO查找</strong><br>
-用上面一个例子</li>
-</ol>
-<pre><code>function go(){
-         var a = b =123;
-       }
-       go();
-       console.log(window.a);
-       //undefined
-       console.log(window.b);
-       //123
-</code></pre>
-<p>首先 ，我们应该先创建GO对象，由于b是一个全局变量所以创建GO对象的时候我们对其进行了初始化的操作最后等于123，因此我们在AO找不到b的时候去GO中寻找，最终打印出了结果。而a在AO对象中，且被赋值为undefined，所以最终输出也为undefined。<br>
-<strong>解释执行</strong>：预编译结束之后，就是我们浏览器的解释执行了。</p>
 ]]></content>
     </entry>
 </feed>

@@ -31,38 +31,21 @@
       
         <div class="animated fadeInLeft" style="animation-delay: 0.4s">
           <p class="my-4 text-gray-600 font-light hidden lg:block">
-            人类世界真是太有趣了
+            文章目录
           </p>
-          <div class="animated fadeInLeft social-container hidden lg:block" style="animation-delay: 0.6s">
-            
-              
-                <a href="https://github.com/Skrupellose" target="_blank" class="mr-4 text-xl text-gray-400 font-light hover:text-gray-900">
-                  <i class="remixicon-github-line"></i>
-                </a>
-              
-            
-              
-            
-              
-            
-              
-            
-              
-            
-              
-            
-              
-            
-              
-            
-              
-            
-              
-                <a href="https://skrupellose.github.io/post/about" target="_blank" class="mr-4 text-xl text-gray-400 font-light hover:text-gray-900">
-                  <i class="remixicon-qq-line"></i>
-                </a>
-              
-            
+          <div class="toc-container hidden lg:block">
+            <ul class="markdownIt-TOC">
+<li><a href="#%E4%B8%80-%E5%85%B3%E4%BA%8Emongodb">一、 关于MongoDB</a></li>
+<li><a href="#%E4%BA%8C-%E7%AE%80%E5%8D%95%E4%B8%8A%E6%89%8B%E4%BD%BF%E7%94%A8">二、简单上手使用</a>
+<ul>
+<li><a href="#21-%E4%B8%8B%E8%BD%BD%E5%AE%89%E8%A3%85">2.1 下载安装</a></li>
+<li><a href="#22-%E8%BD%AF%E4%BB%B6%E4%BD%BF%E7%94%A8">2.2 软件使用</a></li>
+<li><a href="#23-%E4%B8%80%E4%BA%9B%E5%9F%BA%E6%9C%AC%E5%91%BD%E4%BB%A4">2.3 一些基本命令</a></li>
+<li><a href="#24-node%E6%93%8D%E4%BD%9Cmongodb">2.4 Node操作MongoDB</a></li>
+</ul>
+</li>
+</ul>
+
           </div>
         </div>
       
@@ -112,34 +95,97 @@
 </div>
 <div class="mask" onclick="closeMenu()">
 </div>
-      <div class="content-wrapper py-32 lg:p-8 lg:w-3/4">
-        <h2 class="text-lg text-gray-700 mb-8">
-          <i class="remixicon-bookmark-line"></i> es6
-        </h2>
-        
-  <section class="post-item md:flex pb-12 animated fadeIn" :style="{ 'animation-delay': `${0 * 0.2}s` }">
-    
-      <a href="https://skrupellose.github.io/post/you-ya-de-shi-yong-async-he-await/" class="feature-image-wrapper bg-gray-100 rounded-lg flex-shrink-0 mr-8 w-full h-56 h-32 md:w-56 md:h-40">
-        <div class="post-feature-image lazy w-full h-56 h-32 md:w-56 md:h-40" data-bg="'http://pic1.win4000.com/wallpaper/5/57a823a8f0511.jpg'">
+      <div class="content-wrapper py-32 lg:p-8 lg:w-3/4 post-detail animated fadeIn">
+        <h1 class="text-3xl font-bold lg:mt-16">MongoDB笔记</h1>
+        <div class="text-sm text-gray-700 lg:my-8">
+          2020-03-04 / 2 min read
         </div>
-      </a>
-    
-    <div class="content">
-      <a href="https://skrupellose.github.io/post/you-ya-de-shi-yong-async-he-await/">
-        <h2 class="post-title text-xl font-extrabold mt-5 md:mt-0">优雅的使用async和await</h2>
-      </a>
-      <div class="post-abstract text-gray-700 font-light my-4">
-        <h2 id="简单介绍一下两个语法的使用">😏简单介绍一下两个语法的使用</h2>
+        
+        <div class="post-content yue">
+          <h1 id="一-关于mongodb">一、 关于MongoDB</h1>
+<p>MongoDB是一个面向文档的数据库管理系统，用C++语言编写。</p>
+<h1 id="二-简单上手使用">二、简单上手使用</h1>
+<h2 id="21-下载安装">2.1 下载安装</h2>
+<p><a href="https://www.mongodb.com/">官网</a><br>
+然后正常安装</p>
+<h2 id="22-软件使用">2.2 软件使用</h2>
+<ol>
+<li>
+<p>选一个磁盘来存储数据<br>
+比如想在D盘存储数据，那么我们就需要在D盘下新建一个<code>data</code>文件夹，再在其中新建<code>db</code>文件夹，这样我们后面数据库的数据就会被保存在<code>db</code>文件夹</p>
+</li>
+<li>
+<p>启动MongoDB<br>
+打开CMD，切换到D盘，执行<code>mongod</code>启动命令，然后最小化。</p>
+</li>
+<li>
+<p>操作数据库<br>
+输入<code>mongo</code>就可以进行数据库的相关操作</p>
+<h2 id="23-一些基本命令">2.3 一些基本命令</h2>
+<ol>
+<li>切换/创建数据库<br>
+<code>use DBname</code></li>
+<li>删除当前数据库<br>
+<code>db.dropDatabase()</code></li>
+<li>查询数据库<br>
+<code>show dbs</code></li>
+<li>得到当前数据库所有集合<br>
+<code>db.getCollectionNames();</code></li>
+<li>集合查询所有记录<br>
+<code>db.collectionname.find()</code></li>
+</ol>
+</li>
+</ol>
+<h2 id="24-node操作mongodb">2.4 Node操作MongoDB</h2>
+<pre><code>var mongoose = require ('mongoose')
+var Schema = mongoose.Schema
 
-      </div>
-      <div class="text-gray-400 text-sm font-light">2019-11-11 / 4 min read</div>
-    </div>
-  </section>
+mongoose.connect('mongodb://localhost/dbName',{ useNewUrlParser: true })
 
-        <div class="pagination-container animated fadeIn">
-  
-  
-</div>
+var userSchema = new Schema({
+  username: {
+    type: String,
+    required: true
+  },
+  password: {
+    type: String,
+    required: true
+  }
+})
+
+var User = mongoose.model('User', userSchema)
+</code></pre>
+
+        </div>
+
+        
+
+
+        <div class="flex justify-between py-8">
+          
+            <div class="prev-post">
+              <a href="https://skrupellose.github.io/post/react-xue-xi-bi-ji/">
+                <h3 class="post-title">
+                  <i class="remixicon-arrow-left-line"></i>
+                  React学习笔记
+                </h3>
+              </a>
+            </div>
+          
+
+          
+            <div class="next-post">
+              <a href="https://skrupellose.github.io/post/promise/">
+                <h3 class="post-title">
+                  Promise与相关题型
+                  <i class="remixicon-arrow-right-line"></i>
+                </h3>
+              </a>
+            </div>
+          
+        </div>
+
+        
 
       </div>
     </div>
