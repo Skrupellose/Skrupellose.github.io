@@ -4,7 +4,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>D.C </title>
 <meta name="description" content="人类世界真是太有趣了" />
-<link rel="shortcut icon" href="https://skrupellose.github.io/favicon.ico?v=1586664107857">
+<link rel="shortcut icon" href="https://skrupellose.github.io/favicon.ico?v=1586664190780">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
 <link href="https://cdn.remixicon.com/releases/v1.3.1/remixicon.css" rel="stylesheet">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
@@ -24,7 +24,7 @@
       <div class="flex lg:block p-4 lg:px-0 items-center fixed lg:static lg:block top-0 right-0 left-0 bg-white z-50">
         <i class="remixicon-menu-2-line lg:mt-4 text-2xl cursor-pointer animated fadeIn" onclick="openMenu()"></i>
         <a href="https://skrupellose.github.io">
-          <img class="animated fadeInLeft avatar rounded-lg mx-4 lg:mt-32 lg:mx-0 mt-0 lg:w-24 lg:h-24 w-12 w-12" src="https://skrupellose.github.io/images/avatar.png?v=1586664107857" alt="">
+          <img class="animated fadeInLeft avatar rounded-lg mx-4 lg:mt-32 lg:mx-0 mt-0 lg:w-24 lg:h-24 w-12 w-12" src="https://skrupellose.github.io/images/avatar.png?v=1586664190780" alt="">
         </a>
         <h1 class="animated fadeInLeft lg:text-4xl font-extrabold lg:mt-8 mt-0 text-xl" style="animation-delay: 0.2s">D.C </h1>
       </div>
@@ -59,6 +59,10 @@
 <li><a href="#33-%E9%A2%98%E7%9B%AE3">3.3 题目3</a></li>
 <li><a href="#34-%E9%A2%98%E7%9B%AE4">3.4 题目4</a></li>
 <li><a href="#35-%E9%A2%98%E7%9B%AE5">3.5 题目5</a></li>
+</ul>
+</li>
+<li><a href="#%E5%9B%9B-promise%E8%BF%9B%E9%98%B6">四、promise进阶</a>
+<ul>
 <li><a href="#41-%E9%A2%98%E7%9B%AE1">4.1 题目1</a></li>
 <li><a href="#42-%E9%A2%98%E7%9B%AE2">4.2 题目2</a></li>
 <li><a href="#43-%E9%A2%98%E7%9B%AE3">4.3 题目3</a></li>
@@ -70,6 +74,10 @@
 <li><a href="#49-%E9%A2%98%E7%9B%AE9">4.9 题目9</a></li>
 <li><a href="#410-%E9%A2%98%E7%9B%AE10">4.10 题目10</a></li>
 <li><a href="#411-%E9%A2%98%E7%9B%AE11">4.11 题目11</a></li>
+</ul>
+</li>
+<li><a href="#%E4%BA%94-async%E5%92%8Cawait">五、async和await</a>
+<ul>
 <li><a href="#51-%E9%A2%98%E7%9B%AE1">5.1 题目1</a></li>
 <li><a href="#52-%E9%A2%98%E7%9B%AE2">5.2 题目2</a></li>
 <li><a href="#53-%E9%A2%98%E7%9B%AE3">5.3 题目3</a></li>
@@ -78,6 +86,10 @@
 <li><a href="#56-%E9%A2%98%E7%9B%AE6">5.6 题目6</a></li>
 <li><a href="#57-%E9%A2%98%E7%9B%AE7">5.7 题目7</a></li>
 <li><a href="#58-%E9%A2%98%E7%9B%AE8">5.8 题目8</a></li>
+</ul>
+</li>
+<li><a href="#%E5%85%AD-%E7%BB%BC%E5%90%88%E9%A2%98">六、综合题</a>
+<ul>
 <li><a href="#61-%E9%A2%98%E7%9B%AE1">6.1 题目1</a></li>
 <li><a href="#62-%E9%A2%98%E7%9B%AE2">6.2 题目2</a></li>
 <li><a href="#63-%E9%A2%98%E7%9B%AE3">6.3 题目3</a></li>
@@ -426,7 +438,7 @@ test5.html:102 Uncaught (in promise) Error: error!!! at test.html:102
 'promise1' Promise{&lt;resolved&gt;: &quot;success&quot;}
 'promise2' Promise{&lt;rejected&gt;: Error: error!!!}
 </code></pre>
-<p>#四、promise进阶</p>
+<h1 id="四-promise进阶">四、promise进阶</h1>
 <h2 id="41-题目1">4.1 题目1</h2>
 <pre><code>const promise = new Promise((resolve, reject) =&gt; {
   reject(&quot;error&quot;);
@@ -704,7 +716,7 @@ Promise.race([runAsync(1), runAsync(2), runAsync(3)])
 2
 3
 </code></pre>
-<p>#五、async和await</p>
+<h1 id="五-async和await">五、async和await</h1>
 <h2 id="51-题目1">5.1 题目1</h2>
 <pre><code>async function async1() {
   console.log(&quot;async1 start&quot;);
@@ -968,7 +980,7 @@ console.log('script start')
 async1().then(res =&gt;console.log(res))
 console.log('script start')
 </code></pre>
-<p>#六、综合题</p>
+<h1 id="六-综合题">六、综合题</h1>
 <h2 id="61-题目1">6.1 题目1</h2>
 <pre><code>const first = () =&gt;(new Promise((resolve, reject) =&gt; {
     console.log(3);

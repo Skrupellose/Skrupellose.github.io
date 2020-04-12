@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://skrupellose.github.io</id>
     <title>D.C </title>
-    <updated>2020-04-12T04:01:51.641Z</updated>
+    <updated>2020-04-12T04:03:13.613Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://skrupellose.github.io"/>
     <link rel="self" href="https://skrupellose.github.io/atom.xml"/>
@@ -473,7 +473,7 @@ test5.html:102 Uncaught (in promise) Error: error!!! at test.html:102
 'promise1' Promise{&lt;resolved&gt;: &quot;success&quot;}
 'promise2' Promise{&lt;rejected&gt;: Error: error!!!}
 </code></pre>
-<p>#四、promise进阶</p>
+<h1 id="四-promise进阶">四、promise进阶</h1>
 <h2 id="41-题目1">4.1 题目1</h2>
 <pre><code>const promise = new Promise((resolve, reject) =&gt; {
   reject(&quot;error&quot;);
@@ -751,7 +751,7 @@ Promise.race([runAsync(1), runAsync(2), runAsync(3)])
 2
 3
 </code></pre>
-<p>#五、async和await</p>
+<h1 id="五-async和await">五、async和await</h1>
 <h2 id="51-题目1">5.1 题目1</h2>
 <pre><code>async function async1() {
   console.log(&quot;async1 start&quot;);
@@ -1015,7 +1015,7 @@ console.log('script start')
 async1().then(res =&gt;console.log(res))
 console.log('script start')
 </code></pre>
-<p>#六、综合题</p>
+<h1 id="六-综合题">六、综合题</h1>
 <h2 id="61-题目1">6.1 题目1</h2>
 <pre><code>const first = () =&gt;(new Promise((resolve, reject) =&gt; {
     console.log(3);
