@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://skrupellose.github.io</id>
     <title>D.C </title>
-    <updated>2020-04-12T03:56:23.389Z</updated>
+    <updated>2020-04-12T04:01:51.641Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://skrupellose.github.io"/>
     <link rel="self" href="https://skrupellose.github.io/atom.xml"/>
@@ -719,440 +719,441 @@ Promise.all([runAsync(1), runReject(4), runAsync(3), runReject(2)])
 </code></pre>
 <p>tips:</p>
 <ul>
-<li>
-<p><code>promise.all()</code>中参数的顺序就是加入任务队列的顺序，但是定时器执行先后由时间长短排序</p>
-</li>
-<li>
-<p>所以执行顺序为<code>runAsync(1)</code>、 <code>runAsync(3)</code>、 <code>runReject(2)</code>、<code>runReject(4)</code></p>
-</li>
-<li>
-<p>又因为<code>runReject</code>函数抛出错误，所以<code>promise.all().then()</code>不会执行，而<code>.catch()</code>会捕获<code>.all()</code>之中最先的异常</p>
-<p>执行结果：</p>
-<pre><code></code></pre>
-</li>
+<li><code>promise.all()</code>中参数的顺序就是加入任务队列的顺序，但是定时器执行先后由时间长短排序</li>
+<li>所以执行顺序为<code>runAsync(1)</code>、 <code>runAsync(3)</code>、 <code>runReject(2)</code>、<code>runReject(4)</code></li>
+<li>又因为<code>runReject</code>函数抛出错误，所以<code>promise.all().then()</code>不会执行，而<code>.catch()</code>会捕获<code>.all()</code>之中最先的异常</li>
 </ul>
-<p>1<br>
-3<br>
-// 2s后输出<br>
-2<br>
-Error: 2<br>
-// 4s后输出<br>
-4</p>
-<pre><code>
-## 4.11 题目11
+<p>执行结果：</p>
+<pre><code>1
+3
+// 2s后输出
+2
+Error: 2
+// 4s后输出
+4
 </code></pre>
-<p>function runAsync (x) {<br>
-const p = new Promise(r =&gt; setTimeout(() =&gt; r(x, console.log(x)), 1000))<br>
-return p<br>
-}<br>
-Promise.race([runAsync(1), runAsync(2), runAsync(3)])<br>
-.then(res =&gt;console.log('result: ', res))<br>
-.catch(err =&gt;console.log(err))</p>
-<pre><code>tips：
-- `.race()`只会获取最先执行完的结果
+<h2 id="411-题目11">4.11 题目11</h2>
+<pre><code>function runAsync (x) {
+const p = new Promise(r =&gt; setTimeout(() =&gt; r(x, console.log(x)), 1000))
+return p
+}
+Promise.race([runAsync(1), runAsync(2), runAsync(3)])
+.then(res =&gt;console.log('result: ', res))
+.catch(err =&gt;console.log(err))
+</code></pre>
+<p>tips：</p>
+<ul>
+<li><code>.race()</code>只会获取最先执行完的结果</li>
+</ul>
+<p>执行结果：</p>
+<pre><code>1
+'result: ' 1
+2
+3
+</code></pre>
+<p>#五、async和await</p>
+<h2 id="51-题目1">5.1 题目1</h2>
+<pre><code>async function async1() {
+  console.log(&quot;async1 start&quot;);
+  await async2();
+  console.log(&quot;async1 end&quot;);
+}
+async function async2() {
+  console.log(&quot;async2&quot;);
+}
+async1();
+console.log('start')
+</code></pre>
+<p>tips：</p>
+<ul>
+<li><code>async1</code>函数执行，打印<code>async1 start</code></li>
+<li>执行<code>async2</code>函数，打印<code>async2</code></li>
+<li>跳出<code>async1</code>，打印<code>start</code></li>
+<li>再打印<code>async1 end</code></li>
+<li><code>await</code>后面的内容将放到下一次执行，类似于<code>promise.then()</code></li>
+</ul>
+<p>执行结果：</p>
+<pre><code>'async start'
+'promise'
+'async1 end'
+'start'
+</code></pre>
+<h2 id="52-题目2">5.2 题目2</h2>
+<pre><code>async function async1() {
+  console.log(&quot;async1 start&quot;);
+  await async2();
+  console.log(&quot;async1 end&quot;);
+}
+async function async2() {
+  setTimeout(() =&gt; {
+    console.log('timer')
+  }, 0)
+  console.log(&quot;async2&quot;);
+}
+async1();
+console.log(&quot;start&quot;)
+</code></pre>
+<p>tips:</p>
+<ul>
+<li>与上一道题不同的是async2函数内多了一个定时器，定时器会被放到下一次宏任务中执行</li>
+</ul>
+<p>执行结果：</p>
+<pre><code>async1 start
+async2
+start
+async1 end
+timer
+</code></pre>
+<h2 id="53-题目3">5.3 题目3</h2>
+<pre><code>async function async1() {
+  console.log(&quot;async1 start&quot;);
+  await async2();
+  console.log(&quot;async1 end&quot;);
+  setTimeout(() =&gt; {
+    console.log('timer1')
+  }, 0)
+}
+async function async2() {
+  setTimeout(() =&gt; {
+    console.log('timer2')
+  }, 0)
+  console.log(&quot;async2&quot;);
+}
+async1();
+setTimeout(() =&gt; {
+  console.log('timer3')
+}, 0)
+console.log(&quot;start&quot;)
+</code></pre>
+<p>tips：</p>
+<ul>
+<li><code>async1</code>函数执行，打印<code>async1 start</code></li>
+<li><code>async2</code>函数执行，将<code>timer2</code>移入宏任务队列，然后打印<code>async2</code></li>
+<li>将<code>timer3</code>移入宏任务队列</li>
+<li>打印<code>start</code></li>
+<li>打印<code>async1 end</code>并且将<code>timer1</code>移入宏任务队列</li>
+<li>执行第一个宏任务，打印<code>timer2</code>，微任务队列没有任务，将剩下的两个宏任务依次执行打印<code>timer3</code>和<code>timer1</code></li>
+</ul>
+<p>执行结果：</p>
+<pre><code>async1 start
+async2
+start
+async1 end
+timer2
+timer3
+timer1
+</code></pre>
+<h2 id="54-题目4">5.4 题目4</h2>
+<pre><code>async function async1 () {
+  console.log('async1 start');
+  await new Promise(resolve =&gt; {
+    console.log('promise1')
+  })
+  console.log('async1 success');
+  return 'async1 end'
+}
+console.log('script start')
+async1().then(res =&gt;console.log(res))
+console.log('script end')
+</code></pre>
+<p>tips:</p>
+<ul>
+<li>打印<code>script start</code></li>
+<li><code>async1</code>执行</li>
+<li>打印<code>async1 start</code></li>
+<li>新创建一个<code>promise</code>对象，打印<code>promise1</code></li>
+<li>将<code>.then()</code>加入微任务队列</li>
+<li>打印<code>script end</code></li>
+<li>由于新创建的<code>promise</code>对象并没有改变状态，所以<code>.then()</code>不会执行，<code>await</code>后面的内容也不会执行</li>
+</ul>
+<p>执行结果：</p>
+<pre><code>'script start'
+'async1 start'
+'promise1'
+'script end'
+</code></pre>
+<h2 id="55-题目5">5.5 题目5</h2>
+<pre><code>async function async1 () {
+  console.log('async1 start');
+  await new Promise(resolve =&gt; {
+    console.log('promise1')
+    resolve('promise1 resolve')
+  }).then(res =&gt;console.log(res))
+  console.log('async1 success');
+  return 'async1 end'
+}
+console.log('script start')
+async1().then(res =&gt;console.log(res))
+console.log('script end')
+</code></pre>
+<p>tips:</p>
+<ul>
+<li>打印<code>script start</code></li>
+<li><code>async1</code>执行，打印<code>async1 start</code></li>
+<li>新建一个<code>promise</code>对象，打印<code>promise1</code>，修改状态为<code>resolved</code>，返回值为<code>promise1 resolve</code></li>
+<li>打印<code>script end</code></li>
+<li>执行<code>.then()</code></li>
+<li>打印<code>async1 success</code></li>
+<li>修改<code>promise</code>返回值为<code>async1 end</code></li>
+<li>执行第二个<code>.then()</code>，打印<code>async1 end</code></li>
+</ul>
+<p>执行结果：</p>
+<pre><code>'script start'
+'async1 start'
+'promise1'
+'script end'
+'promise1 resolve'
+'async1 success'
+'async1 end'
+</code></pre>
+<h2 id="56-题目6">5.6 题目6</h2>
+<pre><code>async function testSometing() {
+  console.log(&quot;执行testSometing&quot;);
+  return&quot;testSometing&quot;;
+}
 
-执行结果：
-</code></pre>
-<p>1<br>
-'result: ' 1<br>
-2<br>
-3</p>
-<pre><code>
-#五、async和await
-## 5.1 题目1
-</code></pre>
-<p>async function async1() {<br>
-console.log(&quot;async1 start&quot;);<br>
-await async2();<br>
-console.log(&quot;async1 end&quot;);<br>
-}<br>
-async function async2() {<br>
-console.log(&quot;async2&quot;);<br>
-}<br>
-async1();<br>
-console.log('start')</p>
-<pre><code>tips：
-- `async1`函数执行，打印`async1 start`
-- 执行`async2`函数，打印`async2`
-- 跳出`async1`，打印`start`
-- 再打印`async1 end`
-- `await`后面的内容将放到下一次执行，类似于`promise.then()`
+async function testAsync() {
+  console.log(&quot;执行testAsync&quot;);
+  return Promise.resolve(&quot;hello async&quot;);
+}
 
-执行结果：
-</code></pre>
-<p>'async start'<br>
-'promise'<br>
-'async1 end'<br>
-'start'</p>
-<pre><code>
-## 5.2 题目2
-</code></pre>
-<p>async function async1() {<br>
-console.log(&quot;async1 start&quot;);<br>
-await async2();<br>
-console.log(&quot;async1 end&quot;);<br>
-}<br>
-async function async2() {<br>
-setTimeout(() =&gt; {<br>
-console.log('timer')<br>
-}, 0)<br>
-console.log(&quot;async2&quot;);<br>
-}<br>
-async1();<br>
-console.log(&quot;start&quot;)</p>
-<pre><code>tips:
-- 与上一道题不同的是async2函数内多了一个定时器，定时器会被放到下一次宏任务中执行
+async function test() {
+  console.log(&quot;test start...&quot;);
+  const v1 = await testSometing();
+  console.log(v1);
+  const v2 = await testAsync();
+  console.log(v2);
+  console.log(v1, v2);
+}
 
-执行结果：
-</code></pre>
-<p>async1 start<br>
-async2<br>
-start<br>
-async1 end<br>
-timer</p>
-<pre><code>
-## 5.3 题目3
-</code></pre>
-<p>async function async1() {<br>
-console.log(&quot;async1 start&quot;);<br>
-await async2();<br>
-console.log(&quot;async1 end&quot;);<br>
-setTimeout(() =&gt; {<br>
-console.log('timer1')<br>
-}, 0)<br>
-}<br>
-async function async2() {<br>
-setTimeout(() =&gt; {<br>
-console.log('timer2')<br>
-}, 0)<br>
-console.log(&quot;async2&quot;);<br>
-}<br>
-async1();<br>
-setTimeout(() =&gt; {<br>
-console.log('timer3')<br>
-}, 0)<br>
-console.log(&quot;start&quot;)</p>
-<pre><code>tips：
-- `async1`函数执行，打印`async1 start`
-- `async2`函数执行，将`timer2`移入宏任务队列，然后打印`async2`
-- 将`timer3`移入宏任务队列
-- 打印`start`
-- 打印`async1 end`并且将`timer1`移入宏任务队列
-- 执行第一个宏任务，打印`timer2`，微任务队列没有任务，将剩下的两个宏任务依次执行打印`timer3`和`timer1`
+test();
 
-执行结果：
-</code></pre>
-<p>async1 start<br>
-async2<br>
-start<br>
-async1 end<br>
-timer2<br>
-timer3<br>
-timer1</p>
-<pre><code>
-## 5.4 题目4
-</code></pre>
-<p>async function async1 () {<br>
-console.log('async1 start');<br>
-await new Promise(resolve =&gt; {<br>
-console.log('promise1')<br>
-})<br>
-console.log('async1 success');<br>
-return 'async1 end'<br>
-}<br>
-console.log('script start')<br>
-async1().then(res =&gt;console.log(res))<br>
-console.log('script end')</p>
-<pre><code>tips:
-- 打印`script start`
-- `async1`执行
-- 打印`async1 start`
-- 新创建一个`promise`对象，打印`promise1`
-- 将`.then()`加入微任务队列
-- 打印`script end`
-- 由于新创建的`promise`对象并没有改变状态，所以`.then()`不会执行，`await`后面的内容也不会执行
+var promise = newPromise(resolve =&gt; {
+  console.log(&quot;promise start...&quot;);
+  resolve(&quot;promise&quot;);
+});
+promise.then(val =&gt;console.log(val));
 
-执行结果：
+console.log(&quot;test end...&quot;);
 </code></pre>
-<p>'script start'<br>
-'async1 start'<br>
-'promise1'<br>
-'script end'</p>
-<pre><code>## 5.5 题目5
+<p>tips:</p>
+<ul>
+<li>执行<code>test</code>函数，打印<code>test start</code></li>
+<li>执行<code>testSomething</code>函数，打印<code>执行testSomething</code></li>
+<li>跳出<code>test</code>函数，打印<code>promise start</code>并且修改promise的值和状态</li>
+<li>将<code>.then()</code>加入微任务队列</li>
+<li>打印<code>test end</code></li>
+<li>打印<code>v1</code>的值 <code>testSomething</code></li>
+<li>执行<code>testAsync</code>函数，打印<code>执行testAsync</code></li>
+<li>跳出<code>tes</code>t函数，执行微任务的<code>.then()</code>,打印<code>promise</code></li>
+<li>打印<code>v2</code>的值<code>hello async</code></li>
+<li>打印<code>v1</code>、<code>v2</code>的值</li>
+</ul>
+<pre><code>'test start...'
+'执行testSometing'
+'promise start...'
+'test end...'
+'testSometing'
+'执行testAsync'
+'promise'
+'hello async'
+'testSometing' 'hello async'
 </code></pre>
-<p>async function async1 () {<br>
-console.log('async1 start');<br>
-await new Promise(resolve =&gt; {<br>
-console.log('promise1')<br>
-resolve('promise1 resolve')<br>
-}).then(res =&gt;console.log(res))<br>
-console.log('async1 success');<br>
-return 'async1 end'<br>
-}<br>
-console.log('script start')<br>
-async1().then(res =&gt;console.log(res))<br>
-console.log('script end')</p>
-<pre><code>
-tips:
-- 打印`script start`
-- `async1`执行，打印`async1 start`
-- 新建一个`promise`对象，打印`promise1`，修改状态为`resolved`，返回值为`promise1 resolve`
-- 打印`script end`
-- 执行`.then()`
-- 打印`async1 success`
-- 修改`promise`返回值为`async1 end`
-- 执行第二个`.then()`，打印`async1 end`
+<h2 id="57-题目7">5.7 题目7</h2>
+<pre><code>async function async1 () {
+  await async2();
+  console.log('async1');
+  return 'async1 success'
+}
+async function async2 () {
+  return new Promise((resolve, reject) =&gt; {
+    console.log('async2')
+    reject('error')
+  })
+}
+async1().then(res =&gt;console.log(res))
+</code></pre>
+<p>tips:</p>
+<ul>
+<li><code>async</code>函数中抛出了错误，则不会往下继续执行</li>
+<li><code>throw new Error</code>是一样的效果</li>
+</ul>
+<p>执行结果：</p>
+<pre><code>'async2'
+Uncaught (in promise) error
+</code></pre>
+<h2 id="58-题目8">5.8 题目8</h2>
+<pre><code>async function async1 () {
+  try {
+    await Promise.reject('error!!!')
+  } catch(e) {
+    console.log(e)
+  }
+  console.log('async1');
+  return Promise.resolve('async1 success')
+}
+async1().then(res =&gt;console.log(res))
+console.log('script start')
+</code></pre>
+<p>tips:</p>
+<ul>
+<li>若不想错误影响函数后面的执行则可以使用<code>try catch</code></li>
+</ul>
+<p>执行结果：</p>
+<pre><code>'script start'
+'error!!!'
+'async1'
+'async1 success'
+</code></pre>
+<p>或者在<code>Promise.reject</code>后面跟着一个<code>catch()</code>方法</p>
+<pre><code>async function async1 () {
+   await Promise.reject('error!!!')
+        .catch(e =&gt;console.log(e))
+   console.log('async1');
+  return Promise.resolve('async1 success')
+}
+async1().then(res =&gt;console.log(res))
+console.log('script start')
+</code></pre>
+<p>#六、综合题</p>
+<h2 id="61-题目1">6.1 题目1</h2>
+<pre><code>const first = () =&gt;(new Promise((resolve, reject) =&gt; {
+    console.log(3);
+    let p = new Promise((resolve, reject) =&gt; {
+        console.log(7);
+        setTimeout(() =&gt; {
+            console.log(5);
+            resolve(6);
+          	console.log(p)
+        }, 0)
+        resolve(1);
+    });
+    resolve(2);
+    p.then((arg) =&gt; {
+        console.log(arg);
+    });
 
-执行结果：
-</code></pre>
-<p>'script start'<br>
-'async1 start'<br>
-'promise1'<br>
-'script end'<br>
-'promise1 resolve'<br>
-'async1 success'<br>
-'async1 end'</p>
-<pre><code>## 5.6 题目6
-</code></pre>
-<p>async function testSometing() {<br>
-console.log(&quot;执行testSometing&quot;);<br>
-return&quot;testSometing&quot;;<br>
-}</p>
-<p>async function testAsync() {<br>
-console.log(&quot;执行testAsync&quot;);<br>
-return Promise.resolve(&quot;hello async&quot;);<br>
-}</p>
-<p>async function test() {<br>
-console.log(&quot;test start...&quot;);<br>
-const v1 = await testSometing();<br>
-console.log(v1);<br>
-const v2 = await testAsync();<br>
-console.log(v2);<br>
-console.log(v1, v2);<br>
-}</p>
-<p>test();</p>
-<p>var promise = newPromise(resolve =&gt; {<br>
-console.log(&quot;promise start...&quot;);<br>
-resolve(&quot;promise&quot;);<br>
-});<br>
-promise.then(val =&gt;console.log(val));</p>
-<p>console.log(&quot;test end...&quot;);</p>
-<pre><code>tips:
-- 执行`test`函数，打印`test start`
-- 执行`testSomething`函数，打印`执行testSomething`
-- 跳出`test`函数，打印`promise start`并且修改promise的值和状态
-- 将`.then()`加入微任务队列
-- 打印`test end`
-- 打印`v1`的值 `testSomething`
-- 执行`testAsync`函数，打印`执行testAsync`
-- 跳出`tes`t函数，执行微任务的`.then()`,打印`promise`
-- 打印`v2`的值` hello async`
-- 打印`v1`、`v2`的值
+}));
 
+first().then((arg) =&gt; {
+    console.log(arg);
+});
+console.log(4);
 </code></pre>
-<p>'test start...'<br>
-'执行testSometing'<br>
-'promise start...'<br>
-'test end...'<br>
-'testSometing'<br>
-'执行testAsync'<br>
-'promise'<br>
-'hello async'<br>
-'testSometing' 'hello async'</p>
-<pre><code>
-## 5.7 题目7
+<p>tips:</p>
+<ul>
+<li><code>first</code>函数执行，打印<code>3</code></li>
+<li>新建第二个<code>promise</code>对象，打印<code>7</code>，将定时器移入宏任务队列，并且修改值和状态为<code>1</code>和<code>resolved</code></li>
+<li>将第一个<code>promise</code>对象的值和状态修改为<code>2</code>和<code>resolved</code></li>
+<li>将<code>p.then()</code>移入微任务队列</li>
+<li>将<code>first.then()</code>移入微任务队列</li>
+<li>打印<code>4</code></li>
+<li>执行<code>p.then()</code>打印<code>1</code></li>
+<li>执行<code>first.then()</code>打印<code>2</code></li>
+<li>最后执行宏任务里的定时器</li>
+<li>打印<code>5</code>，修改<code>p</code>的状态和返回值，但是<code>p</code>的状态已经改变过了，所以不会再改变，打印<code>Promise{&lt;resolved&gt;: 1}</code></li>
+</ul>
+<p>执行结果：</p>
+<pre><code>3
+7
+4
+1
+2
+5
+Promise{&lt;resolved&gt;: 1}
 </code></pre>
-<p>async function async1 () {<br>
-await async2();<br>
-console.log('async1');<br>
-return 'async1 success'<br>
-}<br>
-async function async2 () {<br>
-return new Promise((resolve, reject) =&gt; {<br>
-console.log('async2')<br>
-reject('error')<br>
-})<br>
-}<br>
-async1().then(res =&gt;console.log(res))</p>
-<pre><code>
-tips:
-- `async`函数中抛出了错误，则不会往下继续执行
-- `throw new Error`是一样的效果
-
-执行结果：
+<h2 id="62-题目2">6.2 题目2</h2>
+<pre><code>const async1 = async () =&gt; {
+  console.log('async1');
+  setTimeout(() =&gt; {
+    console.log('timer1')
+  }, 2000)
+  await new Promise(resolve =&gt; {
+    console.log('promise1')
+    resolve(2)
+  })
+  console.log('async1 end')
+  return 'async1 success'
+}
+console.log('script start');
+async1().then(res =&gt;console.log(res));
+console.log('script end');
+Promise.resolve(1)
+  .then(2)
+  .then(Promise.resolve(3))
+  .catch(4)
+  .then(res =&gt;console.log(res))
+setTimeout(() =&gt; {
+  console.log('timer2')
+}, 1000)
 </code></pre>
-<p>'async2'<br>
-Uncaught (in promise) error</p>
-<pre><code>## 5.8 题目8
+<p>tips:</p>
+<ul>
+<li>打印<code>script start</code></li>
+<li>执行<code>async1</code>函数，打印<code>async1</code>，将<code>timer1</code>移入宏任务队列</li>
+<li>新创建一个<code>promise</code>对象，打印<code>promise1</code></li>
+<li>跳出<code>async1</code>，打印<code>script end</code></li>
+<li>获得一个状态为<code>resolved</code>且值为<code>1</code>的<code>promise</code>对象，由于发生值穿透，直接将最后一个<code>.then()</code>加入微任务队列</li>
+<li>将<code>timer2</code>移入宏任务队列</li>
+<li>new 的promise对象没有修改状态，所以下面的程序不会执行</li>
+<li>把<code>async1().then()</code>加入微任务队列，依次执行两个微任务,又因为<code>async1</code>函数中的<code>promise</code>对象状态还是<code>pending</code>，所以<code>async1().then()</code>不执行</li>
+<li>两个定时器按照时间执行</li>
+</ul>
+<p>执行结果:</p>
+<pre><code>'script start'
+'async1'
+'promise1'
+'script end'
+1
+'timer2'
+'timer1'
 </code></pre>
-<p>async function async1 () {<br>
-try {<br>
-await Promise.reject('error!!!')<br>
-} catch(e) {<br>
-console.log(e)<br>
-}<br>
-console.log('async1');<br>
-return Promise.resolve('async1 success')<br>
-}<br>
-async1().then(res =&gt;console.log(res))<br>
-console.log('script start')</p>
-<pre><code>
-tips:
-- 若不想错误影响函数后面的执行则可以使用`try catch `
-
-执行结果：
+<p>若new的promise对象修改了状态，则执行结果就是：</p>
+<pre><code>'script start'
+'async1'
+'promise1'
+'script end'
+'async1 end'
+'async1 success'
+1
+'timer2'
+'timer1'
 </code></pre>
-<p>'script start'<br>
-'error!!!'<br>
-'async1'<br>
-'async1 success'</p>
-<pre><code>或者在`Promise.reject`后面跟着一个`catch()`方法
+<h2 id="63-题目3">6.3 题目3</h2>
+<pre><code>const p1 = new Promise((resolve) =&gt; {
+  setTimeout(() =&gt; {
+    resolve('resolve3');
+    console.log('timer1')
+  }, 0)
+  resolve('resovle1');
+  resolve('resolve2');
+}).then(res =&gt; {
+  console.log(res)
+  setTimeout(() =&gt; {
+    console.log(p1)
+  }, 1000)
+}).finally(res =&gt; {
+  console.log('finally', res)
+})
 </code></pre>
-<p>async function async1 () {<br>
-await Promise.reject('error!!!')<br>
-.catch(e =&gt;console.log(e))<br>
-console.log('async1');<br>
-return Promise.resolve('async1 success')<br>
-}<br>
-async1().then(res =&gt;console.log(res))<br>
-console.log('script start')</p>
-<pre><code>#六、综合题
-## 6.1 题目1
+<p>tips:</p>
+<ul>
+<li>将timer1移入宏任务</li>
+<li>修改promise状态为resolved，值修改为resolve1</li>
+<li>将.then()移入微任务队列</li>
+<li>将第二个定时器移入宏任务队列</li>
+<li>将.finally()移入微任务队列</li>
+<li>执行.then()，打印resolve1</li>
+<li>执行.finally()，由于.finally()的回调函数不接受参数，所以为undefined</li>
+<li>执行定时器1，打印timer1</li>
+<li>执行定时器2，此时通过链式调用，返回值已经变成undefined</li>
+</ul>
+<p>执行结果：</p>
+<pre><code>'resolve1'
+'finally' undefined
+'timer1'
+Promise{&lt;resolved&gt;: undefined}
 </code></pre>
-<p>const first = () =&gt;(new Promise((resolve, reject) =&gt; {<br>
-console.log(3);<br>
-let p = new Promise((resolve, reject) =&gt; {<br>
-console.log(7);<br>
-setTimeout(() =&gt; {<br>
-console.log(5);<br>
-resolve(6);<br>
-console.log(p)<br>
-}, 0)<br>
-resolve(1);<br>
-});<br>
-resolve(2);<br>
-p.then((arg) =&gt; {<br>
-console.log(arg);<br>
-});</p>
-<p>}));</p>
-<p>first().then((arg) =&gt; {<br>
-console.log(arg);<br>
-});<br>
-console.log(4);</p>
-<pre><code>tips:
-- `first`函数执行，打印`3`
-- 新建第二个`promise`对象，打印`7`，将定时器移入宏任务队列，并且修改值和状态为`1`和`resolved`
-- 将第一个`promise`对象的值和状态修改为`2`和`resolved`
-- 将`p.then()`移入微任务队列
-- 将`first.then()`移入微任务队列
-- 打印`4`
-- 执行`p.then()`打印`1`
-- 执行`first.then()`打印`2`
-- 最后执行宏任务里的定时器
-- 打印`5`，修改`p`的状态和返回值，但是`p`的状态已经改变过了，所以不会再改变，打印`Promise{&lt;resolved&gt;: 1}`
-
-执行结果：
-</code></pre>
-<p>3<br>
-7<br>
-4<br>
-1<br>
-2<br>
-5<br>
-Promise{<resolved>: 1}</p>
-<pre><code>
-## 6.2 题目2
-</code></pre>
-<p>const async1 = async () =&gt; {<br>
-console.log('async1');<br>
-setTimeout(() =&gt; {<br>
-console.log('timer1')<br>
-}, 2000)<br>
-await new Promise(resolve =&gt; {<br>
-console.log('promise1')<br>
-resolve(2)<br>
-})<br>
-console.log('async1 end')<br>
-return 'async1 success'<br>
-}<br>
-console.log('script start');<br>
-async1().then(res =&gt;console.log(res));<br>
-console.log('script end');<br>
-Promise.resolve(1)<br>
-.then(2)<br>
-.then(Promise.resolve(3))<br>
-.catch(4)<br>
-.then(res =&gt;console.log(res))<br>
-setTimeout(() =&gt; {<br>
-console.log('timer2')<br>
-}, 1000)</p>
-<pre><code>tips:
-- 打印`script start`
-- 执行`async1`函数，打印`async1`，将`timer1`移入宏任务队列
-- 新创建一个`promise`对象，打印`promise1`
-- 跳出`async1`，打印`script end`
-- 获得一个状态为`resolved`且值为`1`的`promise`对象，由于发生值穿透，直接将最后一个`.then()`加入微任务队列
-- 将`timer2`移入宏任务队列
-- new 的promise对象没有修改状态，所以下面的程序不会执行
-- 把`async1().then()`加入微任务队列，依次执行两个微任务,又因为`async1`函数中的`promise`对象状态还是`pending`，所以`async1().then()`不执行
-- 两个定时器按照时间执行
-
-执行结果:
-</code></pre>
-<p>'script start'<br>
-'async1'<br>
-'promise1'<br>
-'script end'<br>
-1<br>
-'timer2'<br>
-'timer1'</p>
-<pre><code>若new的promise对象修改了状态，则执行结果就是：
-</code></pre>
-<p>'script start'<br>
-'async1'<br>
-'promise1'<br>
-'script end'<br>
-'async1 end'<br>
-'async1 success'<br>
-1<br>
-'timer2'<br>
-'timer1'</p>
-<pre><code>
-## 6.3 题目3
-</code></pre>
-<p>const p1 = new Promise((resolve) =&gt; {<br>
-setTimeout(() =&gt; {<br>
-resolve('resolve3');<br>
-console.log('timer1')<br>
-}, 0)<br>
-resolve('resovle1');<br>
-resolve('resolve2');<br>
-}).then(res =&gt; {<br>
-console.log(res)<br>
-setTimeout(() =&gt; {<br>
-console.log(p1)<br>
-}, 1000)<br>
-}).finally(res =&gt; {<br>
-console.log('finally', res)<br>
-})</p>
-<pre><code>tips:
-- 将timer1移入宏任务
-- 修改promise状态为resolved，值修改为resolve1
-- 将.then()移入微任务队列
-- 将第二个定时器移入宏任务队列
-- 将.finally()移入微任务队列
-- 执行.then()，打印resolve1
-- 执行.finally()，由于.finally()的回调函数不接受参数，所以为undefined
-- 执行定时器1，打印timer1
-- 执行定时器2，此时通过链式调用，返回值已经变成undefined
-
-执行结果：
-</code></pre>
-<p>'resolve1'<br>
-'finally' undefined<br>
-'timer1'<br>
-Promise{<resolved>: undefined}</p>
-<pre><code></code></pre>
 ]]></content>
     </entry>
     <entry>
