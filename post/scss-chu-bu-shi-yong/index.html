@@ -31,38 +31,31 @@
       
         <div class="animated fadeInLeft" style="animation-delay: 0.4s">
           <p class="my-4 text-gray-600 font-light hidden lg:block">
-            人类世界真是太有趣了
+            文章目录
           </p>
-          <div class="animated fadeInLeft social-container hidden lg:block" style="animation-delay: 0.6s">
-            
-              
-                <a href="https://github.com/Skrupellose" target="_blank" class="mr-4 text-xl text-gray-400 font-light hover:text-gray-900">
-                  <i class="remixicon-github-line"></i>
-                </a>
-              
-            
-              
-            
-              
-            
-              
-            
-              
-            
-              
-            
-              
-            
-              
-            
-              
-            
-              
-                <a href="https://skrupellose.github.io/post/about" target="_blank" class="mr-4 text-xl text-gray-400 font-light hover:text-gray-900">
-                  <i class="remixicon-qq-line"></i>
-                </a>
-              
-            
+          <div class="toc-container hidden lg:block">
+            <ul class="markdownIt-TOC">
+<li><a href="#%E4%B8%80-scss%E4%BB%8B%E7%BB%8D">一、Scss介绍</a></li>
+<li><a href="#%E4%BA%8C-%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8">二、基本使用</a>
+<ul>
+<li><a href="#21-%E5%B5%8C%E5%A5%97%E8%AF%AD%E6%B3%95">2.1 嵌套语法</a></li>
+<li><a href="#22-%E7%88%B6%E7%BA%A7%E9%80%89%E6%8B%A9%E5%99%A8">2.2 父级选择器</a></li>
+<li><a href="#23-%E5%B5%8C%E5%A5%97%E5%B1%9E%E6%80%A7%E8%A7%84%E5%88%99">2.3 嵌套属性规则</a></li>
+</ul>
+</li>
+<li><a href="#%E8%BF%9B%E9%98%B6%E4%BD%BF%E7%94%A8">进阶使用</a>
+<ul>
+<li><a href="#31-%E5%8F%98%E9%87%8F">3.1 变量</a></li>
+<li><a href="#32-%E6%95%B0%E5%AD%A6%E8%BF%90%E7%AE%97">3.2 数学运算</a></li>
+<li><a href="#33-%E6%8F%92%E5%80%BC">3.3 插值</a></li>
+<li><a href="#34-%E5%AF%BC%E5%85%A5%E6%96%87%E4%BB%B6">3.4 导入文件</a></li>
+<li><a href="#35-%E5%AA%92%E4%BD%93%E6%9F%A5%E8%AF%A2">3.5 媒体查询</a></li>
+<li><a href="#36-%E7%BB%A7%E6%89%BF">3.6 继承</a></li>
+<li><a href="#37-mixin%E5%92%8C%E5%87%BD%E6%95%B0">3.7 mixin和函数</a></li>
+</ul>
+</li>
+</ul>
+
           </div>
         </div>
       
@@ -112,35 +105,192 @@
 </div>
 <div class="mask" onclick="closeMenu()">
 </div>
-      <div class="content-wrapper py-32 lg:p-8 lg:w-3/4">
-        <h2 class="text-lg text-gray-700 mb-8">
-          <i class="remixicon-bookmark-line"></i> Gridea
-        </h2>
-        
-  <section class="post-item md:flex pb-12 animated fadeIn" :style="{ 'animation-delay': `${0 * 0.2}s` }">
-    
-      <a href="https://skrupellose.github.io/post/hello-gridea/" class="feature-image-wrapper bg-gray-100 rounded-lg flex-shrink-0 mr-8 w-full h-56 h-32 md:w-56 md:h-40">
-        <div class="post-feature-image lazy w-full h-56 h-32 md:w-56 md:h-40" data-bg="'https://skrupellose.github.io/post-images/hello-gridea.png'">
+      <div class="content-wrapper py-32 lg:p-8 lg:w-3/4 post-detail animated fadeIn">
+        <h1 class="text-3xl font-bold lg:mt-16">Scss基础</h1>
+        <div class="text-sm text-gray-700 lg:my-8">
+          2020-06-05 / 3 min read
         </div>
-      </a>
-    
-    <div class="content">
-      <a href="https://skrupellose.github.io/post/hello-gridea/">
-        <h2 class="post-title text-xl font-extrabold mt-5 md:mt-0">Hello Gridea</h2>
-      </a>
-      <div class="post-abstract text-gray-700 font-light my-4">
-        <p>👏  欢迎使用 <strong>Gridea</strong> ！<br>
-✍️  <strong>Gridea</strong> 一个静态博客写作客户端。你可以用它来记录你的生活、心情、知识、笔记、创意... ...</p>
+        
+        <div class="post-content yue">
+          <h1 id="一-scss介绍">一、Scss介绍</h1>
+<p>Sass 是一种 CSS 的预编译语言。它提供了 <code>变量（variables）</code>、<code>嵌套（nested rules）</code>、<code>混合（mixins）</code>、 <code>函数（functions）</code>等功能，并且完全兼容 CSS 语法。Scss 是 Sass 3 引入新的语法，其语法完全兼容 CSS3，并且继承了 Sass 的强大功能。</p>
+<p>我们在写传统css的时候，经常会写一些重复度较高的代码。这是因为传统css文件缺少变量、函数等概念，但是现在使用Scss之后就可以通过新增的这些概念来达到提高效率的目的</p>
+<h1 id="二-基本使用">二、基本使用</h1>
+<h2 id="21-嵌套语法">2.1 嵌套语法</h2>
+<p>在scss中，我们首先可以使用嵌套语法来写css了，这样可以极大提高文件的可读性，更加直观明了<br>
+eg：<br>
+css</p>
+<pre><code>.box {
+   display: float;
+}
+.box ul {
+    list-style: none;
+}
 
-      </div>
-      <div class="text-gray-400 text-sm font-light">2018-12-12 / 2 min read</div>
-    </div>
-  </section>
+</code></pre>
+<p>Scss</p>
+<pre><code>.box {
+    display: float;
+    ul {
+        list-style: none;
+    }
+}
+</code></pre>
+<h2 id="22-父级选择器">2.2 父级选择器</h2>
+<p>scss提供了一个父选择器<code>&amp;</code>，用于表示当前元素的父元素<br>
+eg:<br>
+css</p>
+<pre><code>.btn {
+    background-color: #fff;
+}
+.btn  .active {
+    background-color: #f00;
+}
+</code></pre>
+<p>Scss</p>
+<pre><code>.bth {
+    background-color: #fff;
+    &amp;.active {
+        background-color: #f00;
+    }
+}
+</code></pre>
+<p>需要注意的是要在嵌套内部使用父级选择器，不然找不到父级元素会报错</p>
+<h2 id="23-嵌套属性规则">2.3 嵌套属性规则</h2>
+<p>eg：<br>
+css</p>
+<pre><code>.box {
+    font-family: fantasy;
+    font-size: 1.2em;
+    font-line-hight: 1.4;
+    border-radius: 20px;
+    border-color: blue;
+}
+</code></pre>
+<p>Scss</p>
+<pre><code>.box {
+    font: {
+        family: fantasy;
+        size: 1.2em;
+        line-hight: 1.4;
+    }
+    border: {
+        radius: 20px;
+        color: blue;
+    }
+}
+</code></pre>
+<h1 id="进阶使用">进阶使用</h1>
+<h2 id="31-变量">3.1 变量</h2>
+<p>scss中我们可以使用<code>$</code>声明变量</p>
+<pre><code>$width ：50px
+.box {
+    width: $width;
+}
+</code></pre>
+<h2 id="32-数学运算">3.2 数学运算</h2>
+<pre><code>.box {
+    width: (100+20)*3px;
+}
+</code></pre>
+<h2 id="33-插值">3.3 插值</h2>
+<p>我们可以使用插值<code>#{}</code>把变量包裹起来</p>
+<pre><code>$sizeKey ： 1
+  .font-#{$sizeKey} {
+    font-size: 12px
+  }
 
-        <div class="pagination-container animated fadeIn">
-  
-  
-</div>
+p {
+  $font-size: 12px;
+  $line-height: 30px;
+  font: #{$font-size}/#{$line-height};
+    // font: 12px/30px;
+}
+</code></pre>
+<h2 id="34-导入文件">3.4 导入文件</h2>
+<p>需要使用<code>@import</code></p>
+<p><code>@import 'style.scss';</code></p>
+<h2 id="35-媒体查询">3.5 媒体查询</h2>
+<pre><code>// scss
+$media: screen;
+$feature: -webkit-min-device-pixel-ratio;
+$value: 1.5;
+.box{
+    @media #{$media} and ($feature: $value) {
+      height: 300px;
+      width: 900px;
+    }
+}
+</code></pre>
+<h2 id="36-继承">3.6 继承</h2>
+<p>通过关键字<code>@extend</code>即可完成继承。</p>
+<pre><code>.box {
+    height: 300px;
+    width: 900px;
+}
+.smallBox {
+    @extend .box;
+    background: red;
+}
+// 效果为
+
+.smallBox {
+    background: red;
+}
+.box, .smallBox {
+    height: 300px;
+    width: 900px;
+}
+</code></pre>
+<h2 id="37-mixin和函数">3.7 mixin和函数</h2>
+<p>使用@mixin指令声明一个函数，函数作用域内的属性都是return的值，使用@include使用函数</p>
+<pre><code>@mixin border-radius {
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+}
+.box {
+    @include border-radius；
+}
+// 无参数函数使用有点像继承
+</code></pre>
+<p>函数传参的时候我们还可以设置默认值</p>
+<pre><code>@mixin get-border-radius($border-radius: 5px){
+    -moz-border-radius: $border-radius;
+    -webkit-border-radius: $border-radius;
+    border-radius: $border-radius;
+}
+.box1 {
+    @include get-border-radius; 
+    //不传参则默认为5px
+}
+.box2 {
+    @include get-border-radius($border-radius:10px); 
+    //结果为10px
+}
+</code></pre>
+
+        </div>
+
+        
+
+
+        <div class="flex justify-between py-8">
+          
+
+          
+            <div class="next-post">
+              <a href="https://skrupellose.github.io/post/http/">
+                <h3 class="post-title">
+                  http与https
+                  <i class="remixicon-arrow-right-line"></i>
+                </h3>
+              </a>
+            </div>
+          
+        </div>
+
+        
 
       </div>
     </div>
