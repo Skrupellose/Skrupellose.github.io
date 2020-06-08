@@ -35,14 +35,14 @@
           </p>
           <div class="toc-container hidden lg:block">
             <ul class="markdownIt-TOC">
-<li>
+<li><a href="#%E4%B8%80-%E8%B5%B7%E6%AD%A5">一、起步</a>
 <ul>
-<li><a href="#%E6%98%AF%E4%B8%80%E4%B8%AA%E5%89%AF%E5%B1%9E%E6%80%A7%E7%82%B9%E6%BB%A1%E6%96%87%E8%89%BA%E7%9A%84%E5%89%8D%E7%AB%AF%E7%A8%8B%E5%BA%8F%E7%8C%BF">😃是一个副属性点满文艺的前端程序猿</a></li>
-<li><a href="#%E6%9C%9F%E5%BE%85%E5%92%8C%E5%B0%8F%E4%BC%99%E4%BC%B4%E4%BB%AC%E4%B8%80%E8%B5%B7%E4%BA%A4%E6%B5%81%E5%AD%A6%E4%B9%A0">🤝期待和小伙伴们一起交流学习</a></li>
-<li><a href="#qq1451695386">👀QQ：1451695386</a></li>
-<li><a href="#e-mailskrupellose13gmailcom">📬E-mail：skrupellose13@gmail.com</a></li>
+<li><a href="#11-%E5%87%86%E5%A4%87%E5%B7%A5%E4%BD%9C">1.1 准备工作</a></li>
+<li><a href="#12-%E5%BC%80%E5%A7%8B">1.2 开始</a></li>
+<li><a href="#21">2.1</a></li>
 </ul>
 </li>
+<li><a href="#23">2.3</a></li>
 </ul>
 
           </div>
@@ -95,19 +95,83 @@
 <div class="mask" onclick="closeMenu()">
 </div>
       <div class="content-wrapper py-32 lg:p-8 lg:w-3/4 post-detail animated fadeIn">
-        <h1 class="text-3xl font-bold lg:mt-16">关于</h1>
+        <h1 class="text-3xl font-bold lg:mt-16">基于node实现一个crud通用模型</h1>
         <div class="text-sm text-gray-700 lg:my-8">
-          2019-01-25 / 1 min read
+          2020-06-04 / 3 min read
         </div>
         
         <div class="post-content yue">
-          <blockquote>
-<p>遇见你，很高兴</p>
-</blockquote>
-<h2 id="是一个副属性点满文艺的前端程序猿">😃是一个副属性点满文艺的前端程序猿</h2>
-<h2 id="期待和小伙伴们一起交流学习">🤝期待和小伙伴们一起交流学习</h2>
-<h2 id="qq1451695386">👀QQ：1451695386</h2>
-<h2 id="e-mailskrupellose13gmailcom">📬E-mail：skrupellose13@gmail.com</h2>
+          <h1 id="一-起步">一、起步</h1>
+<h2 id="11-准备工作">1.1 准备工作</h2>
+<p>下载<code>express</code>、<code>inflection</code><br>
+这里我选择的是MongoDB数据库，所以还要下载<code>mongoose</code></p>
+<h2 id="12-开始">1.2 开始</h2>
+<p>然后我们开始设计后端路由，一般前端向后端发起请求的url都是<code>http://xxxxx/api/xxx</code>的格式。<br>
+其中我们可以获取数据（get）、发送数据（post）、更新数据（put）、删除数据（delete）等<br>
+最后末尾的后缀一般都是具体接口名，大部分后端处理的时候，只是接口名称不同，逻辑是相通的。所以我们可以将其作为一个url动态参数来接收和处理。</p>
+<p>#二、代码实现</p>
+<h2 id="21">2.1</h2>
+<p>首先先写上接口，但是具体路径不写，我们要在后面先做处理</p>
+<pre><code>  // 发送信息
+  router.post('/', async (req, res) =&gt; {
+
+  })
+
+  // 获取信息
+  router.get('/',  async (req, res) =&gt; {
+
+  })
+
+  // 更新信息
+  router.put('/:id', async (req, res) =&gt; {
+
+  })
+
+  // 获取指定id信息
+  router.get('/:id',  async (req, res) =&gt; {
+
+  })
+
+  //删除指定id信息
+  router.delete('/:id', async (req, res) =&gt; {
+
+  })
+</code></pre>
+<p>#2.2<br>
+然后在<code>app.use()</code>中为请求的地址添加动态参数，来匹配接口里的url参数</p>
+<pre><code>  app.use('/admin/api/rest/:resource', router)
+</code></pre>
+<h1 id="23">2.3</h1>
+<p>修改之后我们在接口操作的时候需要使用对应的模型<br>
+我们模型名称是接口地址参数的复数形式，需要做个处理<br>
+首先我们要添加一个参数</p>
+<pre><code>module.exports = app =&gt; {
+  const express = require('express')
+  const router = express.Router({
+    //父级url参数合并到router内，否则router访问不了该动态参数
+    mergeParams: true
+  })
+}
+</code></pre>
+<p>然后写一个处理的中间件：resourcemiddleware()</p>
+<pre><code>module.exports = Options =&gt; {
+  return async (req, res, next) =&gt; {
+    //使用inflection进行类名格式转换
+  const modelName = require('inflection').classify(req.params.resource)
+  req.Model = require(`../models/${modelName}`)
+  next()
+  }
+}
+</code></pre>
+<p>然后添加这个中间件：<code>app.use('/admin/api/rest/:resource',resourcemiddleware(), router)</code><br>
+这样我们就能通过参数获取对应的model，之后就能进行各种操作：<br>
+eg：</p>
+<pre><code>  router.post('/', async (req, res) =&gt; {
+    const model = await req.Model.create(req.body)
+    res.send(model)
+  })
+
+</code></pre>
 
         </div>
 
@@ -116,7 +180,25 @@
 
         <div class="flex justify-between py-8">
           
+            <div class="prev-post">
+              <a href="https://skrupellose.github.io/post/scss-chu-bu-shi-yong/">
+                <h3 class="post-title">
+                  <i class="remixicon-arrow-left-line"></i>
+                  Scss基础
+                </h3>
+              </a>
+            </div>
+          
 
+          
+            <div class="next-post">
+              <a href="https://skrupellose.github.io/post/http/">
+                <h3 class="post-title">
+                  http与https
+                  <i class="remixicon-arrow-right-line"></i>
+                </h3>
+              </a>
+            </div>
           
         </div>
 

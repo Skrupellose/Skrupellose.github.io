@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://skrupellose.github.io</id>
     <title>D.C </title>
-    <updated>2020-06-08T16:21:20.500Z</updated>
+    <updated>2020-06-08T16:22:19.207Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://skrupellose.github.io"/>
     <link rel="self" href="https://skrupellose.github.io/atom.xml"/>
@@ -172,6 +172,85 @@ $value: 1.5;
     @include get-border-radius($border-radius:10px); 
     //结果为10px
 }
+</code></pre>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[基于node实现一个crud通用模型]]></title>
+        <id>https://skrupellose.github.io/post/ji-yu-node-shi-xian-yi-ge-crud-de-demo/</id>
+        <link href="https://skrupellose.github.io/post/ji-yu-node-shi-xian-yi-ge-crud-de-demo/">
+        </link>
+        <updated>2020-06-04T15:23:36.000Z</updated>
+        <content type="html"><![CDATA[<h1 id="一-起步">一、起步</h1>
+<h2 id="11-准备工作">1.1 准备工作</h2>
+<p>下载<code>express</code>、<code>inflection</code><br>
+这里我选择的是MongoDB数据库，所以还要下载<code>mongoose</code></p>
+<h2 id="12-开始">1.2 开始</h2>
+<p>然后我们开始设计后端路由，一般前端向后端发起请求的url都是<code>http://xxxxx/api/xxx</code>的格式。<br>
+其中我们可以获取数据（get）、发送数据（post）、更新数据（put）、删除数据（delete）等<br>
+最后末尾的后缀一般都是具体接口名，大部分后端处理的时候，只是接口名称不同，逻辑是相通的。所以我们可以将其作为一个url动态参数来接收和处理。</p>
+<p>#二、代码实现</p>
+<h2 id="21">2.1</h2>
+<p>首先先写上接口，但是具体路径不写，我们要在后面先做处理</p>
+<pre><code>  // 发送信息
+  router.post('/', async (req, res) =&gt; {
+
+  })
+
+  // 获取信息
+  router.get('/',  async (req, res) =&gt; {
+
+  })
+
+  // 更新信息
+  router.put('/:id', async (req, res) =&gt; {
+
+  })
+
+  // 获取指定id信息
+  router.get('/:id',  async (req, res) =&gt; {
+
+  })
+
+  //删除指定id信息
+  router.delete('/:id', async (req, res) =&gt; {
+
+  })
+</code></pre>
+<p>#2.2<br>
+然后在<code>app.use()</code>中为请求的地址添加动态参数，来匹配接口里的url参数</p>
+<pre><code>  app.use('/admin/api/rest/:resource', router)
+</code></pre>
+<h1 id="23">2.3</h1>
+<p>修改之后我们在接口操作的时候需要使用对应的模型<br>
+我们模型名称是接口地址参数的复数形式，需要做个处理<br>
+首先我们要添加一个参数</p>
+<pre><code>module.exports = app =&gt; {
+  const express = require('express')
+  const router = express.Router({
+    //父级url参数合并到router内，否则router访问不了该动态参数
+    mergeParams: true
+  })
+}
+</code></pre>
+<p>然后写一个处理的中间件：resourcemiddleware()</p>
+<pre><code>module.exports = Options =&gt; {
+  return async (req, res, next) =&gt; {
+    //使用inflection进行类名格式转换
+  const modelName = require('inflection').classify(req.params.resource)
+  req.Model = require(`../models/${modelName}`)
+  next()
+  }
+}
+</code></pre>
+<p>然后添加这个中间件：<code>app.use('/admin/api/rest/:resource',resourcemiddleware(), router)</code><br>
+这样我们就能通过参数获取对应的model，之后就能进行各种操作：<br>
+eg：</p>
+<pre><code>  router.post('/', async (req, res) =&gt; {
+    const model = await req.Model.create(req.body)
+    res.send(model)
+  })
+
 </code></pre>
 ]]></content>
     </entry>
@@ -1825,223 +1904,6 @@ return promise;
       console.log(objArr); //[{name: &quot;a&quot; hobby:  [&quot;swim&quot;, &quot;football&quot;]}, {name: &quot;b&quot; hobby: [&quot;basketball&quot;, &quot;computer&quot;]}]
       console.log(obj1); //{a: 0, b: 1}
 </code></pre>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[fetch和axios的上手使用]]></title>
-        <id>https://skrupellose.github.io/post/fetch-he-axios-de-shang-shou-shi-yong/</id>
-        <link href="https://skrupellose.github.io/post/fetch-he-axios-de-shang-shou-shi-yong/">
-        </link>
-        <updated>2019-11-14T15:41:05.000Z</updated>
-        <content type="html"><![CDATA[<p>复(xue)习一下<code>fetch</code>和<code>axios</code>的用法</p>
-<h1 id="一-fetch的用法">一、fetch的用法</h1>
-<p>直接贴demo了</p>
-<pre><code>      fetch(&quot;url&quot;).then(data =&gt; {
-        return data.text().then(res =&gt; {
-          console.log(res);
-        });
-      });
-</code></pre>
-<ul>
-<li>要获取数据首先要调用<code>text()</code>方法或者<code>json()</code>方法</li>
-<li><code>data.text()/data.json()</code>返回的是<code>promise</code>对象，用<code>.then()</code>处理之后得到的才是结果</li>
-<li><code>text()</code>返回结果为字符串</li>
-<li><code>json()</code>返回结果为json类型</li>
-</ul>
-<h2 id="11-fetch请求参数">1.1 fetch请求参数</h2>
-<ul>
-<li><code>method(String)</code>:http请求方法，默认为<code>GET(GET、POST、PUT、DELETE)</code></li>
-<li><code>body(String)</code>:http的请求参数</li>
-<li><code>header(Object)</code>:http的请求头，默认为{}</li>
-</ul>
-<h2 id="12-get请求">1.2 GET请求</h2>
-<pre><code>
-      // url传递参数
-      fetch('url?id=123',{
-        method: 'get'
-      }).then(data =&gt; {
-        return data.text()
-        .then(res =&gt; {
-          console.log(res);
-        })
-      })
-      // Restful形式的url传递参数
-      fetch('url/123',{
-        method: 'get'
-      }).then(data =&gt; {
-        return data.text()
-        .then(res =&gt; {
-          console.log(res);
-        })
-      })
-</code></pre>
-<h2 id="13-delete请求">1.3 DELETE请求</h2>
-<p>✊偷个懒 只需把<code>method</code>换成<code>delete</code>即可</p>
-<h2 id="14-post请求">1.4 POST请求</h2>
-<pre><code>  //传统参数传递
-  fetch('url',{
-    method: 'post',
-    body: 'name=abc&amp;passwd=123',
-    headers: {
-      'Content-type': 'application/x-www-form-unlencoded',
-    }//请求头必须设置否则body里的数据传不到后台去
-  }).then(data =&gt; {
-    return data.text()
-    .then(res =&gt; {
-      console.log(res);
-    })
-  })
-
-  //json形式参数传递
-  fetch('url',{
-    method: 'post',
-    body: JSON.stringify({
-      name:&quot;abc&quot;,
-      passwd:&quot;123&quot;
-    }),
-    headers: {
-      'Content-type': 'application/json',
-    }//请求头必须设置否则body里的数据传不到后台去
-  }).then(data =&gt; {
-    return data.text()
-    .then(res =&gt; {
-      console.log(res);
-    })
-  })
-</code></pre>
-<h2 id="15-put请求">1.5 PUT请求</h2>
-<pre><code>      fetch('url/456',{
-        method: 'put',
-        body: JSON.stringify({
-          name:&quot;abc&quot;,
-          passwd:&quot;123&quot;
-        }),
-        headers: {
-          'Content-type': 'application/json',
-        }
-      }).then(data =&gt; {
-        return data.text()
-        .then(res =&gt; {
-          console.log(res);
-        })
-      })
-      // 把put的值通过url的Restful形式传过去
-</code></pre>
-<h1 id="二-axios">二、axios</h1>
-<h2 id="21-用法">2.1 用法</h2>
-<pre><code>      axios.get('url')
-      .then(res =&gt; {
-        console.log(res.data)
-        // 需要注意的是使用axios请求数据后.then()返回的对象除去我们想要的数据
-        // 之外还有其他的数据，所以当我们需要拿到想要的数据的时候要使用data属性来获取
-      })
-</code></pre>
-<h2 id="22-get请求">2.2 get请求</h2>
-<pre><code>      // 1.通过url传递
-      axios.get('url?id=123')
-      .then(res =&gt; {
-        console.log(res.data)
-      })
-      // 2.通过params属性传递
-      axios.get('url',{
-        params:{
-          id: 123
-        }
-      })
-      .then(res =&gt; {
-        console.log(res.data)
-      })
-
-</code></pre>
-<h2 id="23-delete请求">2.3 delete请求</h2>
-<p>继续偷个懒，<code>delete</code>方式只需要把<code>ge</code>t换成<code>delete</code>即可</p>
-<h2 id="24-post请求">2.4 post请求</h2>
-<pre><code>  // 通过选项来传递参数默认传递的是json格式的数据
-      axios.post('url',{
-        name: &quot;yy&quot;,
-        age: 16
-      })//通过这种传到后台的数据是json格式
-      .then(res =&gt;{
-        console.log(res.data)
-      })
-
-      // 通过URLSearchParams传递参数
-      const params = new URLSearchParams();
-      params.append('name','abc');
-      params.append('age','16');
-      axios.post('url', params)
-      .then(res =&gt; {
-        console.log(res.data)
-      })
-</code></pre>
-<h2 id="25-put请求">2.5 put请求</h2>
-<pre><code>      axios.post('url/123',{
-        name: &quot;yy&quot;,
-        age: 16
-      })//通过这种传到后台的数据是json格式
-      .then(res =&gt;{
-        console.log(res.data)
-      })
-</code></pre>
-<h2 id="26-请求和响应拦截">2.6 请求和响应拦截</h2>
-<pre><code>      // 请求拦截 发出请求数据之前进行一些配置和处理
-      axios.interceptors.request.use(config =&gt;{
-        ... //一些操作代码
-        return config;
-      })
-
-      // 响应拦截 获取数据之前对数据进行一些处理
-      axios.interceptors.response.use(res =&gt;{
-        ... //一些操作代码
-        return res;
-      })
-
-</code></pre>
-<h2 id="27-axios响应结果">2.7 axios响应结果</h2>
-<p>响应结果被包装成一个对象<br>
-里面的主要属性：<br>
--<code>data</code>：实际响应回的数据<br>
--<code>headers</code>： 响应头信息</p>
-<ul>
-<li><code>status</code>：响应状态码</li>
-<li><code>statusText</code>：响应状态信息</li>
-</ul>
-<h2 id="28-axios和asyncawait的联用">2.8 axios和async/await的联用</h2>
-<pre><code>      async function get_(){
-        let res = await axios.get('url');
-        console.log(res.data)
-      }
-      get_() //data
-
-      axios.get('url')
-      .then(res =&gt; {
-        console.log(res.data)
-      })
-</code></pre>
-<p><code>then()</code>方法参数中的函数返回值:</p>
-<ol>
-<li>返回<code>promise</code>对象 返回的对象会调用下一个<code>then</code></li>
-<li>返回普通值，会被直接传递给下一个<code>then()</code>的函数中充当参数</li>
-</ol>
-<p>或是：后面的请求需要前一个请求返回的结果作为参数，可以这么写提高代码可读性</p>
-<pre><code>        async function test(){
-          let res1 = await axios.get('url1')
-          let res2 = await axios.get('url2?info=' + res1.data)
-          return rest2
-        }
-        test().then(res =&gt; {
-          console.log(res);
-        })
-</code></pre>
-<p>补充：我们还可以新建一个<code>axios</code>实例对象来进行一些配置</p>
-<pre><code>const $axios = axios.create({
-  // 设置超时时间
-  timeout: 30000,
-  // 基础url，会在请求url中自动添加前置链接
-  baseURL: &quot;url&quot;
-});
-</code></pre>
-<p>这样我们在后面使用<code>axios</code>发送请求的时候就不用写那么长的url了</p>
 ]]></content>
     </entry>
 </feed>
