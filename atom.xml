@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://skrupellose.github.io</id>
     <title>D.C </title>
-    <updated>2020-06-08T16:28:28.005Z</updated>
+    <updated>2020-06-12T12:27:47.517Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://skrupellose.github.io"/>
     <link rel="self" href="https://skrupellose.github.io/atom.xml"/>
@@ -10,6 +10,225 @@
     <logo>https://skrupellose.github.io/images/avatar.png</logo>
     <icon>https://skrupellose.github.io/favicon.ico</icon>
     <rights>All rights reserved 2020, D.C </rights>
+    <entry>
+        <title type="html"><![CDATA[Webpack入门]]></title>
+        <id>https://skrupellose.github.io/post/webpack-ru-men/</id>
+        <link href="https://skrupellose.github.io/post/webpack-ru-men/">
+        </link>
+        <updated>2020-06-11T23:13:39.000Z</updated>
+        <content type="html"><![CDATA[<h1 id="一-介绍">一、介绍</h1>
+<p>webpack本质是一个针对js应用的打包工具，通过递归构建依赖关系找到应用程序需要的所有模块，并将其打包成一个或多个包</p>
+<h1 id="二-入门">二、入门</h1>
+<h2 id="21-下载安装">2.1 下载安装</h2>
+<ol>
+<li>首先是全局安装webpack和webpack-cli<br>
+<code>npm install webpack webpack-cli -g</code></li>
+<li>然后是在项目中安装webpack和webpack-cli<br>
+<code>npm install webpack webpack-cli</code></li>
+<li>我们在项目中允许npm初始化<br>
+<code>npm init -y(全选yes)</code> 之后会在文件夹中生成<code>package.json</code>文件，我们可以在这个文件修改配置信息<br>
+初始化之后可以看到这串信息<pre><code>{
+&quot;name&quot;: &quot;demo1&quot;,
+&quot;description&quot;: &quot;&quot;,
+&quot;main&quot;: &quot;index.js&quot;,
+&quot;scripts&quot;: {
+&quot;test&quot;: &quot;echo \&quot;Error: no test specified\&quot; &amp;&amp; exit 1&quot;
+},
+&quot;keywords&quot;: [],
+&quot;author&quot;: &quot;&quot;,
+&quot;license&quot;: &quot;ISC&quot;
+}
+</code></pre>
+</li>
+</ol>
+<p>这里面默认的index.js就是我们的入口文件<br>
+需要修改入口文件可以去<code>package.json</code><br>
+4. 我们在index.js中写入测试数据，并在同级目录写一个user.json文件</p>
+<pre><code>        // index.js
+       import data from './user.json'                  
+       function test() {
+       console.log('test webpack')
+       }
+       test()
+       console.log(data)
+     
+       //user.json
+       {
+           &quot;username&quot; : &quot;admin&quot;
+       }
+</code></pre>
+<ol start="5">
+<li>我们在文件根目录执行webpack打包命令进行开发环境下的打包测试<br>
+<code>webpack 入口文件 -o 出口文件 --mode=模式选择</code><br>
+<code>webpack ./src/index.js -o ./dist/bundle_dev.js --mode=development</code><br>
+我们就可以看到根目录多了一个dist文件夹，其中有一个<code>bundle_dev.js</code>，同理只要我们将<code>mode</code>改为<code>production</code>就能进行生产环境下的打包</li>
+<li>我们在根目录新建一个index.html，引入打包后的<code>bundle_dev.js</code></li>
+<li>运行后打开控制台<br>
+<img src="https://skrupellose.github.io/post-images/1591921158786.png" alt="" loading="lazy"><br>
+打包成功<br>
+然后我们将js文件更换为生成环境下的<code>bundle_pro.js</code>进行测试<br>
+<img src="https://skrupellose.github.io/post-images/1591921318256.png" alt="" loading="lazy"><br>
+也测试成功<br>
+两种环境下的打包区别主要是生产环境下的打包文件被压缩了，体积更小，同时也加入了代码混淆<br>
+<img src="https://skrupellose.github.io/post-images/1591921536720.png" alt="" loading="lazy"></li>
+</ol>
+<h2 id="22-使用webpack配置进行打包">2.2 使用webpack配置进行打包</h2>
+<p>这次我们还用webpack配置文件进行打包，首先在根路径新建webpack.config.js文件，然后进行配置</p>
+<pre><code>let path = require('path')
+module.exports = {
+  //入口文件
+  entry: './src/index.js',
+  //出口文件
+  output: {
+    //输出文件名称
+    filename: 'bundle.js',
+    //输出路径
+    //绝对路径
+    path: path.resolve(__dirname, 'dist')
+  },
+  //模式选择
+  mode: 'development'
+}
+</code></pre>
+<p>之后只需要使用<code>webpack</code>这个命令就可以完成打包了</p>
+<h2 id="23-loader的使用">2.3 loader的使用</h2>
+<p>因为之前也提到，<code>webpack</code>是一个针对js应用的打包工具，因此它本身只理解<code>JavaScript</code>一种语言，而<code>loader</code>就是将其他<code>webpack</code>不能处理的语言转换成能够处理的道具</p>
+<p>这里以css文件为例，我们首先在<code>index.js</code>同级目录新建<code>style.css</code>文件，然后在<code>index.js</code>中引入，之后在<code>webpack.config.js</code>中进行<code>loader</code>的配置</p>
+<pre><code>// style.css
+.div {
+  width: 200px;
+  height: 200px;
+  background: royalblue;
+}
+// index.js
+import data from './user.json'
+import './style.css'
+function test() {
+  console.log('test webpack')
+}
+test()
+console.log(data)
+</code></pre>
+<p>我们首先下载我们需要的两个<code>loader</code><br>
+<code>npm install css-loader style-loader --save-dev</code><br>
+然后配置<code>webpack.config.js</code>,我们需要注意的是模块配置的的解析是自下而上的，不要写错了不然可能会报错。</p>
+<pre><code>// webpack.config.js
+let path = require('path')
+module.exports = {
+  //入口文件
+  entry: './src/index.js',
+  //出口文件
+  output: {
+    //输出文件名称
+    filename: 'bundle.js',
+    //输出路径
+    //绝对路径
+    path: path.resolve(__dirname, 'dist')
+  },
+  //模式选择
+  mode: 'development',
+  //loader配置
+  module: {
+    // 设置对应规则
+    rules: [
+      {
+        // 通过正则进行匹配
+        test: /\.css$/,
+        // loader中use的解析顺序自下而上
+        use: [
+          // 将js的样式内容插入到style标签中
+          &quot;style-loader&quot;,
+          // 将css文件转换为js
+          &quot;css-loader&quot;
+        ]
+      }
+    ]
+  }
+}
+</code></pre>
+<p>输入webpack命令进行打包，然后我们就能看到之前写的样式了<br>
+<img src="https://skrupellose.github.io/post-images/1591923652814.png" alt="" loading="lazy"></p>
+<h2 id="24-plugins的使用">2.4 plugins的使用</h2>
+<p><code>loader</code>是一个用于类型转换的模块工具，而<code>plugins</code>的功能更加多样。可以进行打包优化、压缩、重新定义环境变量等等<br>
+还是先进行基本配置，我们完成一个html模板的打包，先下载<code>html-webpack-plugin</code></p>
+<pre><code>const path = require('path')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
+module.exports = {
+  //入口文件
+  entry: './src/index.js',
+  //出口文件
+  output: {
+    //输出文件名称
+    filename: 'bundle.js',
+    //输出路径
+    //绝对路径
+    path: path.resolve(__dirname, 'dist')
+  },
+  //模式选择
+  mode: 'development',
+  //loader配置
+  module: {
+    // 设置对应规则
+    rules: [
+      {
+        // 通过正则进行匹配
+        test: /\.css$/,
+        // loader中use的解析顺序自下而上
+        use: [
+          // 将js的样式内容插入到style标签中
+          &quot;style-loader&quot;,
+          // 将css文件转换为js
+          &quot;css-loader&quot;
+        ]
+      }
+    ]
+  },
+  // 插件配置
+  plugins: [
+    new HtmlWebpackPlugin({
+      template: './src/index.html'
+    })
+  ]
+}
+</code></pre>
+<p>进行一个简单配置，由于插件可传递参数，使用在配置中应当传入new的实例，<code>new HtmlWebpackPlugin()</code>不传其他参数的话默认在出口文件夹生成一个<code>index.html</code>，为了自定义HTML模板我们可以接收写好的模板，然后输入<code>webpack</code>,我们就能看到<code>dist</code>文件夹下除了<code>bundle.js</code>外多了一个<code>index.js</code></p>
+<h2 id="25-图片资源文件的配置">2.5 图片资源文件的配置</h2>
+<p>之后我们进行图片资源文件的配置，首先下载我们需要的loader：<code>file-loader</code> <code>url-loader</code>和 <code>html-loader</code></p>
+<pre><code>{
+        //匹配图片文件
+        test: /\.(jpg|png|gif)$/,
+        loader:'url-loader',
+        // 若图片小于12kb，base64处理，可以减少请求数量，但会使得体积更大
+        // 其余图片以file-loader形式处理
+        options: {
+          limit: 12 * 1024,
+          //url-loader的es6模块化解析会和我们的html-loader冲突，因此要关掉
+          esModule: false,
+          //[hash:n]取得图片hash的前n位，[ext]取得图片的拓展名
+          name: '[hash:10].[ext]'
+        }
+      },
+</code></pre>
+<p>然后我们查看打包后的html文件<br>
+<img src="https://skrupellose.github.io/post-images/1591962480243.png" alt="" loading="lazy"><br>
+小于12k的文件被转成base64格式，而大文件没有，实现了图片文件的打包。</p>
+<h2 id="26-模块热更新">2.6 模块热更新</h2>
+<p>开启热更新后，我们每次保存文件都可以同步更新。<br>
+先全局安装依赖模块<code>npm install webpack-dev-server -g</code>,然后添加配置文件</p>
+<pre><code>  devServer: {
+    // 项目构建路径
+    contentBase: path.resolve(__dirname, 'dist'),
+    // 启动gzip压缩
+    compress: true,
+    // 项目运行端口号
+    port:3000,
+    // 自动打开浏览器
+    open:true
+  }
+</code></pre>
+<p>之后执行<code>webpack-dev-server</code>就能开启热更新了，每次保存之后系统都会自动更新</p>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[Scss基础]]></title>
         <id>https://skrupellose.github.io/post/scss-chu-bu-shi-yong/</id>
@@ -1794,117 +2013,6 @@ return promise;
     },
 </code></pre>
 <p>一个和这个差不多的<a href="https://github.com/Skrupellose/manage-demo/blob/master/index.html">例子</a></p>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[算法题--数组(1)]]></title>
-        <id>https://skrupellose.github.io/post/suan-fa-ti-shu-zu-1/</id>
-        <link href="https://skrupellose.github.io/post/suan-fa-ti-shu-zu-1/">
-        </link>
-        <updated>2019-11-16T14:59:04.000Z</updated>
-        <content type="html"><![CDATA[<h2 id="要求">要求：</h2>
-<p>将上面的数组转换成下面数组的形式</p>
-<pre><code>      [
-        { name: &quot;a&quot;, hobby: &quot;football&quot; },
-        { name: &quot;b&quot;, hobby: &quot;basketball&quot; },
-        { name: &quot;a&quot;, hobby: &quot;swim&quot; },
-        { naem: &quot;b&quot;, hobby: &quot;computer&quot; }
-      ];
-
-      [
-        {name: 'a', hobby: 'football, swim'},
-        {name: 'b', hobby: 'basketball, computer'}
-      ]
-</code></pre>
-<h3 id="思路">思路：</h3>
-<ol>
-<li>新建一个空的新数组，使用<code>forEach</code>遍历原数组取得每一个对象</li>
-<li>进行判断，若此时新数组为空，则将此遍历到的这个对象<code>push</code>到新数组；</li>
-<li>若此时新数组不为空，则使用<code>findIndex()</code>方法，判断当前对象的名称在数组中是否已经存在，若存在则通过返回的索引将值<code>push</code>进对应的对象的<code>hobby</code>属性里，若不存在则将该对象<code>push</code>进新数组</li>
-</ol>
-<h3 id="知识点">知识点：</h3>
-<p><strong>forEach()</strong><br>
-<code>forEach()</code> 方法按升序为数组中含有效值的每一项执行一次<code>callback</code> 函数，那些已删除或者未初始化的项将被跳过</p>
-<p><code>array.forEach(function(currentValue, index, arr), thisValue)</code></p>
-<p>回调函数参数：</p>
-<ul>
-<li><code>currentValue</code>	必需。当前元素</li>
-<li><code>index</code>  可选。当前元素的索引值。</li>
-<li><code>arr</code>	 可选。当前元素所属的数组对象。</li>
-</ul>
-<p><strong>findIndex()</strong><br>
-<code>findIndex()</code> 方法返回传入一个测试条件（函数）符合条件的数组第一个元素位置。</p>
-<p><code>findIndex()</code> 方法为数组中的每个元素都调用一次函数执行：</p>
-<p>当数组中的元素在测试条件时返回 <code>true</code> 时, <code>findIndex()</code>返回符合条件的元素的索引位置，之后的值不会再调用执行函数。<br>
-如果没有符合条件的元素返回 <code>-1</code></p>
-<p><code>array.findIndex(function(currentValue, index, arr), thisValue)</code><br>
-回调函数参数：</p>
-<ul>
-<li><code>currentValue</code> 	必需。当前元素</li>
-<li><code>index</code>  可选。当前元素的索引值。</li>
-<li><code>arr</code>	 可选。当前元素所属的数组对象。</li>
-</ul>
-<p><strong>hasOwnProperty()</strong><br>
-<code>hasOwnProperty()</code>方法会返回一个布尔值，指示对象自身属性中是否具有指定的属性（也就是，是否有指定的键）。</p>
-<p><code>obj.hasOwnProperty(prop)</code></p>
-<p>参数：</p>
-<p><code>prop</code>：要检测的属性的<code>String</code>字符串形式表示的名称，或者<code>Symbol</code></p>
-<h3 id="实现">实现：</h3>
-<pre><code>      const arr = [
-
-        { name: &quot;b&quot;, hobby: &quot;basketball&quot; },
-        { name: &quot;a&quot;, hobby: &quot;swim&quot; },
-        { name: &quot;b&quot;, hobby: &quot;computer&quot; },
-        { name: &quot;a&quot;, hobby: &quot;football&quot; }
-      ];
-      let resArr = []
-      arr.forEach((item, index) =&gt; {
-        if (resArr.length) {
-          const res = resArr.findIndex(_item =&gt; _item.name === item.name)
-          if ((res === -1)) {
-            resArr.push({
-              name: item.name,
-              hobby: [item.hobby]
-            });
-          } else {
-            resArr[res][&quot;hobby&quot;].push(item.hobby)
-          }
-        } else {
-          resArr.push({
-            name: item.name,
-            hobby: [item.hobby]
-          })
-        }
-      })
-      console.log(resArr) //[{name: &quot;a&quot; hobby:  [&quot;swim&quot;, &quot;football&quot;]}, {name: &quot;b&quot; hobby: [&quot;basketball&quot;, &quot;computer&quot;]}]
-</code></pre>
-<p>还有另一种写法，思路与上面的大同小异，只是通过<code>hasOwnProperty</code>来判断是否已有重复属性，然后用<code>findIndex()</code>来得到索引。</p>
-<pre><code>      let obj1 = {};
-      let objArr = [];
-      const arr = [
-        { name: &quot;a&quot;, hobby: &quot;football&quot; },
-        { name: &quot;b&quot;, hobby: &quot;basketball&quot; },
-        { name: &quot;a&quot;, hobby: &quot;swim&quot; },
-        { name: &quot;b&quot;, hobby: &quot;computer&quot; }
-      ];
-
-      arr.forEach((item, index) =&gt; {
-        if (obj1.hasOwnProperty(item.name)) {
-          const index = objArr.findIndex(
-            objArrItem =&gt; item.name === objArrItem.name
-          );
-          objArr[index].hobby.push(item.hobby);
-        } else {
-          objArr.push({
-            name: item.name,
-            hobby: [item.hobby]
-          });
-          obj1[item.name] = index;
-        }
-      });
-      console.log(objArr); //[{name: &quot;a&quot; hobby:  [&quot;swim&quot;, &quot;football&quot;]}, {name: &quot;b&quot; hobby: [&quot;basketball&quot;, &quot;computer&quot;]}]
-      console.log(obj1); //{a: 0, b: 1}
-</code></pre>
 ]]></content>
     </entry>
 </feed>
