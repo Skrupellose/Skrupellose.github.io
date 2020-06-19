@@ -1,0 +1,469 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>D.C </title>
+<meta name="description" content="人类世界真是太有趣了" />
+<link rel="shortcut icon" href="https://skrupellose.github.io/favicon.ico?v=1592555853076">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link href="https://cdn.remixicon.com/releases/v1.3.1/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.min.css">
+
+<link rel="stylesheet" href="https://skrupellose.github.io/styles/main.css">
+<link rel="alternate" type="application/atom+xml" title="D.C  - Atom Feed" href="https://skrupellose.github.io/atom.xml">
+
+
+
+  </head>
+  <body>
+    <div id="app" class="main px-4 flex flex-col lg:flex-row">
+      <div id="sidebar" class="sidebar-wrapper lg:static lg:w-1/4">
+  <div class="lg:sticky top-0">
+    <div class="sidebar-content">
+      <div class="flex lg:block p-4 lg:px-0 items-center fixed lg:static lg:block top-0 right-0 left-0 bg-white z-50">
+        <i class="remixicon-menu-2-line lg:mt-4 text-2xl cursor-pointer animated fadeIn" onclick="openMenu()"></i>
+        <a href="https://skrupellose.github.io">
+          <img class="animated fadeInLeft avatar rounded-lg mx-4 lg:mt-32 lg:mx-0 mt-0 lg:w-24 lg:h-24 w-12 w-12" src="https://skrupellose.github.io/images/avatar.png?v=1592555853076" alt="">
+        </a>
+        <h1 class="animated fadeInLeft lg:text-4xl font-extrabold lg:mt-8 mt-0 text-xl" style="animation-delay: 0.2s">D.C </h1>
+      </div>
+      
+        <div class="animated fadeInLeft" style="animation-delay: 0.4s">
+          <p class="my-4 text-gray-600 font-light hidden lg:block">
+            文章目录
+          </p>
+          <div class="toc-container hidden lg:block">
+            
+          </div>
+        </div>
+      
+    </div>
+  </div>
+</div>
+
+<div class="menu-container">
+  <i class="remixicon-arrow-left-line text-2xl cursor-pointer animated fadeIn close-menu-btn" onclick="closeMenu()"></i>
+  <div>
+    
+      
+        <a href="/" class="menu" style="animation-delay: 0s">
+          首页
+        </a>
+      
+    
+      
+        <a href="/archives" class="menu" style="animation-delay: 0.2s">
+          归档
+        </a>
+      
+    
+      
+        <a href="/tags" class="menu" style="animation-delay: 0.4s">
+          标签
+        </a>
+      
+    
+      
+        <a href="/post/about" class="menu" style="animation-delay: 0.6000000000000001s">
+          关于
+        </a>
+      
+    
+      
+        <a href="https://skrupellose.github.io/post/zai-xian-shi-li/" class="menu" style="animation-delay: 0.8s">
+          在线实例
+        </a>
+      
+    
+  </div>
+  <div class="site-footer">
+    <div class="py-4 text-gray-700">人间烟火气，最抚凡人心</div>
+    <a class="rss" href="https://skrupellose.github.io/atom.xml" target="_blank">RSS</a>
+  </div>
+</div>
+<div class="mask" onclick="closeMenu()">
+</div>
+      <div class="content-wrapper py-32 lg:p-8 lg:w-3/4 post-detail animated fadeIn">
+        <h1 class="text-3xl font-bold lg:mt-16">使用react+antd+bom实现一个TodoList</h1>
+        <div class="text-sm text-gray-700 lg:my-8">
+          2020-06-19 / 6 min read
+        </div>
+        
+        <div class="post-content yue">
+          <p>一、思路<br>
+因为需要不借助数据库的持久化存储我想到了使用浏览器的storage来帮助存储，因此每次修改我们可以将最新的数据传入数组并且覆盖storage之前的数据，然后在请求数据的时候调用，在storage中数据也是靠键值对来存储的，也比较方便调取数据。<br>
+二、实现<br>
+首先是简单封装一下存储函数，这里简单的选择localstorage来作为存储手段。</p>
+<pre><code>//storage.js
+
+const funObj = {
+    set(key, value) {
+        localstorage.setItem(key, JSON.stringity(value));
+    },
+    get(key) {
+        return JSON.parse(localstorage.get(key));
+    }
+}
+export dafult fnObj;
+</code></pre>
+<p>然后开始写todolist组件，首先是功能，有增删改的需求，其次设计的时候决定新增和编辑共用同一个输入组件，这个时候就需要两个标识符进行判断，一个是组件是否显示，一个是组件是新增状态还是编辑状态。<br>
+还有就是获取input的值，普通输入框可以使用<code>this.名称 = React.createRef();</code>，然后对<code>input</code>进行绑定<code>&lt;input ref={this.名称}&gt;</code>,取值的话使用<code>this.名称.current.prop</code>我们通过<code>current</code>来获取dom节点。但是这里用的是<code>antd</code>的组件，已经进行过封装所以我们借助中间数据来获取输入。</p>
+<pre><code>class Todolist extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      todoList: [],
+      finishList: [],
+      inputValue: '',
+      flag: false,
+      edit: false,
+      index: 0
+    };
+  }
+  componentDidMount() {
+    let list = storage.get(&quot;TodoList&quot;);
+    if (list) {
+      this.setState({
+        finishList: list,
+      })
+    }
+  }
+  addList = () =&gt; {
+    let title = this.state.inputValue
+    let edit = this.state.edit
+    let index = this.state.index
+    if (edit) {
+      let templist = this.state.finishList;
+      templist[index].title = this.state.inputValue
+      this.setState({
+        todoList: templist,
+        inputValue: '',
+        edit: false
+      });
+      storage.set(&quot;TodoList&quot;, templist);
+    } else {
+      let tempList = this.state.finishList;
+      tempList.push({
+        title: title,
+        finished: false
+      })
+      this.setState({
+        todoList: tempList,
+        inputValue: ''
+      });
+      storage.set(&quot;TodoList&quot;, tempList);
+    }
+    this.changeDisplay()
+  }
+  changeDisplay = () =&gt; {
+    this.setState({
+      flag: !this.state.flag,
+    })
+  }
+  changeEdit = () =&gt; {
+    let edit = this.state.edit
+    if (!edit) {
+      this.setState({
+        flag: !this.state.flag,
+        edit: !this.state.edit,
+      })
+    } else {
+      this.changeDisplay()
+    }
+
+  }
+  changeInput = (e) =&gt; {
+    this.setState({
+      inputValue: e.target.value,
+    })
+  }
+  changeState = (i) =&gt; {
+    let templist = this.state.finishList;
+    templist[i].finished = !templist[i].finished;
+    this.setState({
+      todoList: templist
+    });
+    storage.set(&quot;TodoList&quot;, templist);
+  }
+  doList = (i) =&gt; {
+    this.changeState(i)
+  }
+  deleteList = (i) =&gt; {
+    let templist = this.state.finishList;
+    templist.splice(i, 1);
+    this.setState({
+      todoList: templist
+    })
+    storage.set(&quot;TodoList&quot;, templist);
+  }
+  editList = (i) =&gt; {
+    this.changeDisplay()
+    this.changeEdit()
+    this.setState({
+      index: i
+    })
+  }
+
+  render() {
+    const flag = this.state.flag
+    let content, button
+    if (flag) {
+      content = &lt;div className=&quot;menu&quot;&gt;
+        &lt;Input onChange={this.changeInput} onPressEnter={this.addList} value={this.state.inputValue} /&gt;
+        &lt;Button type=&quot;primary&quot; className=&quot;button&quot; onClick={this.addList}&gt;确定&lt;/Button&gt;
+      &lt;/div&gt;
+      button = &lt;Button type=&quot;danger&quot; onClick={this.changeEdit}&gt;关闭&lt;/Button&gt;
+    } else {
+      button = &lt;Button onClick={this.changeDisplay}&gt;新增&lt;/Button&gt;
+    }
+    return (
+      &lt;div className=&quot;container&quot;&gt;
+        &lt;div className=&quot;content&quot;&gt;
+          &lt;div className=&quot;header&quot;&gt;
+            &lt;h2&gt;Todolist&lt;/h2&gt;
+            {content}
+            {button}
+          &lt;/div&gt;
+          &lt;div className=&quot;body&quot;&gt;
+            &lt;div className=&quot;working&quot;&gt;
+              &lt;h2&gt;未完成事项&lt;/h2&gt;
+              {
+                this.state.finishList.map((item, index) =&gt; {
+                  if (item.finished === false) {
+                    return (
+                      &lt;div key={index} className=&quot;list-item&quot;&gt;
+                        &lt;div className=&quot;show-item&quot;&gt;
+                          {item.title}
+                        &lt;/div&gt;
+                        &lt;div&gt;
+                          &lt;Button type=&quot;primary&quot; onClick={this.editList.bind(this, index)}&gt;编辑&lt;/Button&gt;
+                          &lt;Button type=&quot;danger&quot; onClick={this.deleteList.bind(this, index)}&gt;删除&lt;/Button&gt;
+                          &lt;Button type=&quot;dashed&quot; onClick={this.doList.bind(this, index)}&gt;完成&lt;/Button&gt;
+                        &lt;/div&gt;
+                      &lt;/div&gt;
+                    )
+                  } else {
+                    return null
+                  }
+                })
+              }
+            &lt;/div&gt;
+
+            &lt;div className=&quot;worked&quot;&gt;
+              &lt;h2&gt;已完成事项&lt;/h2&gt;
+              {
+                this.state.finishList.map((item, index) =&gt; {
+                  if (item.finished === true) {
+                    return (
+                      &lt;div key={index} className=&quot;list-item&quot;&gt;
+                        &lt;div className=&quot;show-item worked&quot;&gt;
+                          {item.title}
+                        &lt;/div&gt;
+                        &lt;div&gt;
+                          &lt;Button type=&quot;primary&quot; onClick={this.editList.bind(this, index)}&gt;编辑&lt;/Button&gt;
+                          &lt;Button type=&quot;danger&quot; onClick={this.deleteList.bind(this, index)}&gt;删除&lt;/Button&gt;
+                          &lt;Button type=&quot;dashed&quot; onClick={this.changeState.bind(this, index)}&gt;撤回&lt;/Button&gt;
+                        &lt;/div&gt;
+                      &lt;/div&gt;
+                    )
+                  } else {
+                    return null
+                  }
+                })
+              }
+            &lt;/div&gt;
+          &lt;/div&gt;
+
+        &lt;/div&gt;
+      &lt;/div&gt;
+    )
+  }
+}
+export default Todolist;
+</code></pre>
+<p>以下是scss代码</p>
+<pre><code>// todoList.scss
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: rgba(42, 121, 158, 0.3);
+  .content {
+    padding: 2rem;
+    box-shadow: 0px 2px 13px 0px rgba(228, 228, 228, 0.6);
+    border-radius: 5px;
+    background-color: #fff;
+    width: 35rem;
+    .menu {
+      padding: 30px;
+      .button {
+        margin-top: 20px;
+      }
+    }
+    .header {
+      text-align: center;
+      padding: 30px;
+      margin: 20px 0;
+    }
+    .body {
+      display: flex;
+      justify-content: space-around;
+      h2 {
+        text-align: center;
+      }
+      .list-item {
+        padding: 20px 0;
+        .show-item {
+          font-size: 18px;
+          text-align: center;
+        }
+        .worked{
+          text-decoration-line: line-through
+        }
+        input {
+          margin-right: 10px;
+        }
+        Button {
+          margin-right: 5px;
+        }
+      }
+    }
+  }
+}
+
+</code></pre>
+<p>三、总结<br>
+这次demo主要还是熟悉浏览器api的react框架的使用，网上看到的面试题也让我明白平时注重一些基础训练，对于开发或者面试都是很有好处的，要保持下去。我爱切图！</p>
+
+        </div>
+
+        
+          <a class="animated fadeInUp p-2 items-center text-sm text-gray-700 border hover:bg-gray-300 leading-none rounded-full flex lg:inline-flex m-4 " href="https://skrupellose.github.io/tag/gWTPAvqbc/">
+            <span class="flex-auto">react</span>
+          </a>
+        
+
+
+        <div class="flex justify-between py-8">
+          
+
+          
+            <div class="next-post">
+              <a href="https://skrupellose.github.io/post/mian-shi-xiao-zong-jie-1/">
+                <h3 class="post-title">
+                  面试小总结（1）
+                  <i class="remixicon-arrow-right-line"></i>
+                </h3>
+              </a>
+            </div>
+          
+        </div>
+
+        
+
+      </div>
+    </div>
+
+    <script src="https://skrupellose.github.io/media/prism.js"></script>  
+<script>
+
+Prism.highlightAll()
+
+let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+// This should probably be throttled.
+// Especially because it triggers during smooth scrolling.
+// https://lodash.com/docs/4.17.10#throttle
+// You could do like...
+// window.addEventListener("scroll", () => {
+//    _.throttle(doThatStuff, 100);
+// });
+// Only not doing it here to keep this Pen dependency-free.
+
+window.addEventListener("scroll", event => {
+  let fromTop = window.scrollY;
+
+  mainNavLinks.forEach((link, index) => {
+    let section = document.getElementById(decodeURI(link.hash).substring(1));
+    let nextSection = null
+    if (mainNavLinks[index + 1]) {
+      nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+    }
+    if (section.offsetTop <= fromTop) {
+      if (nextSection) {
+        if (nextSection.offsetTop > fromTop) {
+          link.classList.add("current");
+        } else {
+          link.classList.remove("current");    
+        }
+      } else {
+        link.classList.add("current");
+      }
+    } else {
+      link.classList.remove("current");
+    }
+  });
+});
+
+
+document.addEventListener("DOMContentLoaded", function() {
+  var lazyImages = [].slice.call(document.querySelectorAll(".post-feature-image.lazy"));
+
+  if ("IntersectionObserver" in window) {
+    let lazyImageObserver = new IntersectionObserver(function(entries, observer) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          let lazyImage = entry.target
+          lazyImage.style.backgroundImage = `url(${lazyImage.dataset.bg})`
+          lazyImage.classList.remove("lazy")
+          lazyImageObserver.unobserve(lazyImage)
+        }
+      });
+    });
+
+    lazyImages.forEach(function(lazyImage) {
+      lazyImageObserver.observe(lazyImage)
+    })
+  } else {
+    // Possibly fall back to a more compatible method here
+  }
+});
+
+const menuContainer = document.querySelector('.menu-container')
+const menus = document.querySelectorAll('.menu-container .menu')
+const mask = document.querySelector('.mask')
+const contentWrapper = document.querySelector('.content-wrapper')
+const latestArticle = document.querySelector('.latest-article')
+const readMore = document.querySelector('.read-more')
+const indexPage = document.querySelector('.index-page')
+
+const isHome = location.pathname === '/'
+if (latestArticle) {
+  latestArticle.style.display = isHome ? 'block' : 'none'
+  readMore.style.display = isHome ? 'block' : 'none'
+  indexPage.style.display = isHome ? 'none' : 'block'
+}
+
+const openMenu = () => {
+  menuContainer.classList.add('open')
+  menus.forEach(menu => {
+    menu.classList.add('animated', 'fadeInLeft')
+  })
+  mask.classList.add('open')
+  contentWrapper.classList.add('is-second')
+}
+
+const closeMenu = () => {
+  menuContainer.classList.remove('open')
+  menus.forEach(menu => {
+    menu.classList.remove('animated', 'fadeInLeft')
+  })
+  mask.classList.remove('open')
+  contentWrapper.classList.remove('is-second')
+}
+</script>
+  
+  </body>
+</html>

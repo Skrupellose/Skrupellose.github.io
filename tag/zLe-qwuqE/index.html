@@ -31,25 +31,38 @@
       
         <div class="animated fadeInLeft" style="animation-delay: 0.4s">
           <p class="my-4 text-gray-600 font-light hidden lg:block">
-            文章目录
+            人类世界真是太有趣了
           </p>
-          <div class="toc-container hidden lg:block">
-            <ul class="markdownIt-TOC">
-<li><a href="#%E4%B8%80-%E8%B5%B7%E6%AD%A5">一、起步</a>
-<ul>
-<li><a href="#11-%E5%87%86%E5%A4%87%E5%B7%A5%E4%BD%9C">1.1 准备工作</a></li>
-<li><a href="#12-%E5%BC%80%E5%A7%8B">1.2 开始</a></li>
-</ul>
-</li>
-<li><a href="#%E4%BA%8C-%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0">二、代码实现</a>
-<ul>
-<li><a href="#21">2.1</a></li>
-</ul>
-</li>
-<li><a href="#22">2.2</a></li>
-<li><a href="#23">2.3</a></li>
-</ul>
-
+          <div class="animated fadeInLeft social-container hidden lg:block" style="animation-delay: 0.6s">
+            
+              
+                <a href="https://github.com/Skrupellose" target="_blank" class="mr-4 text-xl text-gray-400 font-light hover:text-gray-900">
+                  <i class="remixicon-github-line"></i>
+                </a>
+              
+            
+              
+            
+              
+            
+              
+            
+              
+            
+              
+            
+              
+            
+              
+            
+              
+            
+              
+                <a href="https://skrupellose.github.io/post/about" target="_blank" class="mr-4 text-xl text-gray-400 font-light hover:text-gray-900">
+                  <i class="remixicon-qq-line"></i>
+                </a>
+              
+            
           </div>
         </div>
       
@@ -99,119 +112,28 @@
 </div>
 <div class="mask" onclick="closeMenu()">
 </div>
-      <div class="content-wrapper py-32 lg:p-8 lg:w-3/4 post-detail animated fadeIn">
-        <h1 class="text-3xl font-bold lg:mt-16">基于node实现一个crud通用模型</h1>
-        <div class="text-sm text-gray-700 lg:my-8">
-          2020-06-04 / 3 min read
-        </div>
+      <div class="content-wrapper py-32 lg:p-8 lg:w-3/4">
+        <h2 class="text-lg text-gray-700 mb-8">
+          <i class="remixicon-bookmark-line"></i> node
+        </h2>
         
-        <div class="post-content yue">
-          <h1 id="一-起步">一、起步</h1>
-<h2 id="11-准备工作">1.1 准备工作</h2>
-<p>下载<code>express</code>、<code>inflection</code><br>
-这里我选择的是MongoDB数据库，所以还要下载<code>mongoose</code></p>
-<h2 id="12-开始">1.2 开始</h2>
-<p>然后我们开始设计后端路由，一般前端向后端发起请求的url都是<code>http://xxxxx/api/xxx</code>的格式。<br>
-其中我们可以获取数据（get）、发送数据（post）、更新数据（put）、删除数据（delete）等<br>
-最后末尾的后缀一般都是具体接口名，大部分后端处理的时候，只是接口名称不同，逻辑是相通的。所以我们可以将其作为一个url动态参数来接收和处理。</p>
-<h1 id="二-代码实现">二、代码实现</h1>
-<h2 id="21">2.1</h2>
-<p>首先先写上接口，但是具体路径不写，我们要在后面先做处理</p>
-<pre><code>  // 发送信息
-  router.post('/', async (req, res) =&gt; {
-
-  })
-
-  // 获取信息
-  router.get('/',  async (req, res) =&gt; {
-
-  })
-
-  // 更新信息
-  router.put('/:id', async (req, res) =&gt; {
-
-  })
-
-  // 获取指定id信息
-  router.get('/:id',  async (req, res) =&gt; {
-
-  })
-
-  //删除指定id信息
-  router.delete('/:id', async (req, res) =&gt; {
-
-  })
-</code></pre>
-<h1 id="22">2.2</h1>
-<p>然后在<code>app.use()</code>中为请求的地址添加动态参数，来匹配接口里的url参数</p>
-<pre><code>  app.use('/admin/api/rest/:resource', router)
-</code></pre>
-<h1 id="23">2.3</h1>
-<p>修改之后我们在接口操作的时候需要使用对应的模型<br>
-我们模型名称是接口地址参数的复数形式，需要做个处理<br>
-首先我们要添加一个参数</p>
-<pre><code>module.exports = app =&gt; {
-  const express = require('express')
-  const router = express.Router({
-    //父级url参数合并到router内，否则router访问不了该动态参数
-    mergeParams: true
-  })
-}
-</code></pre>
-<p>然后写一个处理的中间件：resourcemiddleware()</p>
-<pre><code>module.exports = Options =&gt; {
-  return async (req, res, next) =&gt; {
-    //使用inflection进行类名格式转换
-  const modelName = require('inflection').classify(req.params.resource)
-  req.Model = require(`../models/${modelName}`)
-  next()
-  }
-}
-</code></pre>
-<p>然后添加这个中间件：<code>app.use('/admin/api/rest/:resource',resourcemiddleware(), router)</code><br>
-这样我们就能通过参数获取对应的model，之后就能进行各种操作：<br>
-eg：</p>
-<pre><code>  router.post('/', async (req, res) =&gt; {
-    const model = await req.Model.create(req.body)
-    res.send(model)
-  })
-
-</code></pre>
-
-        </div>
-
+  <section class="post-item md:flex pb-12 animated fadeIn" :style="{ 'animation-delay': `${0 * 0.2}s` }">
+    
+    <div class="content">
+      <a href="https://skrupellose.github.io/post/ji-yu-node-shi-xian-yi-ge-crud-de-demo/">
+        <h2 class="post-title text-xl font-extrabold mt-5 md:mt-0">基于node实现一个crud通用模型</h2>
+      </a>
+      <div class="post-abstract text-gray-700 font-light my-4">
         
-          <a class="animated fadeInUp p-2 items-center text-sm text-gray-700 border hover:bg-gray-300 leading-none rounded-full flex lg:inline-flex m-4 " href="https://skrupellose.github.io/tag/zLe-qwuqE/">
-            <span class="flex-auto">node</span>
-          </a>
-        
+      </div>
+      <div class="text-gray-400 text-sm font-light">2020-06-04 / 3 min read</div>
+    </div>
+  </section>
 
-
-        <div class="flex justify-between py-8">
-          
-            <div class="prev-post">
-              <a href="https://skrupellose.github.io/post/scss-chu-bu-shi-yong/">
-                <h3 class="post-title">
-                  <i class="remixicon-arrow-left-line"></i>
-                  Scss基础
-                </h3>
-              </a>
-            </div>
-          
-
-          
-            <div class="next-post">
-              <a href="https://skrupellose.github.io/post/http/">
-                <h3 class="post-title">
-                  http与https
-                  <i class="remixicon-arrow-right-line"></i>
-                </h3>
-              </a>
-            </div>
-          
-        </div>
-
-        
+        <div class="pagination-container animated fadeIn">
+  
+  
+</div>
 
       </div>
     </div>
