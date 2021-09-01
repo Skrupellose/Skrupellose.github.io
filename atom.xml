@@ -2,14 +2,14 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://skrupellose.github.io</id>
     <title>D.C </title>
-    <updated>2020-06-19T08:37:48.456Z</updated>
+    <updated>2021-09-01T02:52:26.490Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://skrupellose.github.io"/>
     <link rel="self" href="https://skrupellose.github.io/atom.xml"/>
     <subtitle>人类世界真是太有趣了</subtitle>
     <logo>https://skrupellose.github.io/images/avatar.png</logo>
     <icon>https://skrupellose.github.io/favicon.ico</icon>
-    <rights>All rights reserved 2020, D.C </rights>
+    <rights>All rights reserved 2021, D.C </rights>
     <entry>
         <title type="html"><![CDATA[使用react+antd+bom实现一个TodoList]]></title>
         <id>https://skrupellose.github.io/post/shi-yong-reactantdbom-shi-xian-yi-ge-todolist/</id>
@@ -986,7 +986,7 @@ p1.then(function(data){
 </code></pre>
 <p>还是刚才的例子我们通过<code>Promise</code>构造函数构造了一个名为p1的<code>Promise</code>实例：<br>
 然后在<code>Promise</code>构造函数中传了两个函数作为参数，一个是<code>resolve</code>；一个是<code>reject</code>。<br>
-之后在fs.readFile执行后，根据执行结果分别执行<code>reject</code>和<code>resolve</code>方法。<br>
+之后在fs.readFile执行后，根据执行结果分别执行<code>reject</code>或者<code>resolve</code>方法。<br>
 我们想要拿到结果就需要通过构造出的<code>Promise</code>实例的<code>then</code>方法。<br>
 <code>then</code>方法也是接受两个函数作为形参，第一个是对应成功时执行；第二个是对应失败后执行。两个方法分别对应上面的<code>resolve</code>和<code>reject</code>。</p>
 <p>关于then方法的链式调用需要介绍：<br>
